@@ -68,6 +68,4 @@ std::string ResourceManager::getFileString(const std::string& relativeFilePath) 
 	std::stringstream buffer;
 	buffer << f.rdbuf();
 	return buffer.str();
-
-
 }
