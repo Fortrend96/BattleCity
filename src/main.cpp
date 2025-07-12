@@ -2,7 +2,7 @@
 
 int main(void)
 {
-    GLFWwindow* window;
+    GLFWwindow* window; // окно OpenGL
 
     /* Initialize the library */
     if (!glfwInit())
