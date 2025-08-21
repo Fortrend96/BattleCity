@@ -4,7 +4,13 @@ set(PROJECT_NAME BattleCity) # переменная, хранящая назва
 
 project(${PROJECT_NAME}) # устанавливаем название проекта
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(${PROJECT_NAME} 
+	src/main.cpp
+	src/Renderer/ShaderProgram.cpp
+	src/Renderer/ShaderProgram.h
+)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -12,10 +18,9 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 
 
-# добавление внешней библеотеки glfw
+
 add_subdirectory(external/glfw) # добавление папки внешней библеотеки
 target_link_libraries(${PROJECT_NAME} glfw) # линковка файлов основного проекта и внешней библеотеки
 
-# добавление внешней библеотеки glad
 add_subdirectory(external/glad)
 target_link_libraries(${PROJECT_NAME} glad)

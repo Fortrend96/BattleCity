@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "Renderer/ShaderProgram.h"
+
 // массив вершин
 GLfloat points[] = {
     0.0f, 0.5f, 0.0f,
@@ -75,7 +77,7 @@ int main(void)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
    // Создаем окно OpenGL
-    GLFWwindow* pWindow = glfwCreateWindow(640, 480, "Hello World", nullptr, nullptr);
+    GLFWwindow* pWindow = glfwCreateWindow(640, 480, "Battle city", nullptr, nullptr);
     
     if (!pWindow)
     {
@@ -102,23 +104,17 @@ int main(void)
 
 	glClearColor(1,1,0,1);
 
-    GLuint vs = glCreateShader(GL_VERTEX_SHADER); // id вертексного шейдера
-    glShaderSource(vs, 1, &vertex_shader, nullptr); // передаем исходный код вертексного шейдера
-    glCompileShader(vs); // компиляция вертексного шейдера
+    std::string strVertexShader(vertex_shader);
+    std::string strFragmentShader(fragment_shader);
 
-    GLuint fs = glCreateShader(GL_FRAGMENT_SHADER); // id фрагментного шейдера
-    glShaderSource(fs, 1, &fragment_shader, nullptr); // передаем исходный код фрагментного шейдера
-    glCompileShader(fs); // компиляция фрагментного шейдера
+    Renderer::CShaderProgram shaderProgram(strVertexShader, strFragmentShader);
 
+    if (!shaderProgram.isCompiled())
+    {
+        std::cerr << "Cant create shader program!" << std::endl;
+        return -1;
+    }
 
-    GLuint shader_program = glCreateProgram(); // Создаёт новую пустую шейдерную программу и возвращает её идентификатор
-    glAttachShader(shader_program, vs); // Прикрепляет вертексный шейдер к программе
-    glAttachShader(shader_program, fs); // Прикрепляет фрагментный шейдер к программе
-    glLinkProgram(shader_program); // линковка шейдерной программы
-
-    // удаление шейдеров
-    glDeleteShader(vs);
-    glDeleteShader(fs);
 
     GLuint points_vbo = 0; // ID буфера
     glGenBuffers(1, &points_vbo);  // создаёт 1 буферный объект, и его ID записывается в points_vbo
@@ -151,7 +147,9 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shader_program);
+        shaderProgram.use();
+
+        
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES,0,3);
 
