@@ -22,8 +22,9 @@ namespace Renderer {
 
 
 		glGenTextures(1, &m_iID);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, m_iID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_iWidth, m_iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, pData);
+		glTexImage2D(GL_TEXTURE_2D, 0, m_eMode, m_iWidth, m_iHeight, 0, m_eMode, GL_UNSIGNED_BYTE, pData);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, eWrapMode);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, eWrapMode);
@@ -65,7 +66,7 @@ namespace Renderer {
 
 	void CTexture2D::bind() const
 	{
-
+		glBindTexture(GL_TEXTURE_2D, m_iID);
 	}
 	
 

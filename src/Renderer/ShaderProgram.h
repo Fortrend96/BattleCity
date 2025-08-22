@@ -12,6 +12,8 @@ namespace Renderer
 
 		bool isCompiled() const {	return m_bIsCompiled;	}
 		void use() const;
+		void setInt(const std::string& strName, const GLint iValue);
+
 
 		CShaderProgram() = delete; // удаляем конструктор по умолчанию
 		CShaderProgram(CShaderProgram&) = delete; // удаляем конструктор копирования

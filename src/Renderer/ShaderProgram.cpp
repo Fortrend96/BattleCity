@@ -106,5 +106,10 @@ namespace Renderer
 		shaderProgram.m_bIsCompiled = false;
 	}
 
+	void CShaderProgram::setInt(const std::string& strName, const GLint iValue)
+	{
+		glUniform1i(glGetUniformLocation(m_iID, strName.c_str()), iValue);
+	}
+
 
 }
