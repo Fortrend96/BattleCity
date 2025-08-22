@@ -89,7 +89,7 @@ int main(int argc, char** argv)
 
     {
         CResourceManager resourceManager(argv[0]);
-        auto pDefaultShaderProgram = resourceManager.loadShaders("DefaultShader", "res/vertex.txt", "res/fragment.txt");
+        auto pDefaultShaderProgram = resourceManager.loadShaders("DefaultShader", "res/shaders/vertex.txt", "res/shaders/fragment.txt");
         if (!pDefaultShaderProgram)
         {
             std::cerr << "Cant create shader program: " << "DefaultShader" << std::endl;

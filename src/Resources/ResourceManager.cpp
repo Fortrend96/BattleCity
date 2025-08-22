@@ -41,7 +41,7 @@ std::shared_ptr<Renderer::CShaderProgram> CResourceManager::loadShaders(
 		return nullptr;
 	}
 
-	std::string strFragmentShader = getFileString(strVertexShaderPath); // путь к файлу с фрагментным шейдером
+	std::string strFragmentShader = getFileString(strFragmentShaderPath); // путь к файлу с фрагментным шейдером
 
 	if (strFragmentShader.empty())
 	{
