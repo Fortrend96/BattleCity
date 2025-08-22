@@ -96,6 +96,8 @@ int main(int argc, char** argv)
             return -1;
         }
 
+        resourceManager.loadTexture("DefaultTexture", "res/textures/map_16x16.png");
+
         GLuint points_vbo = 0; // ID буфера
         glGenBuffers(1, &points_vbo);  // создаёт 1 буферный объект, и его ID записывается в points_vbo
         glBindBuffer(GL_ARRAY_BUFFER, points_vbo); // Привязывает созданный буфер как текущий буфер для вершинных данных

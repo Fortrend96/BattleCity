@@ -1,8 +1,15 @@
 #include "ResourceManager.h"
 #include "../Renderer/ShaderProgram.h"
+#include "../Renderer/Texture2D.h"
+
 #include <sstream>
 #include <fstream>
 #include <iostream>
+
+
+#define STB_IMAGE_IMPLEMENTATION
+#define STBI_ONLY_PNG
+#include "stb_image.h"
 
 CResourceManager::CResourceManager(const std::string& strExecutablePath)
 {
@@ -74,5 +81,49 @@ std::shared_ptr<Renderer::CShaderProgram> CResourceManager::getShaderProgram(con
 	}
 	
 	std::cerr << "Cant find the shader program: " << strShaderName << ".\n";
+	return nullptr;
+}
+
+
+std::shared_ptr<Renderer::CTexture2D> CResourceManager::loadTexture(const std::string& strTextureName, const std::string& strTexturePath)
+{
+	int nChannels = 0;
+	int iWidth = 0;
+	int iHeight = 0;
+
+	stbi_set_flip_vertically_on_load(true); // устнавливаем загрузку данных снизу вверх
+
+	unsigned char* pPixels = stbi_load(std::string(m_strPath + "/" + strTexturePath).c_str(), &iWidth, &iHeight, &nChannels, 0);
+
+	if (!pPixels)
+	{
+		std::cerr << "Cant load image: " << strTexturePath << std::endl;
+		return nullptr;
+	}
+
+	std::shared_ptr<Renderer::CTexture2D> pNewTexture = m_textures.emplace(strTextureName, 
+																			std::make_shared<Renderer::CTexture2D>(
+																					iWidth, 
+																					iHeight, 
+																					pPixels, 
+																					nChannels, 
+																					GL_NEAREST, 
+																					GL_CLAMP_TO_EDGE)).first->second;
+
+	stbi_image_free(pPixels);
+
+	return pNewTexture;
+}
+
+std::shared_ptr<Renderer::CTexture2D> CResourceManager::getTexture(const std::string& strTextureName)
+{
+	TTexturesMap::const_iterator it = m_textures.find(strTextureName);
+
+	if (it != m_textures.end())
+	{
+		return it->second;
+	}
+
+	std::cerr << "Cant find the texture: " << strTextureName << ".\n";
 	return nullptr;
 }
