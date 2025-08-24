@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <glad/glad.h>
+#include <glm/mat4x4.hpp>
 
 namespace Renderer
 {
@@ -13,7 +14,7 @@ namespace Renderer
 		bool isCompiled() const {	return m_bIsCompiled;	}
 		void use() const;
 		void setInt(const std::string& strName, const GLint iValue);
-
+		void setMatrix4(const std::string& strName, const glm::mat4& matrix);
 
 		CShaderProgram() = delete; // удаляем конструктор по умолчанию
 		CShaderProgram(CShaderProgram&) = delete; // удаляем конструктор копирования
