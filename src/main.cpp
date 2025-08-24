@@ -1,5 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/vec2.hpp>
+
 #include <iostream>
 
 #include "Renderer/ShaderProgram.h"
@@ -29,21 +31,16 @@ GLfloat texCoords[] =
 };
 
 
-
-
-
-
 // размеры окна
-int g_windowSizeX = 640;
-int g_windowSizeY = 480;
+glm::ivec2 g_windowSize(640, 480);
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
 {
-    g_windowSizeX = width;
-    g_windowSizeY = height;
+    g_windowSize.x = width;
+    g_windowSize.y = height;
 
     // определяет область окна, в которую будет выводиться изображение, отрендеренное графическим процессором
-    glViewport(0, 0, g_windowSizeX, g_windowSizeY); 
+    glViewport(0, 0, g_windowSize.x, g_windowSize.y);
 }
 
 void glfwKeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
@@ -70,7 +67,7 @@ int main(int argc, char** argv)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
    // Создаем окно OpenGL
-    GLFWwindow* pWindow = glfwCreateWindow(640, 480, "Battle city", nullptr, nullptr);
+    GLFWwindow* pWindow = glfwCreateWindow(g_windowSize.x, g_windowSize.y, "Battle city", nullptr, nullptr);
     
     if (!pWindow)
     {
