@@ -7,16 +7,16 @@
 #include <iostream>
 
 #include "Renderer/ShaderProgram.h"
-#include "Renderer/Texture2D.h"
 #include "Resources/ResourceManager.h"
+#include "Renderer/Texture2D.h"
+#include "Renderer/Sprite.h"
 
 // массив вершин
-GLfloat points[] = {
-    0.0f, 50.f, 0.0f,
-    50.f, -50.f, 0.0f,
+GLfloat point[] = {
+     0.0f,  50.f, 0.0f,
+     50.f, -50.f, 0.0f,
     -50.f, -50.f, 0.0f
 };
-
 // массив цветов вершин
 GLfloat colors[] = {
     1.0f, 0.0f, 0.0f,
@@ -25,52 +25,44 @@ GLfloat colors[] = {
 };
 
 // массив координат текстуры
-GLfloat texCoords[] =
-{
+GLfloat texCoord[] = {
     0.5f, 1.0f,
     1.0f, 0.0f,
     0.0f, 0.0f
 };
 
-
-// размеры окна
 glm::ivec2 g_windowSize(640, 480);
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
 {
     g_windowSize.x = width;
     g_windowSize.y = height;
-
-    // определяет область окна, в которую будет выводиться изображение, отрендеренное графическим процессором
-    glViewport(0, 0, g_windowSize.x, g_windowSize.y);
+    glViewport(0, 0, width, height);
 }
 
 void glfwKeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
 {
-    // если нажата клавиша esc, то выставляем флаг закрытия окна в true
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(pWindow, GL_TRUE);
     }
 }
 
-
 int main(int argc, char** argv)
 {
+    /* Initialize the library */
     if (!glfwInit())
     {
-        std::cout << "glfw init failed!" << std::endl;
+        std::cout << "glfwInit failed!" << std::endl;
         return -1;
     }
-
     // устанавливаем версию OpenGL
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-   // Создаем окно OpenGL
-    GLFWwindow* pWindow = glfwCreateWindow(g_windowSize.x, g_windowSize.y, "Battle city", nullptr, nullptr);
-    
+    // Создаем окно OpenGL
+    GLFWwindow* pWindow = glfwCreateWindow(g_windowSize.x, g_windowSize.y, "Battle City", nullptr, nullptr);
     if (!pWindow)
     {
         std::cout << "glfwCreateWindow failed!" << std::endl;
@@ -84,62 +76,68 @@ int main(int argc, char** argv)
 
     // Делаем контекст окна OpenGL текущим
     glfwMakeContextCurrent(pWindow);
-	
-	if(!gladLoadGL())
-	{
-		std::cout << "Can't load GLAD" << std::endl;
-		return -1;
-	}
 
-    std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;	
-	std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+    if (!gladLoadGL())
+    {
+        std::cout << "Can't load GLAD!" << std::endl;
+        return -1;
+    }
 
-	glClearColor(1,1,0,1);
+    std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+
+    glClearColor(1, 1, 0, 1);
 
     {
         CResourceManager resourceManager(argv[0]);
         auto pDefaultShaderProgram = resourceManager.loadShaders("DefaultShader", "res/shaders/vertex.txt", "res/shaders/fragment.txt");
         if (!pDefaultShaderProgram)
         {
-            std::cerr << "Cant create shader program: " << "DefaultShader" << std::endl;
+            std::cerr << "Can't create shader program: " << "DefaultShader" << std::endl;
+            return -1;
+        }
+
+        auto pSpriteShaderProgram = resourceManager.loadShaders("SpriteShader", "res/shaders/vSprite.txt", "res/shaders/fSprite.txt");
+        if (!pSpriteShaderProgram)
+        {
+            std::cerr << "Can't create shader program: " << "SpriteShader" << std::endl;
             return -1;
         }
 
         auto pTexture = resourceManager.loadTexture("DefaultTexture", "res/textures/map_16x16.png");
 
-        GLuint points_vbo = 0; // ID буфера
-        glGenBuffers(1, &points_vbo);  // создаёт 1 буферный объект, и его ID записывается в points_vbo
-        glBindBuffer(GL_ARRAY_BUFFER, points_vbo); // Привязывает созданный буфер как текущий буфер для вершинных данных
-        glBufferData(GL_ARRAY_BUFFER, sizeof(points), points, GL_STATIC_DRAW); // Загружает данные из массива points в GPU.
+        auto pSprite = resourceManager.loadSprite("NewSprite", "DefaultTexture", "SpriteShader", 50, 100);
+        pSprite->setPosition(glm::vec2(300, 100));
+
+        GLuint points_vbo = 0;
+        glGenBuffers(1, &points_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(point), point, GL_STATIC_DRAW);
 
         GLuint colors_vbo = 0;
         glGenBuffers(1, &colors_vbo);
         glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
         glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
 
-        GLuint texCoords_vbo = 0;
-        glGenBuffers(1, &texCoords_vbo);
-        glBindBuffer(GL_ARRAY_BUFFER, texCoords_vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
-
+        GLuint texCoord_vbo = 0;
+        glGenBuffers(1, &texCoord_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, texCoord_vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(texCoord), texCoord, GL_STATIC_DRAW);
 
         GLuint vao = 0;
-        glGenVertexArrays(1, &vao); //  Создаёт VAO и сохраняет его ID в переменную vao
-        glBindVertexArray(vao); // Активирует VAO — теперь вся последующая настройка будет привязана к нему
+        glGenVertexArrays(1, &vao);
+        glBindVertexArray(vao);
 
-        // Вершины
-        glEnableVertexAttribArray(0); //  включает определённый входной атрибут (layout(location = 0) в шейдере).
-        glBindBuffer(GL_ARRAY_BUFFER, points_vbo); // Привязывает буфер вершин (VBO)
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr); // Описывает, как из буфера points_vbo читать данные для атрибута 0 // 3 компонента (x, y, z), тип float, без смещений
+        glEnableVertexAttribArray(0);
+        glBindBuffer(GL_ARRAY_BUFFER, points_vbo);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-        // Цвета
-        glEnableVertexAttribArray(1); // Включает использование атрибута с индексом 1 (обычно — цвет)
-        glBindBuffer(GL_ARRAY_BUFFER, colors_vbo); // Привязывает буфер цветов
+        glEnableVertexAttribArray(1);
+        glBindBuffer(GL_ARRAY_BUFFER, colors_vbo);
         glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
-        // Координаты текстуры
         glEnableVertexAttribArray(2);
-        glBindBuffer(GL_ARRAY_BUFFER, texCoords_vbo);
+        glBindBuffer(GL_ARRAY_BUFFER, texCoord_vbo);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 
         pDefaultShaderProgram->use();
@@ -149,14 +147,17 @@ int main(int argc, char** argv)
         modelMatrix_1 = glm::translate(modelMatrix_1, glm::vec3(100.f, 50.f, 0.f));
 
         glm::mat4 modelMatrix_2 = glm::mat4(1.f);
-        modelMatrix_2 = glm::translate(modelMatrix_2, glm::vec3(590, 50.f, 0.f));
+        modelMatrix_2 = glm::translate(modelMatrix_2, glm::vec3(590.f, 50.f, 0.f));
 
-        glm::mat4 projectionMatrix = glm::ortho(0.f, static_cast<float>(g_windowSize.x), 0.f, static_cast<float>(g_windowSize.y),
-                                    -100.f, 100.f);
+        glm::mat4 projectionMatrix = glm::ortho(0.f, static_cast<float>(g_windowSize.x), 0.f, static_cast<float>(g_windowSize.y), -100.f, 100.f);
 
         pDefaultShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 
-        // цикл отрисовки на экране
+        pSpriteShaderProgram->use();
+        pSpriteShaderProgram->setInt("tex", 0);
+        pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
+
+        /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(pWindow))
         {
             /* Render here */
@@ -164,13 +165,15 @@ int main(int argc, char** argv)
 
             pDefaultShaderProgram->use();
             glBindVertexArray(vao);
-            pTexture->bind();      
+            pTexture->bind();
 
             pDefaultShaderProgram->setMatrix4("modelMat", modelMatrix_1);
             glDrawArrays(GL_TRIANGLES, 0, 3);
 
             pDefaultShaderProgram->setMatrix4("modelMat", modelMatrix_2);
             glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            pSprite->render();
 
             /* Swap front and back buffers */
             glfwSwapBuffers(pWindow);
@@ -179,7 +182,6 @@ int main(int argc, char** argv)
             glfwPollEvents();
         }
     }
- 
 
     glfwTerminate();
     return 0;

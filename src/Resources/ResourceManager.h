@@ -7,7 +7,7 @@ namespace Renderer
 {
 	class CShaderProgram;
 	class CTexture2D;
-
+	class CSprite;
 }
 
 // менеджер ресурсов
@@ -30,15 +30,24 @@ public:
 	std::shared_ptr<Renderer::CTexture2D> loadTexture(const std::string& strTextureName, const std::string& strTexturePath); // загрузка текстуры
 	std::shared_ptr<Renderer::CTexture2D> getTexture(const std::string& strTextureName); // получение текстуры
 
-
+	std::shared_ptr<Renderer::CSprite> loadSprite(const std::string& strSpriteName,
+													const std::string& strTextureName,
+													const std::string& strShaderName,
+													const unsigned int iSpriteWidth,
+													const unsigned int iSpriteHeight); // загрузка спрайта
+	
+	std::shared_ptr<Renderer::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
+	
 private:
 	std::string getFileString(const std::string& strRelativeFilePath) const;  // получение пути к файлу с шейдером
 
 	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<Renderer::CShaderProgram>>;
 	using TTexturesMap = std::map<const std::string, std::shared_ptr<Renderer::CTexture2D>>;
+	using TSpritesMap = std::map<const std::string, std::shared_ptr<Renderer::CSprite>>;
 
 	TShaderProgramsMap m_shaderPrograms;
 	TTexturesMap m_textures;
+	TSpritesMap m_sprites;
 
 	std::string m_strPath;
 };
