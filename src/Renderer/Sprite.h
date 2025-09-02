@@ -15,6 +15,7 @@ namespace Renderer
 	{
 	public:
 		CSprite(const std::shared_ptr<CTexture2D> pTexture,
+			std::string strInitialSubTexture,
 			const std::shared_ptr<CShaderProgram> pShaderProgram,
 			glm::vec2& position = glm::vec2(0.f),
 			glm::vec2& size = glm::vec2(1.f),
@@ -36,8 +37,8 @@ namespace Renderer
 	private:
 		std::shared_ptr<CTexture2D> m_pTexture;
 		std::shared_ptr<CShaderProgram> m_pShaderProgram;
-		glm::vec2& m_position;
-		glm::vec2& m_size;
+		glm::vec2 m_position;
+		glm::vec2 m_size;
 		float m_fRotation;
 
 		GLuint m_VAO; // vertex array object

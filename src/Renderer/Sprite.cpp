@@ -8,6 +8,7 @@
 
 namespace Renderer {
     CSprite::CSprite(const std::shared_ptr<CTexture2D> pTexture,
+        std::string strInitialSubTexture,
         const std::shared_ptr<CShaderProgram> pShaderProgram,
         glm::vec2& position,
         glm::vec2& size,
@@ -33,15 +34,18 @@ namespace Renderer {
             0.f, 0.f
         };
 
+        auto subTexture = pTexture->getSubTexture(std::move(strInitialSubTexture));
+
         const GLfloat textureCoords[] = {
             // U  V
-            0.f, 0.f,
-            0.f, 1.f,
-            1.f, 1.f,
 
-            1.f, 1.f,
-            1.f, 0.f,
-            0.f, 0.f
+            subTexture.leftBottomUV.x, subTexture.leftBottomUV.y,
+            subTexture.leftBottomUV.x, subTexture.rightTopUV.y,
+            subTexture.rightTopUV.x, subTexture.rightTopUV.y,
+
+            subTexture.rightTopUV.x, subTexture.rightTopUV.y,
+            subTexture.rightTopUV.x, subTexture.leftBottomUV.y,
+            subTexture.leftBottomUV.x, subTexture.leftBottomUV.y
         };
 
         glGenVertexArrays(1, &m_VAO);
@@ -73,24 +77,24 @@ namespace Renderer {
 
 	void CSprite::render() const 
 	{
-		m_pShaderProgram->use();
+        m_pShaderProgram->use();
 
-		glm::mat4 model(1.f);
+        glm::mat4 model(1.f);
 
-		model = glm::translate(model, glm::vec3(m_position, 0.f));
-		model = glm::translate(model, glm::vec3(0.5f * m_size.x, 0.5f * m_size.y, 0.f));
-		model = glm::rotate(model, glm::radians(m_fRotation), glm::vec3(0.f, 0.f, 1.f));
-		model = glm::translate(model, glm::vec3(-0.5f * m_size.x, -0.5f * m_size.y, 0.f));
-		model = glm::scale(model, glm::vec3(m_size, 1.f));
+        model = glm::translate(model, glm::vec3(m_position, 0.f));
+        model = glm::translate(model, glm::vec3(0.5f * m_size.x, 0.5f * m_size.y, 0.f));
+        model = glm::rotate(model, glm::radians(m_fRotation), glm::vec3(0.f, 0.f, 1.f));
+        model = glm::translate(model, glm::vec3(-0.5f * m_size.x, -0.5f * m_size.y, 0.f));
+        model = glm::scale(model, glm::vec3(m_size, 1.f));
 
-		glBindVertexArray(m_VAO);
-		m_pShaderProgram->setMatrix4("modelMat", model);
+        glBindVertexArray(m_VAO);
+        m_pShaderProgram->setMatrix4("modelMat", model);
 
-		glActiveTexture(GL_TEXTURE0);
-		m_pTexture->bind();
+        glActiveTexture(GL_TEXTURE0);
+        m_pTexture->bind();
 
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindVertexArray(0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        glBindVertexArray(0);
 	}
 
 	void CSprite::setPosition(const glm::vec2& position)

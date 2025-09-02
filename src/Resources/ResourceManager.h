@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <map>
+#include <vector>
 
 namespace Renderer 
 {
@@ -34,9 +35,16 @@ public:
 													const std::string& strTextureName,
 													const std::string& strShaderName,
 													const unsigned int iSpriteWidth,
-													const unsigned int iSpriteHeight); // загрузка спрайта
+													const unsigned int iSpriteHeight,
+													const std::string& strSubTextureName = "default"); // загрузка спрайта
 	
 	std::shared_ptr<Renderer::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
+
+	std::shared_ptr<Renderer::CTexture2D> loadTextureAtlas( std::string strTextureName,
+															std::string strTexturePath,
+															std::vector<std::string> subTextures,
+															const unsigned int iSubTextureWidth,
+															const unsigned int iSubTextureHeight);// загрузка текстурного атласа
 	
 private:
 	std::string getFileString(const std::string& strRelativeFilePath) const;  // получение пути к файлу с шейдером

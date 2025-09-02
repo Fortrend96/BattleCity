@@ -133,7 +133,8 @@ std::shared_ptr<Renderer::CSprite> CResourceManager::loadSprite(const std::strin
 																	const std::string& strTextureName,
 																	const std::string& strShaderName,
 																	const unsigned int iSpriteWidth,
-																	const unsigned int iSpriteHeight)
+																	const unsigned int iSpriteHeight,
+																	const std::string& strSubTextureName)
 {
 	auto pTexture = getTexture(strTextureName);
 	if (!pTexture)
@@ -148,6 +149,7 @@ std::shared_ptr<Renderer::CSprite> CResourceManager::loadSprite(const std::strin
 	}
 
 	std::shared_ptr<Renderer::CSprite> pNewSprite = m_sprites.emplace(strTextureName, std::make_shared<Renderer::CSprite>(pTexture,
+		strSubTextureName,
 		pShader,
 		glm::vec2(0.f, 0.f),
 		glm::vec2(iSpriteWidth, iSpriteHeight))).first->second;
@@ -165,4 +167,35 @@ std::shared_ptr<Renderer::CSprite> CResourceManager::getSprite(const std::string
 	}
 	std::cerr << "Can't find the sprite: " << strSpriteName << std::endl;
 	return nullptr;
+}
+
+std::shared_ptr<Renderer::CTexture2D> CResourceManager::loadTextureAtlas(std::string strTextureName,
+	std::string strTexturePath,
+	const std::vector<std::string> subTextures,
+	const unsigned int iSubTextureWidth,
+	const unsigned int iSubTextureHeight)
+{
+	auto pTexture = loadTexture(std::move(strTextureName), std::move(strTexturePath));
+	if (pTexture)
+	{
+		const unsigned int textureWidth = pTexture->width();
+		const unsigned int textureHeight = pTexture->height();
+		unsigned int currentTextureOffsetX = 0;
+		unsigned int currentTextureOffsetY = textureHeight;
+
+		for (auto& currentSubTextureName : subTextures)
+		{
+			glm::vec2 leftBottomUV(static_cast<float>(currentTextureOffsetX) / textureWidth, static_cast<float>(currentTextureOffsetY - iSubTextureHeight) / textureHeight);
+			glm::vec2 rightTopUV(static_cast<float>(currentTextureOffsetX + iSubTextureWidth) / textureWidth, static_cast<float>(currentTextureOffsetY) / textureHeight);
+			pTexture->addSubTexture(std::move(currentSubTextureName), leftBottomUV, rightTopUV);
+
+			currentTextureOffsetX += iSubTextureWidth;
+			if (currentTextureOffsetX >= textureWidth)
+			{
+				currentTextureOffsetX = 0;
+				currentTextureOffsetY -= iSubTextureHeight;
+			}
+		}
+	}
+	return pTexture;
 }
