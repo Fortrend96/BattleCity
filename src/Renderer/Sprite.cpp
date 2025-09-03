@@ -7,9 +7,9 @@
 
 
 namespace Renderer {
-    CSprite::CSprite(const std::shared_ptr<CTexture2D> pTexture,
+    CSprite::CSprite( std::shared_ptr<CTexture2D> pTexture,
         std::string strInitialSubTexture,
-        const std::shared_ptr<CShaderProgram> pShaderProgram,
+         std::shared_ptr<CShaderProgram> pShaderProgram,
         glm::vec2& position,
         glm::vec2& size,
         const float fRotation)
@@ -34,7 +34,7 @@ namespace Renderer {
             0.f, 0.f
         };
 
-        auto subTexture = pTexture->getSubTexture(std::move(strInitialSubTexture));
+        auto subTexture = m_pTexture->getSubTexture(std::move(strInitialSubTexture));
 
         const GLfloat textureCoords[] = {
             // U  V

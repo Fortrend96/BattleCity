@@ -2,6 +2,7 @@
 #include "../Renderer/ShaderProgram.h"
 #include "../Renderer/Texture2D.h"
 #include "../Renderer/Sprite.h"
+#include "../Renderer/AnimatedSprite.h"
 
 #include <sstream>
 #include <fstream>
@@ -166,6 +167,47 @@ std::shared_ptr<Renderer::CSprite> CResourceManager::getSprite(const std::string
 		return it->second;
 	}
 	std::cerr << "Can't find the sprite: " << strSpriteName << std::endl;
+	return nullptr;
+}
+
+std::shared_ptr<Renderer::CAnimatedSprite> CResourceManager::loadAnimatedSprite(const std::string& strSpriteName,
+																		const std::string& strTextureName,
+																		const std::string& strShaderName,
+																		const unsigned int iSpriteWidth,
+																		const unsigned int iSpriteHeight,
+																		const std::string& strSubTextureName)
+{
+	auto pTexture = getTexture(strTextureName);
+	if (!pTexture)
+	{
+		std::cerr << "Can't find the texture: " << strTextureName << " for the sprite: " << strSpriteName << std::endl;
+	}
+
+	auto pShader = getShaderProgram(strShaderName);
+	if (!pShader)
+	{
+		std::cerr << "Can't find the shader: " << strShaderName << " for the sprite: " << strSpriteName << std::endl;
+	}
+
+	std::shared_ptr<Renderer::CAnimatedSprite> pNewAnimatedSprite = 
+		m_animatedSprites.emplace(strTextureName, std::make_shared<Renderer::CAnimatedSprite>(pTexture,
+																								strSubTextureName,
+																								pShader,
+																								glm::vec2(0.f, 0.f),
+																								glm::vec2(iSpriteWidth, iSpriteHeight))).first->second;
+
+	return pNewAnimatedSprite;
+}
+
+std::shared_ptr<Renderer::CAnimatedSprite> CResourceManager::getAnimatedSprite(const std::string& strSpriteName)
+{
+	TAnimatedSpritesMap::const_iterator it = m_animatedSprites.find(strSpriteName);
+	
+	if (it != m_animatedSprites.end())
+	{
+		return it->second;
+	}
+	std::cerr << "Can't find the animated sprite: " << strSpriteName << std::endl;
 	return nullptr;
 }
 

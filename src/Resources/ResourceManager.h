@@ -9,6 +9,7 @@ namespace Renderer
 	class CShaderProgram;
 	class CTexture2D;
 	class CSprite;
+	class CAnimatedSprite;
 }
 
 // менеджер ресурсов
@@ -40,11 +41,25 @@ public:
 	
 	std::shared_ptr<Renderer::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
 
+
+	std::shared_ptr<Renderer::CAnimatedSprite> loadAnimatedSprite(const std::string& strSpriteName,
+		const std::string& strTextureName,
+		const std::string& strShaderName,
+		const unsigned int iSpriteWidth,
+		const unsigned int iSpriteHeight,
+		const std::string& strSubTextureName = "default"); // загрузка анимированного спрайта
+
+	std::shared_ptr<Renderer::CAnimatedSprite> getAnimatedSprite(const std::string& strSpriteName); // получение анимированного спрайта
+
+
 	std::shared_ptr<Renderer::CTexture2D> loadTextureAtlas( std::string strTextureName,
 															std::string strTexturePath,
 															std::vector<std::string> subTextures,
 															const unsigned int iSubTextureWidth,
 															const unsigned int iSubTextureHeight);// загрузка текстурного атласа
+
+
+
 	
 private:
 	std::string getFileString(const std::string& strRelativeFilePath) const;  // получение пути к файлу с шейдером
@@ -52,10 +67,12 @@ private:
 	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<Renderer::CShaderProgram>>;
 	using TTexturesMap = std::map<const std::string, std::shared_ptr<Renderer::CTexture2D>>;
 	using TSpritesMap = std::map<const std::string, std::shared_ptr<Renderer::CSprite>>;
+	using TAnimatedSpritesMap = std::map<const std::string, std::shared_ptr<Renderer::CAnimatedSprite>>;
 
 	TShaderProgramsMap m_shaderPrograms;
 	TTexturesMap m_textures;
 	TSpritesMap m_sprites;
+	TAnimatedSpritesMap m_animatedSprites;
 
 	std::string m_strPath;
 };
