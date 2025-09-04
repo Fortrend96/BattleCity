@@ -13,14 +13,29 @@
 #define STBI_ONLY_PNG
 #include "stb_image.h"
 
-CResourceManager::CResourceManager(const std::string& strExecutablePath)
+
+CResourceManager::TShaderProgramsMap	CResourceManager::m_shaderPrograms;
+CResourceManager::TTexturesMap			CResourceManager::m_textures;
+CResourceManager::TSpritesMap			CResourceManager::m_sprites;
+CResourceManager::TAnimatedSpritesMap	CResourceManager::m_animatedSprites;
+
+std::string CResourceManager::m_strPath;
+
+void CResourceManager::setExecutablePath(const std::string& strExecutablePath)
 {
 	size_t found = strExecutablePath.find_last_of("/\\"); // ищем положение последнего слэша в строке пути
 	m_strPath = strExecutablePath.substr(0, found);
 }
 
+void CResourceManager::unloadAllResources()
+{
+	m_shaderPrograms.clear();
+	m_textures.clear();
+	m_sprites.clear();
+	m_animatedSprites.clear();
+}
 
-std::string CResourceManager::getFileString(const std::string& strRelativeFilePath) const 
+std::string CResourceManager::getFileString(const std::string& strRelativeFilePath)  
 {
 	std::fstream f;
 	f.open(m_strPath + "/" + strRelativeFilePath.c_str(), std::ios::in | std::ios::binary);
@@ -190,7 +205,7 @@ std::shared_ptr<Renderer::CAnimatedSprite> CResourceManager::loadAnimatedSprite(
 	}
 
 	std::shared_ptr<Renderer::CAnimatedSprite> pNewAnimatedSprite = 
-		m_animatedSprites.emplace(strTextureName, std::make_shared<Renderer::CAnimatedSprite>(pTexture,
+		m_animatedSprites.emplace(strSpriteName, std::make_shared<Renderer::CAnimatedSprite>(pTexture,
 																								strSubTextureName,
 																								pShader,
 																								glm::vec2(0.f, 0.f),
