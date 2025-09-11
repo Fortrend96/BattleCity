@@ -1,7 +1,10 @@
 #pragma once
 #include <array>
+#include <memory>
 
 #include <glm/vec2.hpp>
+
+class CTank;
 
 class CGame 
 {
@@ -23,5 +26,7 @@ private:
 	EGameState m_eCurrentGameState;
 	std::array<bool, 349> m_keys;
 	glm::ivec2 m_windowSize;
+
+	std::unique_ptr<CTank> m_pTank;
 
 };
