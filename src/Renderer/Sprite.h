@@ -1,5 +1,8 @@
 #pragma once
 
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+
 #include <glad/glad.h>
 #include <memory>
 #include <string>
@@ -42,6 +45,11 @@ namespace Renderer
 		float m_fRotation;
 
 		GLuint m_VAO; // vertex array object
+
+		CVertexBuffer m_vertexCoordsBuffer;
+		CVertexBuffer m_textureCoordsBuffer;
+		CIndexBuffer m_indexBuffer;
+
 		GLuint m_vertexCoordsVBO;
 		GLuint m_textureCoordsVBO;
 		GLuint m_EBO;
