@@ -2,6 +2,7 @@
 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 
 #include <glad/glad.h>
 #include <memory>
@@ -44,14 +45,9 @@ namespace Renderer
 		glm::vec2 m_size;
 		float m_fRotation;
 
-		GLuint m_VAO; // vertex array object
-
+		CVertexArray m_vertexArray;
 		CVertexBuffer m_vertexCoordsBuffer;
 		CVertexBuffer m_textureCoordsBuffer;
 		CIndexBuffer m_indexBuffer;
-
-		GLuint m_vertexCoordsVBO;
-		GLuint m_textureCoordsVBO;
-		GLuint m_EBO;
 	};
 }
