@@ -27,7 +27,7 @@ CGame::~CGame()
 
 void CGame::render()
 {
-    //CResourceManager::getAnimatedSprite("NewAnimatedSprite")->render();
+    CResourceManager::getAnimatedSprite("NewAnimatedSprite")->render();
     if (m_pTank)
     {
         m_pTank->render();
@@ -36,7 +36,7 @@ void CGame::render()
 
 void CGame::update(const uint64_t delta)
 {
-    //CResourceManager::getAnimatedSprite("NewAnimatedSprite")->update(delta);
+    CResourceManager::getAnimatedSprite("NewAnimatedSprite")->update(delta);
 
     if (m_pTank)
     {

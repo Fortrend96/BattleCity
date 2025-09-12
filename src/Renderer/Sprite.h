@@ -44,5 +44,6 @@ namespace Renderer
 		GLuint m_VAO; // vertex array object
 		GLuint m_vertexCoordsVBO;
 		GLuint m_textureCoordsVBO;
+		GLuint m_EBO;
 	};
 }
