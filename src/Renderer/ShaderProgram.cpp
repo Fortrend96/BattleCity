@@ -2,7 +2,7 @@
 #include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Renderer 
+namespace RenderEngine 
 {
 	CShaderProgram::CShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader)
 	{

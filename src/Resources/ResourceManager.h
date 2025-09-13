@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 
-namespace Renderer 
+namespace RenderEngine 
 {
 	class CShaderProgram;
 	class CTexture2D;
@@ -28,35 +28,35 @@ public:
 	CResourceManager(CResourceManager&&) = delete;
 	CResourceManager& operator=(CResourceManager&&) = delete;
 
-	static std::shared_ptr<Renderer::CShaderProgram> loadShaders(const std::string& strShaderName, 
+	static std::shared_ptr<RenderEngine::CShaderProgram> loadShaders(const std::string& strShaderName, 
 		const std::string& strVertexShaderPath, const std::string& strFragmentShaderPath); // загрузка шейдерной программы
 
-	static std::shared_ptr<Renderer::CShaderProgram> getShaderProgram(const std::string& strShaderName); // получение шейдерной программы
+	static std::shared_ptr<RenderEngine::CShaderProgram> getShaderProgram(const std::string& strShaderName); // получение шейдерной программы
 
-	static std::shared_ptr<Renderer::CTexture2D> loadTexture(const std::string& strTextureName, const std::string& strTexturePath); // загрузка текстуры
-	static std::shared_ptr<Renderer::CTexture2D> getTexture(const std::string& strTextureName); // получение текстуры
+	static std::shared_ptr<RenderEngine::CTexture2D> loadTexture(const std::string& strTextureName, const std::string& strTexturePath); // загрузка текстуры
+	static std::shared_ptr<RenderEngine::CTexture2D> getTexture(const std::string& strTextureName); // получение текстуры
 
-	static std::shared_ptr<Renderer::CSprite> loadSprite(const std::string& strSpriteName,
+	static std::shared_ptr<RenderEngine::CSprite> loadSprite(const std::string& strSpriteName,
 													const std::string& strTextureName,
 													const std::string& strShaderName,
 													const unsigned int iSpriteWidth,
 													const unsigned int iSpriteHeight,
 													const std::string& strSubTextureName = "default"); // загрузка спрайта
 	
-	static std::shared_ptr<Renderer::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
+	static std::shared_ptr<RenderEngine::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
 
 
-	static std::shared_ptr<Renderer::CAnimatedSprite> loadAnimatedSprite(const std::string& strSpriteName,
+	static std::shared_ptr<RenderEngine::CAnimatedSprite> loadAnimatedSprite(const std::string& strSpriteName,
 		const std::string& strTextureName,
 		const std::string& strShaderName,
 		const unsigned int iSpriteWidth,
 		const unsigned int iSpriteHeight,
 		const std::string& strSubTextureName = "default"); // загрузка анимированного спрайта
 
-	static std::shared_ptr<Renderer::CAnimatedSprite> getAnimatedSprite(const std::string& strSpriteName); // получение анимированного спрайта
+	static std::shared_ptr<RenderEngine::CAnimatedSprite> getAnimatedSprite(const std::string& strSpriteName); // получение анимированного спрайта
 
 
-	static std::shared_ptr<Renderer::CTexture2D> loadTextureAtlas( std::string strTextureName,
+	static std::shared_ptr<RenderEngine::CTexture2D> loadTextureAtlas( std::string strTextureName,
 															std::string strTexturePath,
 															std::vector<std::string> subTextures,
 															const unsigned int iSubTextureWidth,
@@ -68,10 +68,10 @@ public:
 private:
 	static std::string getFileString(const std::string& strRelativeFilePath);  // получение пути к файлу с шейдером
 
-	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<Renderer::CShaderProgram>>;
-	using TTexturesMap = std::map<const std::string, std::shared_ptr<Renderer::CTexture2D>>;
-	using TSpritesMap = std::map<const std::string, std::shared_ptr<Renderer::CSprite>>;
-	using TAnimatedSpritesMap = std::map<const std::string, std::shared_ptr<Renderer::CAnimatedSprite>>;
+	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<RenderEngine::CShaderProgram>>;
+	using TTexturesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CTexture2D>>;
+	using TSpritesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CSprite>>;
+	using TAnimatedSpritesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CAnimatedSprite>>;
 
 	static TShaderProgramsMap m_shaderPrograms;
 	static TTexturesMap m_textures;

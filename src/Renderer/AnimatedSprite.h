@@ -5,7 +5,7 @@
 #include <vector>
 
 
-namespace Renderer
+namespace RenderEngine
 {
 	class CAnimatedSprite : public CSprite
 	{

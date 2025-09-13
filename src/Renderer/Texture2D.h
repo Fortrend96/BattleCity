@@ -5,7 +5,7 @@
 #include <string>
 #include <map>
 
-namespace Renderer
+namespace RenderEngine
 {
 	class CTexture2D
 	{

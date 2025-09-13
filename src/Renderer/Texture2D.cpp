@@ -1,6 +1,6 @@
 #include "Texture2D.h"
 
-namespace Renderer {
+namespace RenderEngine {
 	CTexture2D::CTexture2D(const GLuint iWidth, const GLuint iHeight, const unsigned char* pData,
 		const unsigned int nChannels,
 		const GLenum eFilter,

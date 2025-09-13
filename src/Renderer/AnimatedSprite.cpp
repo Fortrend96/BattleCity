@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Texture2D.h"
 
-namespace Renderer
+namespace RenderEngine
 {
 	CAnimatedSprite::CAnimatedSprite(std::shared_ptr<CTexture2D> pTexture,
 									std::string strInitialSubTexture,

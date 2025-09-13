@@ -1,7 +1,7 @@
 #include "Tank.h"
 #include "../Renderer/AnimatedSprite.h"
 
-CTank::CTank(std::shared_ptr<Renderer::CAnimatedSprite> pSprite, const float fVelocity,
+CTank::CTank(std::shared_ptr<RenderEngine::CAnimatedSprite> pSprite, const float fVelocity,
 	const glm::vec2& position):
 					m_eOrientation(EOrientation::Top),
 					m_pSprite(std::move(pSprite)),

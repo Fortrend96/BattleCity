@@ -3,7 +3,7 @@
 #include <memory>
 
 
-namespace Renderer 
+namespace RenderEngine 
 {
 	class CAnimatedSprite;
 }
@@ -18,7 +18,7 @@ public:
 		Right
 	};
 
-	CTank(std::shared_ptr<Renderer::CAnimatedSprite> pSprite, const float fVelocity,
+	CTank(std::shared_ptr<RenderEngine::CAnimatedSprite> pSprite, const float fVelocity,
 		const glm::vec2& position);
 
 	void render() const;
@@ -29,7 +29,7 @@ public:
 
 private:
 	EOrientation m_eOrientation;
-	std::shared_ptr<Renderer::CAnimatedSprite> m_pSprite;
+	std::shared_ptr<RenderEngine::CAnimatedSprite> m_pSprite;
 	bool m_bMove;
 	float m_fVelocity;
 	glm::vec2 m_position;

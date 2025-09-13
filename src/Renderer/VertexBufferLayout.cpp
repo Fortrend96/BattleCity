@@ -1,6 +1,6 @@
 #include "VertexBufferLayout.h"
 
-namespace Renderer
+namespace RenderEngine
 {
 	CVertexBufferLayout::CVertexBufferLayout():
 		m_iStride(0)

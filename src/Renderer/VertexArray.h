@@ -6,7 +6,7 @@
 
 
 
-namespace Renderer
+namespace RenderEngine
 {
 
 	class CVertexArray 
