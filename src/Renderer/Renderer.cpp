@@ -32,6 +32,7 @@ namespace RenderEngine
 	{
 		return (char*)glGetString(GL_RENDERER);
 	}
+
 	std::string CRenderer::getVersionString() 
 	{
 		return (char*)glGetString(GL_VERSION);

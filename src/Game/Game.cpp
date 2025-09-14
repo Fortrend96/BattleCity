@@ -82,10 +82,10 @@ bool CGame::init()
         return false;
     }
 
-    auto pSpriteShaderProgram = CResourceManager::loadShaders("SpriteShader", "res/shaders/vSprite.txt", "res/shaders/fSprite.txt");
+    auto pSpriteShaderProgram = CResourceManager::loadShaders("spriteShader", "res/shaders/vSprite.txt", "res/shaders/fSprite.txt");
     if (!pSpriteShaderProgram)
     {
-        std::cerr << "Can't create shader program: " << "SpriteShader" << std::endl;
+        std::cerr << "Can't create shader program: " << "spriteShader" << std::endl;
         return false;
     }
 
@@ -131,7 +131,7 @@ bool CGame::init()
     auto pTextureAtlas = CResourceManager::loadTextureAtlas("DefaultTextureAtlas", "res/textures/map_16x16.png", std::move(subTexturesNames), 16, 16);
 
     
-    auto pAnimatedSprite = CResourceManager::loadAnimatedSprite("NewAnimatedSprite", "DefaultTextureAtlas", "SpriteShader", 100, 100, "beton");
+    auto pAnimatedSprite = CResourceManager::loadAnimatedSprite("NewAnimatedSprite", "DefaultTextureAtlas", "spriteShader", 100, 100, "beton");
     pAnimatedSprite->setPosition(glm::vec2(300, 300));
 
 
@@ -180,7 +180,7 @@ bool CGame::init()
     };
 
     auto pTanksTextureAtlas = CResourceManager::loadTextureAtlas("TanksTextureAtlas", "res/textures/tanks.png", std::move(tanksSubTexturesNames), 16, 16);
-    auto pTanksAnimatedSprite = CResourceManager::loadAnimatedSprite("TanksAnimatedSprite", "TanksTextureAtlas", "SpriteShader", 100, 100, "tankTop1");
+    auto pTanksAnimatedSprite = CResourceManager::loadAnimatedSprite("TanksAnimatedSprite", "TanksTextureAtlas", "spriteShader", 100, 100, "tankTop1");
 
     std::vector<std::pair<std::string, uint64_t>> tankTopState;
     tankTopState.emplace_back(std::make_pair<std::string, uint64_t>("tankTop1", 500000000));
