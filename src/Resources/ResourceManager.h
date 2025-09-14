@@ -62,8 +62,7 @@ public:
 															const unsigned int iSubTextureWidth,
 															const unsigned int iSubTextureHeight);// загрузка текстурного атласа
 
-
-
+	static bool loadJSONResources(const std::string& strJSONPath);
 	
 private:
 	static std::string getFileString(const std::string& strRelativeFilePath);  // получение пути к файлу с шейдером
