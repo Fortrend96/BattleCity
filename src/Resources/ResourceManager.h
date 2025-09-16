@@ -9,7 +9,6 @@ namespace RenderEngine
 	class CShaderProgram;
 	class CTexture2D;
 	class CSprite;
-	class CAnimatedSprite;
 }
 
 // менеджер ресурсов
@@ -44,14 +43,6 @@ public:
 	static std::shared_ptr<RenderEngine::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
 
 
-	static std::shared_ptr<RenderEngine::CAnimatedSprite> loadAnimatedSprite(const std::string& strSpriteName,
-		const std::string& strTextureName,
-		const std::string& strShaderName,
-		const std::string& strSubTextureName = "default"); // загрузка анимированного спрайта
-
-	static std::shared_ptr<RenderEngine::CAnimatedSprite> getAnimatedSprite(const std::string& strSpriteName); // получение анимированного спрайта
-
-
 	static std::shared_ptr<RenderEngine::CTexture2D> loadTextureAtlas( std::string strTextureName,
 															std::string strTexturePath,
 															std::vector<std::string> subTextures,
@@ -71,12 +62,10 @@ private:
 	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<RenderEngine::CShaderProgram>>;
 	using TTexturesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CTexture2D>>;
 	using TSpritesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CSprite>>;
-	using TAnimatedSpritesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CAnimatedSprite>>;
 
 	static TShaderProgramsMap m_shaderPrograms;
 	static TTexturesMap m_textures;
 	static TSpritesMap m_sprites;
-	static TAnimatedSpritesMap m_animatedSprites;
 
 	static std::vector<std::vector<std::string>> m_levels;
 

@@ -18,6 +18,22 @@ namespace RenderEngine
 	class CSprite
 	{
 	public:
+		struct CFrameDescription
+		{
+			CFrameDescription(const glm::vec2& _leftBottomUV,
+				const glm::vec2& _rightTopUV,
+				const uint64_t _duration) :
+				leftBottomUV(_leftBottomUV),
+				rightTopUV(_rightTopUV),
+				duration(_duration)
+			{}
+
+			glm::vec2 leftBottomUV;
+			glm::vec2 rightTopUV;
+			uint64_t duration;
+		};
+
+
 		CSprite( std::shared_ptr<CTexture2D> pTexture,
 			std::string strInitialSubTexture,
 			 std::shared_ptr<CShaderProgram> pShaderProgram);
@@ -27,7 +43,11 @@ namespace RenderEngine
 		CSprite(const CSprite&) = delete;
 		CSprite& operator=(const CSprite&) = delete;
 
-		virtual void render(const glm::vec2& position, const glm::vec2& size, const float fRotation) const;
+		virtual void render(const glm::vec2& position, const glm::vec2& size, const float fRotation, const size_t frameId = 0) const;
+
+		void insertFrames(std::vector<CFrameDescription> frameDescriptions);
+		uint64_t getFrameDuration(const size_t frameId) const;
+		size_t getFramesCount() const;
 
 	protected:
 		std::shared_ptr<CTexture2D> m_pTexture;
@@ -37,5 +57,8 @@ namespace RenderEngine
 		CVertexBuffer m_vertexCoordsBuffer;
 		CVertexBuffer m_textureCoordsBuffer;
 		CIndexBuffer m_indexBuffer;
+
+		std::vector<CFrameDescription> m_framesDescriptions;
+		mutable size_t m_lastFrameId;
 	};
 }

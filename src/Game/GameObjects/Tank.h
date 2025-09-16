@@ -3,11 +3,11 @@
 #include <memory>
 
 #include "IGameObject.h"
-
+#include "../../Renderer/SpriteAnimator.h"
 
 namespace RenderEngine 
 {
-	class CAnimatedSprite;
+	class CSprite;
 }
 
 class CTank : public IGameObject
@@ -20,8 +20,13 @@ public:
 		Right
 	};
 
-	CTank(std::shared_ptr<RenderEngine::CAnimatedSprite> pSprite, const float fVelocity,
-		const glm::vec2& position, const glm::vec2& size);
+	CTank(std::shared_ptr<RenderEngine::CSprite> pSprite_top, 
+		std::shared_ptr<RenderEngine::CSprite> pSprite_bottom,
+		std::shared_ptr<RenderEngine::CSprite> pSprite_left,
+		std::shared_ptr<RenderEngine::CSprite> pSprite_right,
+		const float fVelocity,
+		const glm::vec2& position, 
+		const glm::vec2& size);
 
 	void render() const override;
 	void setOrientaion(const EOrientation eOrientation);
@@ -31,7 +36,17 @@ public:
 
 private:
 	EOrientation m_eOrientation;
-	std::shared_ptr<RenderEngine::CAnimatedSprite> m_pSprite;
+
+	std::shared_ptr<RenderEngine::CSprite> m_pSprite_top;
+	std::shared_ptr<RenderEngine::CSprite> m_pSprite_bottom;
+	std::shared_ptr<RenderEngine::CSprite> m_pSprite_left;
+	std::shared_ptr<RenderEngine::CSprite> m_pSprite_right;
+
+	RenderEngine::CSpriteAnimator m_spriteAnimator_top;
+	RenderEngine::CSpriteAnimator m_spriteAnimator_bottom;
+	RenderEngine::CSpriteAnimator m_spriteAnimator_left;
+	RenderEngine::CSpriteAnimator m_spriteAnimator_right;
+
 	bool m_bMove;
 	float m_fVelocity;
 	glm::vec2 m_moveOffset;

@@ -3,7 +3,6 @@
 #include "../Renderer/ShaderProgram.h"
 #include "../Renderer/Texture2D.h"
 #include "../Renderer/Sprite.h"
-#include "../Renderer/AnimatedSprite.h"
 
 #include "GameObjects/Tank.h"
 #include "Level.h"
@@ -115,14 +114,12 @@ bool CGame::init()
     pSpriteShaderProgram->setInt("tex", 0);
     pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 
-    auto pTanksAnimatedSprite = CResourceManager::getAnimatedSprite("tankAnimatedSprite");
-    if (!pTanksAnimatedSprite)
-    {
-        std::cerr << "Can't find animated sprite: " << "tankAnimatedSprite" << std::endl;
-        return false;
-    }
-
-    m_pTank = std::make_unique<CTank>(pTanksAnimatedSprite, 0.0000001f, glm::vec2(0), glm::vec2(16.f, 16.f));
+    m_pTank = std::make_unique<CTank>(
+        CResourceManager::getSprite("tankSprite_top"), 
+        CResourceManager::getSprite("tankSprite_bottom"),
+        CResourceManager::getSprite("tankSprite_left"),
+        CResourceManager::getSprite("tankSprite_right"),
+        0.0000001f, glm::vec2(0), glm::vec2(16.f, 16.f));
 
     m_pLevel = std::make_unique<CLevel>(CResourceManager::getLevels()[0]);
 

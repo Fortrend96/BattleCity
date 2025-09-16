@@ -13,7 +13,8 @@ namespace RenderEngine {
         std::string strInitialSubTexture,
          std::shared_ptr<CShaderProgram> pShaderProgram)
         : m_pTexture(std::move(pTexture))
-        , m_pShaderProgram(std::move(pShaderProgram))
+        , m_pShaderProgram(std::move(pShaderProgram)),
+        m_lastFrameId(0)
     {
         const GLfloat vertexCoords[] = {
             // 1---2
@@ -64,12 +65,29 @@ namespace RenderEngine {
 	}
 
 
-	void CSprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation) const
+	void CSprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation,
+        const size_t frameId) const
 	{
+        if (m_lastFrameId != frameId)
+        {
+            m_lastFrameId = frameId;
+
+            const CFrameDescription& curFrameDescription = m_framesDescriptions[frameId];
+
+            const GLfloat textureCoords[] = {
+                // U  V
+                curFrameDescription.leftBottomUV.x, curFrameDescription.leftBottomUV.y,
+                curFrameDescription.leftBottomUV.x, curFrameDescription.rightTopUV.y,
+                curFrameDescription.rightTopUV.x,   curFrameDescription.rightTopUV.y,
+                curFrameDescription.rightTopUV.x,   curFrameDescription.leftBottomUV.y,
+            };
+
+            m_textureCoordsBuffer.update(textureCoords, 2 * 4 * sizeof(GLfloat));
+        }
+
         m_pShaderProgram->use();
 
         glm::mat4 model(1.f);
-
         model = glm::translate(model, glm::vec3(position, 0.f));
         model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.f));
         model = glm::rotate(model, glm::radians(fRotation), glm::vec3(0.f, 0.f, 1.f));
@@ -83,4 +101,19 @@ namespace RenderEngine {
 
         CRenderer::draw(m_vertexArray, m_indexBuffer, *m_pShaderProgram);
 	}
+
+    void CSprite::insertFrames(std::vector<CFrameDescription> frameDescriptions)
+    {
+        m_framesDescriptions = std::move(frameDescriptions);
+    }
+
+    uint64_t CSprite::getFrameDuration(const size_t frameId) const
+    {
+        return m_framesDescriptions[frameId].duration;
+    }
+
+    size_t CSprite::getFramesCount() const
+    {
+        return m_framesDescriptions.size();
+    }
 }
