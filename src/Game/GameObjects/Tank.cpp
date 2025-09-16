@@ -1,21 +1,20 @@
 #include "Tank.h"
-#include "../Renderer/AnimatedSprite.h"
+#include "../../Renderer/AnimatedSprite.h"
 
 CTank::CTank(std::shared_ptr<RenderEngine::CAnimatedSprite> pSprite, const float fVelocity,
-	const glm::vec2& position):
+	const glm::vec2& position, const glm::vec2& size):
+					IGameObject(position,size, 0),
 					m_eOrientation(EOrientation::Top),
 					m_pSprite(std::move(pSprite)),
 					m_bMove(false),
 					m_fVelocity(fVelocity),
-					m_position(position),
 					m_moveOffset(glm::vec2(0.f,1.f))
 {
-	m_pSprite->setPosition(m_position);
 }
 
 void CTank::render() const
 {
-	m_pSprite->render();
+	m_pSprite->render(m_position, m_size, m_fRotation);
 }
 
 void CTank::setOrientaion(const EOrientation eOrientation)
@@ -64,7 +63,6 @@ void CTank::update(const uint64_t delta)
 	if (m_bMove)
 	{
 		m_position += delta * m_fVelocity * m_moveOffset;
-		m_pSprite->setPosition(m_position);
 		m_pSprite->update(delta);
 	}
 }

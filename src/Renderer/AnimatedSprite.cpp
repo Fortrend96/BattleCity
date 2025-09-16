@@ -6,14 +6,10 @@ namespace RenderEngine
 {
 	CAnimatedSprite::CAnimatedSprite(std::shared_ptr<CTexture2D> pTexture,
 									std::string strInitialSubTexture,
-									std::shared_ptr<CShaderProgram> pShaderProgram,
-									glm::vec2& position,
-									glm::vec2& size,
-									const float rotation)
-		: CSprite(std::move(pTexture), 
-			std::move(strInitialSubTexture), 
-			std::move(pShaderProgram), 
-			position, size, rotation)
+									std::shared_ptr<CShaderProgram> pShaderProgram)
+										: CSprite(std::move(pTexture), 
+											std::move(strInitialSubTexture), 
+											std::move(pShaderProgram))
 	{ 
 		m_pCurrentAnimationDuration = m_statesMap.end();
 	}
@@ -24,7 +20,7 @@ namespace RenderEngine
 		m_statesMap.emplace(std::move(strState), std::move(subTextureTexturesDuration));
 	}
 	//--------------------------------------------------------------------------------------------
-	void CAnimatedSprite::render() const
+	void CAnimatedSprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation) const
 	{
 		if (m_dirty)
 		{
@@ -42,7 +38,7 @@ namespace RenderEngine
 			m_dirty = false;
 		}
 
-		CSprite::render();
+		CSprite::render(position, size, fRotation);
 	}
 	//--------------------------------------------------------------------------------------------
 	void CAnimatedSprite::setState(const std::string& strNewState)

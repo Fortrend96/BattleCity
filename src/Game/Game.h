@@ -5,6 +5,7 @@
 #include <glm/vec2.hpp>
 
 class CTank;
+class CLevel;
 
 class CGame 
 {
@@ -28,5 +29,7 @@ private:
 	glm::ivec2 m_windowSize;
 
 	std::unique_ptr<CTank> m_pTank;
+
+	std::unique_ptr<CLevel> m_pLevel;
 
 };

@@ -5,7 +5,9 @@
 #include "../Renderer/Sprite.h"
 #include "../Renderer/AnimatedSprite.h"
 
-#include "Tank.h"
+#include "GameObjects/Tank.h"
+#include "Level.h"
+
 
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -27,16 +29,24 @@ CGame::~CGame()
 
 void CGame::render()
 {
-    CResourceManager::getAnimatedSprite("NewAnimatedSprite")->render();
     if (m_pTank)
     {
         m_pTank->render();
     }
+
+    if (m_pLevel)
+    {
+        m_pLevel->render();
+    }
+
 }
 
 void CGame::update(const uint64_t delta)
 {
-    CResourceManager::getAnimatedSprite("NewAnimatedSprite")->update(delta);
+    if (m_pLevel)
+    {
+        m_pLevel->update(delta);
+    }
 
     if (m_pTank)
     {
@@ -99,35 +109,11 @@ bool CGame::init()
         return false;
     }
 
-
-
-    auto pAnimatedSprite = CResourceManager::loadAnimatedSprite("NewAnimatedSprite", "mapTextureAtlas", "spriteShader", 100, 100, "beton");
-    pAnimatedSprite->setPosition(glm::vec2(300, 300));
-
-
-    std::vector<std::pair<std::string, uint64_t>> waterState;
-    waterState.emplace_back(std::make_pair<std::string, uint64_t>("water1", 1000000000));
-    waterState.emplace_back(std::make_pair<std::string, uint64_t>("water2", 1000000000));
-    waterState.emplace_back(std::make_pair<std::string, uint64_t>("water3", 1000000000));
-
-    std::vector<std::pair<std::string, uint64_t>> eagleState;
-    eagleState.emplace_back(std::make_pair<std::string, uint64_t>("eagle", 1000000000));
-    eagleState.emplace_back(std::make_pair<std::string, uint64_t>("deadEagle", 1000000000));
-
-    pAnimatedSprite->insertState("waterState", std::move(waterState));
-    pAnimatedSprite->insertState("eagleState", std::move(eagleState));
-
-    pAnimatedSprite->setState("waterState");
-
-
-
     glm::mat4 projectionMatrix = glm::ortho(0.f, static_cast<float>(m_windowSize.x), 0.f, static_cast<float>(m_windowSize.y), -100.f, 100.f);
 
     pSpriteShaderProgram->use();
     pSpriteShaderProgram->setInt("tex", 0);
     pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
-
-
 
     auto pTanksAnimatedSprite = CResourceManager::getAnimatedSprite("tankAnimatedSprite");
     if (!pTanksAnimatedSprite)
@@ -136,6 +122,9 @@ bool CGame::init()
         return false;
     }
 
-    m_pTank = std::make_unique<CTank>(pTanksAnimatedSprite, 0.0000001f, glm::vec2(100.f, 100.f));
+    m_pTank = std::make_unique<CTank>(pTanksAnimatedSprite, 0.0000001f, glm::vec2(0), glm::vec2(16.f, 16.f));
+
+    m_pLevel = std::make_unique<CLevel>(CResourceManager::getLevels()[0]);
+
     return true;
 }

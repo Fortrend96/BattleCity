@@ -39,8 +39,6 @@ public:
 	static std::shared_ptr<RenderEngine::CSprite> loadSprite(const std::string& strSpriteName,
 													const std::string& strTextureName,
 													const std::string& strShaderName,
-													const unsigned int iSpriteWidth,
-													const unsigned int iSpriteHeight,
 													const std::string& strSubTextureName = "default"); // загрузка спрайта
 	
 	static std::shared_ptr<RenderEngine::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
@@ -49,8 +47,6 @@ public:
 	static std::shared_ptr<RenderEngine::CAnimatedSprite> loadAnimatedSprite(const std::string& strSpriteName,
 		const std::string& strTextureName,
 		const std::string& strShaderName,
-		const unsigned int iSpriteWidth,
-		const unsigned int iSpriteHeight,
 		const std::string& strSubTextureName = "default"); // загрузка анимированного спрайта
 
 	static std::shared_ptr<RenderEngine::CAnimatedSprite> getAnimatedSprite(const std::string& strSpriteName); // получение анимированного спрайта
@@ -63,6 +59,11 @@ public:
 															const unsigned int iSubTextureHeight);// загрузка текстурного атласа
 
 	static bool loadJSONResources(const std::string& strJSONPath);
+
+	static const std::vector<std::vector<std::string>>& getLevels() {
+		return m_levels
+			;
+	}
 	
 private:
 	static std::string getFileString(const std::string& strRelativeFilePath);  // получение пути к файлу с шейдером
@@ -76,6 +77,8 @@ private:
 	static TTexturesMap m_textures;
 	static TSpritesMap m_sprites;
 	static TAnimatedSpritesMap m_animatedSprites;
+
+	static std::vector<std::vector<std::string>> m_levels;
 
 	static std::string m_strPath;
 };
