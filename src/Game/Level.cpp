@@ -1,6 +1,5 @@
 #include "Level.h"
 #include "GameObjects/BrickWall.h"
-#include "../Resources/ResourceManager.h"
 
 #include <iostream>
 
@@ -12,30 +11,28 @@ std::shared_ptr<IGameObject> createGameObjectFromDescription(const char descript
 	switch (description)
 	{
 	case '0':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_right"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::Right, position, size, fRotation);
 	case '1':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_bottom"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::Bottom, position, size, fRotation);
 	case '2':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_left"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::Left, position, size, fRotation);
 	case '3':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_top"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::Top, position, size, fRotation);
 	case '4':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::All, position, size, fRotation);
 	case 'G':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_bottom_left"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::BottomLeft, position, size, fRotation);
 	case 'H':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_bottom_right"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::BottomRight, position, size, fRotation);
 	case 'I':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_top_left"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::TopLeft, position, size, fRotation);
 	case 'J':
-		return std::make_shared<CBrickWall>(CResourceManager::getSprite("brickWall_top_right"), position, size, fRotation);
+		return std::make_shared<CBrickWall>(CBrickWall::EBrickWallType::TopRight, position, size, fRotation);
 	case 'D':
 		return nullptr;
 	default:
-		std::cerr << "unknown GameObject description : " << description << std::endl;
-		break;
+		std::cerr << "Unknown GameObject description: " << description << std::endl;
 	}
-
 	return nullptr;
 }
 

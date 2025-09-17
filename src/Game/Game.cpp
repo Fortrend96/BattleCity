@@ -93,33 +93,13 @@ bool CGame::init()
         return false;
     }
 
-    auto pTextureAtlas = CResourceManager::getTexture("mapTextureAtlas");
-    if (!pTextureAtlas)
-    {
-        std::cerr << "Cant find texture atlas: " << "mapTextureAtlas" << std::endl;
-        return false;
-    }
-
-    auto pTanksTextureAtlas = CResourceManager::getTexture("tanksTextureAtlas");
-
-    if (!pTanksTextureAtlas)
-    {
-        std::cerr << "Cant find texture atlas: " << "tanksTextureAtlas" << std::endl;
-        return false;
-    }
-
     glm::mat4 projectionMatrix = glm::ortho(0.f, static_cast<float>(m_windowSize.x), 0.f, static_cast<float>(m_windowSize.y), -100.f, 100.f);
 
     pSpriteShaderProgram->use();
     pSpriteShaderProgram->setInt("tex", 0);
     pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 
-    m_pTank = std::make_unique<CTank>(
-        CResourceManager::getSprite("tankSprite_top"), 
-        CResourceManager::getSprite("tankSprite_bottom"),
-        CResourceManager::getSprite("tankSprite_left"),
-        CResourceManager::getSprite("tankSprite_right"),
-        0.0000001f, glm::vec2(0), glm::vec2(16.f, 16.f));
+    m_pTank = std::make_unique<CTank>(0.0000001f, glm::vec2(0), glm::vec2(16.f, 16.f));
 
     m_pLevel = std::make_unique<CLevel>(CResourceManager::getLevels()[0]);
 

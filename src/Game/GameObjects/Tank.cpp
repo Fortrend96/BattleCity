@@ -1,28 +1,24 @@
 #include "Tank.h"
+
+#include "../../Resources/ResourceManager.h"
 #include "../../Renderer/Sprite.h"
 
-CTank::CTank(std::shared_ptr<RenderEngine::CSprite> pSprite_top,
-			std::shared_ptr<RenderEngine::CSprite> pSprite_bottom,
-			std::shared_ptr<RenderEngine::CSprite> pSprite_left,
-			std::shared_ptr<RenderEngine::CSprite> pSprite_right,
-			const float fVelocity,
-			const glm::vec2& position,
-			const glm::vec2& size):
-					IGameObject(position,size, 0),
-					m_eOrientation(EOrientation::Top),
-					m_pSprite_top(std::move(pSprite_top)),
-					m_pSprite_bottom(std::move(pSprite_bottom)),
-					m_pSprite_left(std::move(pSprite_left)),
-					m_pSprite_right(std::move(pSprite_right)),
-
-					m_spriteAnimator_top(m_pSprite_top),
-					m_spriteAnimator_bottom(m_pSprite_bottom),
-					m_spriteAnimator_left(m_pSprite_left),
-					m_spriteAnimator_right(m_pSprite_right),
-
-					m_bMove(false),
-					m_fVelocity(fVelocity),
-					m_moveOffset(glm::vec2(0.f,1.f))
+CTank::CTank(const float fVelocity,
+	const glm::vec2& position,
+	const glm::vec2& size)
+	: IGameObject(position, size, 0.f)
+	, m_eOrientation(EOrientation::Top)
+	, m_pSprite_top(CResourceManager::getSprite("tankSprite_top"))
+	, m_pSprite_bottom(CResourceManager::getSprite("tankSprite_bottom"))
+	, m_pSprite_left(CResourceManager::getSprite("tankSprite_left"))
+	, m_pSprite_right(CResourceManager::getSprite("tankSprite_right"))
+	, m_spriteAnimator_top(m_pSprite_top)
+	, m_spriteAnimator_bottom(m_pSprite_bottom)
+	, m_spriteAnimator_left(m_pSprite_left)
+	, m_spriteAnimator_right(m_pSprite_right)
+	, m_bMove(false)
+	, m_fVelocity(fVelocity)
+	, m_moveOffset(glm::vec2(0.f, 1.f))
 {
 }
 

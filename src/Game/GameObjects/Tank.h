@@ -20,12 +20,8 @@ public:
 		Right
 	};
 
-	CTank(std::shared_ptr<RenderEngine::CSprite> pSprite_top, 
-		std::shared_ptr<RenderEngine::CSprite> pSprite_bottom,
-		std::shared_ptr<RenderEngine::CSprite> pSprite_left,
-		std::shared_ptr<RenderEngine::CSprite> pSprite_right,
-		const float fVelocity,
-		const glm::vec2& position, 
+	CTank(const float fVelocity,
+		const glm::vec2& position,
 		const glm::vec2& size);
 
 	void render() const override;
