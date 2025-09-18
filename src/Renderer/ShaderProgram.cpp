@@ -112,6 +112,11 @@ namespace RenderEngine
 		glUniform1i(glGetUniformLocation(m_iID, strName.c_str()), iValue);
 	}
 
+	void CShaderProgram::setFloat(const std::string& name, const GLfloat fValue)
+	{
+		glUniform1f(glGetUniformLocation(m_iID, name.c_str()), fValue);
+	}
+
 	void CShaderProgram::setMatrix4(const std::string& strName, const glm::mat4& matrix)
 	{		
 		glUniformMatrix4fv(glGetUniformLocation(m_iID, strName.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));

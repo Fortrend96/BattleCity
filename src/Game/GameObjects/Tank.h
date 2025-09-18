@@ -22,7 +22,7 @@ public:
 
 	CTank(const float fVelocity,
 		const glm::vec2& position,
-		const glm::vec2& size);
+		const glm::vec2& size, const float fLayer);
 
 	void render() const override;
 	void setOrientaion(const EOrientation eOrientation);

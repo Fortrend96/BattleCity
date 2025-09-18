@@ -43,7 +43,8 @@ namespace RenderEngine
 		CSprite(const CSprite&) = delete;
 		CSprite& operator=(const CSprite&) = delete;
 
-		virtual void render(const glm::vec2& position, const glm::vec2& size, const float fRotation, const size_t frameId = 0) const;
+		virtual void render(const glm::vec2& position, const glm::vec2& size, const float fRotation, 
+			const float fLayer = 0.f, const size_t frameId = 0) const;
 
 		void insertFrames(std::vector<CFrameDescription> frameDescriptions);
 		uint64_t getFrameDuration(const size_t frameId) const;

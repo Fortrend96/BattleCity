@@ -65,7 +65,7 @@ namespace RenderEngine {
 	}
 
 
-	void CSprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation,
+	void CSprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation, const float fLayer,
         const size_t frameId) const
 	{
         if (m_lastFrameId != frameId)
@@ -95,6 +95,7 @@ namespace RenderEngine {
         model = glm::scale(model, glm::vec3(size, 1.f));
 
         m_pShaderProgram->setMatrix4("modelMat", model);
+        m_pShaderProgram->setFloat("layer", fLayer);
 
         glActiveTexture(GL_TEXTURE0);
         m_pTexture->bind();

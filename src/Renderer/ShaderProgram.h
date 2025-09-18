@@ -14,6 +14,7 @@ namespace RenderEngine
 		bool isCompiled() const {	return m_bIsCompiled;	}
 		void use() const;
 		void setInt(const std::string& strName, const GLint iValue);
+		void setFloat(const std::string& strName, const GLfloat fValue);
 		void setMatrix4(const std::string& strName, const glm::mat4& matrix);
 
 		CShaderProgram() = delete; // удаляем конструктор по умолчанию

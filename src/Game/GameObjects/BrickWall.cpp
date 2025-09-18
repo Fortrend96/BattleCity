@@ -5,8 +5,8 @@
 CBrickWall::CBrickWall(const EBrickWallType eBrickWallType,
 						const glm::vec2& position, 
 						const glm::vec2& size, 
-						const float fRotation)
-						: IGameObject(position, size, fRotation)
+						const float fRotation, const float fLayer)
+						: IGameObject(position, size, fRotation, fLayer)
 						, m_eCurrentBrickState{EBrickState::Destroyed,
 												EBrickState::Destroyed, 
 												EBrickState::Destroyed, 
@@ -75,7 +75,8 @@ void CBrickWall::renderBrick(const EBrickLocation eBrickLocation) const
     const EBrickState state = m_eCurrentBrickState[static_cast<size_t>(eBrickLocation)];
     if (state != EBrickState::Destroyed)
     {
-        m_sprites[static_cast<size_t>(state)]->render(m_position + m_blockOffsets[static_cast<size_t>(eBrickLocation)], m_size / 2.f, m_fRotation);
+        m_sprites[static_cast<size_t>(state)]->render(m_position + m_blockOffsets[static_cast<size_t>(eBrickLocation)], 
+            m_size / 2.f, m_fRotation, m_fLayer, m_fLayer);
     }
 }
 

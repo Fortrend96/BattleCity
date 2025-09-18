@@ -18,6 +18,18 @@ namespace RenderEngine
 		glClearColor(fRed, fGreen, fBlue, fAlpha);
 	}
 
+	void CRenderer::setDepthTest(const bool bEnable)
+	{
+		if (bEnable)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}
+		else
+		{
+			glDisable(GL_DEPTH_TEST);
+		}
+	}
+
 	void CRenderer::clear()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);

@@ -19,7 +19,7 @@ public:
         BottomRight
     };
 
-    CTrees(const glm::vec2& position, const glm::vec2& size, const float rotation);
+    CTrees(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
     virtual void render() const override;
 
 private:

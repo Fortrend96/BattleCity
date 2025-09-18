@@ -93,6 +93,7 @@ int main(int argc, char** argv)
     std::cout << "OpenGL version: " << RenderEngine::CRenderer::getVersionString() << std::endl;
 
     RenderEngine::CRenderer::setClearColor(0, 0, 0, 1);
+    RenderEngine::CRenderer::setDepthTest(true);
 
     {
         CResourceManager::setExecutablePath(argv[0]);
@@ -103,7 +104,9 @@ int main(int argc, char** argv)
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(pWindow))
-        {            
+        {    
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             auto currentTime = std::chrono::high_resolution_clock::now();
             uint64_t duration = std::chrono::duration_cast<std::chrono::nanoseconds>(currentTime - lastTime).count();
             lastTime = currentTime;

@@ -5,8 +5,8 @@
 CBetonWall::CBetonWall(const EBetonWallType eBetonWallType,
 						const glm::vec2& position, 
 						const glm::vec2& size, 
-						const float fRotation)
-						: IGameObject(position, size, fRotation)
+						const float fRotation, const float fLayer)
+						: IGameObject(position, size, fRotation, fLayer)
 						, m_eCurrentBlockState{ EBlockState::Destroyed,
 												EBlockState::Destroyed, 
 												EBlockState::Destroyed, 
@@ -58,7 +58,7 @@ void CBetonWall::renderBlock(const EBlockLocation eBlockLocation) const
     const EBlockState state = m_eCurrentBlockState[static_cast<size_t>(eBlockLocation)];
     if (state != EBlockState::Destroyed)
     {
-        m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_fRotation);
+        m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_fRotation, m_fLayer);
     }
 }
 

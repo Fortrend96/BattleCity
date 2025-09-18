@@ -5,8 +5,8 @@
 
 CTank::CTank(const float fVelocity,
 	const glm::vec2& position,
-	const glm::vec2& size)
-	: IGameObject(position, size, 0.f)
+	const glm::vec2& size, const float fLayer)
+	: IGameObject(position, size, 0.f, fLayer)
 	, m_eOrientation(EOrientation::Top)
 	, m_pSprite_top(CResourceManager::getSprite("tankSprite_top"))
 	, m_pSprite_bottom(CResourceManager::getSprite("tankSprite_bottom"))
@@ -27,16 +27,16 @@ void CTank::render() const
 	switch (m_eOrientation)
 	{
 	case CTank::EOrientation::Top:
-		m_pSprite_top->render(m_position, m_size, m_fRotation, m_spriteAnimator_top.getCurrentFrame());
+		m_pSprite_top->render(m_position, m_size, m_fRotation, m_fLayer, m_spriteAnimator_top.getCurrentFrame());
 		break;
 	case CTank::EOrientation::Bottom:
-		m_pSprite_bottom->render(m_position, m_size, m_fRotation, m_spriteAnimator_bottom.getCurrentFrame());
+		m_pSprite_bottom->render(m_position, m_size, m_fRotation, m_fLayer, m_spriteAnimator_bottom.getCurrentFrame());
 		break;
 	case CTank::EOrientation::Left:
-		m_pSprite_left->render(m_position, m_size, m_fRotation, m_spriteAnimator_left.getCurrentFrame());
+		m_pSprite_left->render(m_position, m_size, m_fRotation, m_fLayer, m_spriteAnimator_left.getCurrentFrame());
 		break;
 	case CTank::EOrientation::Right:
-		m_pSprite_right->render(m_position, m_size, m_fRotation, m_spriteAnimator_right.getCurrentFrame());
+		m_pSprite_right->render(m_position, m_size, m_fRotation, m_fLayer, m_spriteAnimator_right.getCurrentFrame());
 		break;
 	}
 }

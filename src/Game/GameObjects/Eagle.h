@@ -16,7 +16,7 @@ public:
         Dead
     };
 
-    CEagle(const glm::vec2& position, const glm::vec2& size, const float rotation);
+    CEagle(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
     virtual void render() const override;
     void update(const uint64_t delta) override;
 
