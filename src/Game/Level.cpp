@@ -1,6 +1,10 @@
 #include "Level.h"
 #include "GameObjects/BrickWall.h"
 #include "GameObjects/BetonWall.h"
+#include "GameObjects/Water.h"
+#include "GameObjects/Trees.h"
+#include "GameObjects/Ice.h"
+#include "GameObjects/Eagle.h"
 #include <iostream>
 
 const unsigned int BLOCK_SIZE = 16;
@@ -38,6 +42,14 @@ std::shared_ptr<IGameObject> createGameObjectFromDescription(const char descript
 		return std::make_shared<CBetonWall>(CBetonWall::EBetonWallType::Top, position, size, fRotation);
 	case '9':
 		return std::make_shared<CBetonWall>(CBetonWall::EBetonWallType::All, position, size, fRotation);
+	case 'A':
+		return std::make_shared<CWater>(position, size, fRotation);
+	case 'B':
+		return std::make_shared<CTrees>(position, size, fRotation);
+	case 'C':
+		return std::make_shared<CIce>(position, size, fRotation);
+	case 'E':
+		return std::make_shared<CEagle>(position, size, fRotation);
 	case 'D':
 		return nullptr;
 	default:
