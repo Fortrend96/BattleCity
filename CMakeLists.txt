@@ -52,6 +52,9 @@ add_executable(${PROJECT_NAME}
 	src/Game/GameObjects/Water.h
 	src/Game/GameObjects/Eagle.cpp
 	src/Game/GameObjects/Eagle.h
+	src/Game/GameObjects/Border.cpp
+	src/Game/GameObjects/Border.h
+
 )
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17) # устанавливаем 17 стандарт cpp
