@@ -8,7 +8,7 @@
 #include "GameObjects/Border.h"
 #include <iostream>
 
-const unsigned int BLOCK_SIZE = 16;
+
 
 std::unique_ptr<IGameObject> createGameObjectFromDescription(const char description,
 	const glm::vec2& position, const glm::vec2& size, const float fRotation)
@@ -69,6 +69,12 @@ CLevel::CLevel(const std::vector<std::string>& levelDescription)
 	m_iWidth = levelDescription[0].length();
 	m_iHeight = levelDescription.size();
 
+	m_playerRespawn_1 = { BLOCK_SIZE * (m_iWidth / 2 - 1),	BLOCK_SIZE / 2 };
+	m_playerRespawn_2 = { BLOCK_SIZE * (m_iWidth / 2 + 3),	BLOCK_SIZE / 2 };
+	m_enemyRespawn_1 =	{ BLOCK_SIZE,						BLOCK_SIZE *  m_iHeight - BLOCK_SIZE / 2 };
+	m_enemyRespawn_2 =	{ BLOCK_SIZE * (m_iWidth / 2 + 1),	BLOCK_SIZE * m_iHeight - BLOCK_SIZE / 2 };
+	m_enemyRespawn_3 =	{ BLOCK_SIZE * m_iWidth,			BLOCK_SIZE * m_iHeight - BLOCK_SIZE / 2 };
+
 	m_levelObjects.reserve(m_iWidth * m_iHeight + 4);
 	unsigned int iCurBottomOffset = static_cast<unsigned int>(BLOCK_SIZE * (m_iHeight - 1) + BLOCK_SIZE / 2.f);
 
@@ -77,11 +83,27 @@ CLevel::CLevel(const std::vector<std::string>& levelDescription)
 		unsigned int iCurLeftOffset = BLOCK_SIZE;
 		for (const char curElement : curRow)
 		{
-			std::shared_ptr<IGameObject> pGameObject =
-				createGameObjectFromDescription(curElement, glm::vec2(iCurLeftOffset, iCurBottomOffset),
-					glm::vec2(BLOCK_SIZE, BLOCK_SIZE), 0);
-
-			m_levelObjects.emplace_back(std::move(pGameObject));
+			switch (curElement)
+			{
+			case 'K':
+				m_playerRespawn_1 = { iCurLeftOffset, iCurBottomOffset };
+				break;
+			case 'L':
+				m_playerRespawn_2 = { iCurLeftOffset, iCurBottomOffset };
+				break;
+			case 'M':
+				m_enemyRespawn_1 = { iCurLeftOffset, iCurBottomOffset };
+				break;
+			case 'N':
+				m_enemyRespawn_2 = { iCurLeftOffset, iCurBottomOffset };
+				break;
+			case 'O':
+				m_enemyRespawn_3 = { iCurLeftOffset, iCurBottomOffset };
+				break;
+			default:
+				m_levelObjects.emplace_back(createGameObjectFromDescription(curElement, glm::vec2(iCurLeftOffset, iCurBottomOffset), glm::vec2(BLOCK_SIZE, BLOCK_SIZE), 0.f));
+				break;
+			}
 
 			iCurLeftOffset += BLOCK_SIZE;
 		}
