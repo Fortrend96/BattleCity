@@ -55,7 +55,7 @@ public:
 
 	CBrickWall(const EBrickWallType eBrickWallType, const glm::vec2& position, const glm::vec2& size, const float fRotation, const float fLayer);
 	virtual void render() const override;
-	virtual void update(const uint64_t delta) override;
+	virtual void update(const double delta) override;
 
 	
 

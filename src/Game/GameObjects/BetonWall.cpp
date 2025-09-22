@@ -70,7 +70,7 @@ void CBetonWall::render() const
     renderBlock(EBlockLocation::BottomRight);
 }
 
-void CBetonWall::update(const uint64_t delta)
+void CBetonWall::update(const double delta)
 {
 }
 

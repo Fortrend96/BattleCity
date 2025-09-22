@@ -18,7 +18,7 @@ public:
 
     CEagle(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
     virtual void render() const override;
-    void update(const uint64_t delta) override;
+    void update(const double delta) override;
 
 private:
     std::array<std::shared_ptr<RenderEngine::CSprite>, 2> m_sprite;

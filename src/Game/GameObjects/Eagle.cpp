@@ -16,7 +16,7 @@ void CEagle::render() const
     m_sprite[static_cast<size_t>(m_eCurrentState)]->render(m_position, m_size, m_fRotation, m_fLayer);
 }
 
-void CEagle::update(const uint64_t delta)
+void CEagle::update(const double delta)
 {
 
 }

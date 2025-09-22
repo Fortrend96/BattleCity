@@ -12,7 +12,7 @@ namespace RenderEngine
 
 	}
 
-	void CSpriteAnimator::update(const uint64_t delta)
+	void CSpriteAnimator::update(const double delta)
 	{
 		m_currentAnimationTime += delta;
 

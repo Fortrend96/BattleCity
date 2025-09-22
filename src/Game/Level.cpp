@@ -135,7 +135,7 @@ void CLevel::render() const
 	}
 }
 
-void CLevel::update(const uint64_t delta)
+void CLevel::update(const double delta)
 {
 	for (const auto& curLevelObject : m_levelObjects)
 	{

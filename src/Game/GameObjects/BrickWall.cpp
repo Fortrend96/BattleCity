@@ -88,7 +88,7 @@ void CBrickWall::render() const
     renderBrick(EBrickLocation::BottomRight);
 }
 
-void CBrickWall::update(const uint64_t delta)
+void CBrickWall::update(const double delta)
 {
 
 }

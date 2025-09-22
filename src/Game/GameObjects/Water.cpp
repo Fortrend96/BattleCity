@@ -16,8 +16,8 @@ CWater::CWater(const glm::vec2& position, const glm::vec2& size, const float rot
 
 void CWater::renderBlock(const EBlockLocation eBlockLocation) const
 {
-    m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_fRotation, 
-        m_spriteAnimator.getCurrentFrame(), m_fLayer);
+    m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_fRotation, m_fLayer,
+        m_spriteAnimator.getCurrentFrame());
 }
 
 void CWater::render() const
@@ -28,7 +28,7 @@ void CWater::render() const
     renderBlock(EBlockLocation::BottomRight);
 }
 
-void CWater::update(const uint64_t delta)
+void CWater::update(const double delta)
 {
     m_spriteAnimator.update(delta);
 }
