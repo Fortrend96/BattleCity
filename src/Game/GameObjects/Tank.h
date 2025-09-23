@@ -21,15 +21,18 @@ public:
 		Right
 	};
 
-	CTank(const double fVelocity,
+	CTank(const double dMaxVelocity,
 		const glm::vec2& position,
 		const glm::vec2& size, const float fLayer);
 
 	void render() const override;
 	void setOrientaion(const EOrientation eOrientation);
 
-	void move(const bool bMove);
 	void update(const double delta) override;
+
+	double getMaxVelocity() const { return m_dMaxVelocity; }
+
+	void setVelocity(const double dVelocity) override;
 
 private:
 	EOrientation m_eOrientation;
@@ -54,9 +57,7 @@ private:
 	CTimer m_respawnTimer;
 	CTimer m_shieldTimer;
 
-	bool m_bMove;
-	double m_fVelocity;
-	glm::vec2 m_moveOffset;
+	double m_dMaxVelocity;
 	bool m_bIsSpawning;
 	bool m_bHasShield;
 

@@ -3,7 +3,7 @@
 #include "../../Resources/ResourceManager.h"
 #include "../../Renderer/Sprite.h"
 
-CTank::CTank(const double fVelocity,
+CTank::CTank(const double dMaxVelocity,
 	const glm::vec2& position,
 	const glm::vec2& size, const float fLayer)
 	: IGameObject(position, size, 0.f, fLayer)
@@ -20,9 +20,7 @@ CTank::CTank(const double fVelocity,
 	, m_spriteAnimator_respawn(m_pSprite_respawn)
 	, m_pSprite_shield(CResourceManager::getSprite("shield"))
 	, m_spriteAnimator_shield(m_pSprite_shield)
-	, m_bMove(false)
-	, m_fVelocity(fVelocity)
-	, m_moveOffset(glm::vec2(0.f, 1.f))
+	, m_dMaxVelocity(dMaxVelocity)
 	, m_bIsSpawning(true)
 	, m_bHasShield(false)
 {
@@ -71,7 +69,7 @@ void CTank::render() const
 
 		if (m_bHasShield)
 		{
-			m_pSprite_shield->render(m_position, m_size, m_fRotation, m_fLayer, m_spriteAnimator_shield.getCurrentFrame());
+			m_pSprite_shield->render(m_position, m_size, m_fRotation, m_fLayer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
 		}
 
 	}
@@ -89,29 +87,32 @@ void CTank::setOrientaion(const EOrientation eOrientation)
 	switch (m_eOrientation)
 	{
 	case CTank::EOrientation::Top:
-		m_moveOffset.x = 0.f;
-		m_moveOffset.y = 1.f;
+		m_direction.x = 0.f;
+		m_direction.y = 1.f;
 		break;
 	case CTank::EOrientation::Bottom:
-		m_moveOffset.x = 0.f;
-		m_moveOffset.y = -1.f;
+		m_direction.x = 0.f;
+		m_direction.y = -1.f;
 		break;
 	case CTank::EOrientation::Left:
-		m_moveOffset.x = -1.f;
-		m_moveOffset.y = 0.f;
+		m_direction.x = -1.f;
+		m_direction.y = 0.f;
 		break;
 	case CTank::EOrientation::Right:
-		m_moveOffset.x = 1.f;
-		m_moveOffset.y = 0.f;
+		m_direction.x = 1.f;
+		m_direction.y = 0.f;
 		break;
 	default:
 		break;
 	}
 }
 
-void CTank::move(const bool bMove)
+void CTank::setVelocity(const double dVelocity)
 {
-	m_bMove = bMove;
+	if (!m_bIsSpawning)
+	{
+		m_dVelocity = dVelocity;
+	}
 }
 
 void CTank::update(const double delta)
@@ -129,11 +130,8 @@ void CTank::update(const double delta)
 			m_shieldTimer.update(delta);
 		}
 
-		if (m_bMove)
+		if (m_dVelocity > 0)
 		{
-			m_position.x += static_cast<float>(delta * m_fVelocity * m_moveOffset.x);
-			m_position.y += static_cast<float>(delta * m_fVelocity * m_moveOffset.y);
-
 			switch (m_eOrientation)
 			{
 			case CTank::EOrientation::Top:
@@ -153,3 +151,5 @@ void CTank::update(const double delta)
 		}
 	}
 }
+
+

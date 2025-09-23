@@ -6,7 +6,7 @@
 
 #include "GameObjects/Tank.h"
 #include "Level.h"
-
+#include "../Physics/PhysicsEngine.h"
 
 #include <GLFW/glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -52,26 +52,26 @@ void CGame::update(const double delta)
         if (m_keys[GLFW_KEY_W])
         {
             m_pTank->setOrientaion(CTank::EOrientation::Top);
-            m_pTank->move(true);
+            m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else if (m_keys[GLFW_KEY_A])
         {
             m_pTank->setOrientaion(CTank::EOrientation::Left);
-            m_pTank->move(true);
+            m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else if (m_keys[GLFW_KEY_D])
         {
             m_pTank->setOrientaion(CTank::EOrientation::Right);
-            m_pTank->move(true);
+            m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else if (m_keys[GLFW_KEY_S])
         {
             m_pTank->setOrientaion(CTank::EOrientation::Bottom);
-            m_pTank->move(true);
+            m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else
         {
-            m_pTank->move(false);
+            m_pTank->setVelocity(0);
         }
         m_pTank->update(delta);
     }
@@ -93,7 +93,7 @@ bool CGame::init()
         return false;
     }
 
-    m_pLevel = std::make_unique<CLevel>(CResourceManager::getLevels()[1]);
+    m_pLevel = std::make_shared<CLevel>(CResourceManager::getLevels()[1]);
     m_windowSize.x = static_cast<int>(m_pLevel->getLevelWidth());
     m_windowSize.y = static_cast<int>(m_pLevel->getLevelHeight());
 
@@ -103,7 +103,8 @@ bool CGame::init()
     pSpriteShaderProgram->setInt("tex", 0);
     pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 
-    m_pTank = std::make_unique<CTank>(0.05, m_pLevel->getPlayerRespawn_1(), glm::vec2(CLevel::BLOCK_SIZE,CLevel::BLOCK_SIZE), 0.f);
+    m_pTank = std::make_shared<CTank>(0.05, m_pLevel->getPlayerRespawn_1(), glm::vec2(CLevel::BLOCK_SIZE,CLevel::BLOCK_SIZE), 0.f);
+    CPhysicsEngine::addDynamicGameObject(m_pTank);
     return true;
 }
 

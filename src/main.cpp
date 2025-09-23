@@ -5,16 +5,13 @@
 #include <vector>
 #include <string>
 
-
 #include "Game/Game.h"
 #include "Resources/ResourceManager.h"
 #include "Renderer/Renderer.h"
+#include "Physics/PhysicsEngine.h"
 
 glm::ivec2 g_windowSize(13 * 16, 14 * 16);
 std::unique_ptr<CGame> g_game = std::make_unique<CGame>(g_windowSize);
-
-
-
 
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
@@ -23,7 +20,6 @@ void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
     g_windowSize.y = height;
 
     const float fMapAspectRatio = static_cast<float>(g_game->getCurrentLevelWidth() / g_game->getCurrentLevelHeight());
-
 
     unsigned int iViewPortWidth = g_windowSize.x;
     unsigned int iViewPortHeight = g_windowSize.y;
@@ -98,7 +94,7 @@ int main(int argc, char** argv)
 
     {
         CResourceManager::setExecutablePath(argv[0]);
-
+        CPhysicsEngine::init();
         g_game->init();
         glfwSetWindowSize(pWindow, static_cast<int>(3 * g_game->getCurrentLevelWidth()), static_cast<int>(3 * g_game->getCurrentLevelHeight()));
 
@@ -112,7 +108,9 @@ int main(int argc, char** argv)
             auto currentTime = std::chrono::high_resolution_clock::now();
             double  duration = std::chrono::duration<double, std::milli>(currentTime - lastTime).count();
             lastTime = currentTime;
+           
             g_game->update(duration);
+            CPhysicsEngine::update(duration);
 
             /* Render here */
             RenderEngine::CRenderer::clear();
