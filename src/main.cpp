@@ -94,7 +94,7 @@ int main(int argc, char** argv)
 
     {
         CResourceManager::setExecutablePath(argv[0]);
-        CPhysicsEngine::init();
+        Physics::CPhysicsEngine::init();
         g_game->init();
         glfwSetWindowSize(pWindow, static_cast<int>(3 * g_game->getCurrentLevelWidth()), static_cast<int>(3 * g_game->getCurrentLevelHeight()));
 
@@ -110,7 +110,7 @@ int main(int argc, char** argv)
             lastTime = currentTime;
            
             g_game->update(duration);
-            CPhysicsEngine::update(duration);
+            Physics::CPhysicsEngine::update(duration);
 
             /* Render here */
             RenderEngine::CRenderer::clear();

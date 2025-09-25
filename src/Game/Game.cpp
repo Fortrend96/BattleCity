@@ -96,6 +96,7 @@ bool CGame::init()
     m_pLevel = std::make_shared<CLevel>(CResourceManager::getLevels()[1]);
     m_windowSize.x = static_cast<int>(m_pLevel->getLevelWidth());
     m_windowSize.y = static_cast<int>(m_pLevel->getLevelHeight());
+    Physics::CPhysicsEngine::setCurrentLevel(m_pLevel);
 
     glm::mat4 projectionMatrix = glm::ortho(0.f, static_cast<float>(m_windowSize.x), 0.f, static_cast<float>(m_windowSize.y), -100.f, 100.f);
 
@@ -104,7 +105,7 @@ bool CGame::init()
     pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 
     m_pTank = std::make_shared<CTank>(0.05, m_pLevel->getPlayerRespawn_1(), glm::vec2(CLevel::BLOCK_SIZE,CLevel::BLOCK_SIZE), 0.f);
-    CPhysicsEngine::addDynamicGameObject(m_pTank);
+    Physics::CPhysicsEngine::addDynamicGameObject(m_pTank);
     return true;
 }
 

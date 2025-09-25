@@ -41,6 +41,8 @@ CTank::CTank(const double dMaxVelocity,
 			m_bHasShield = false;
 		}
 	);
+
+	m_colliders.emplace_back(glm::vec2(0), m_size);
 }
 
 void CTank::render() const

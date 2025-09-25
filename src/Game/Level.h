@@ -20,34 +20,20 @@ public:
 	size_t getLevelWidth() const;
 	size_t getLevelHeight() const;
 
-	const glm::ivec2& getPlayerRespawn_1() const {
-		return m_playerRespawn_1
-			;
-	}
+	const glm::ivec2& getPlayerRespawn_1() const {	return m_playerRespawn_1;	}
+	const glm::ivec2& getPlayerRespawn_2() const {	return m_playerRespawn_2;	}
+	const glm::ivec2& getEnemyRespawn_1() const  {	return m_enemyRespawn_1;	}
+	const glm::ivec2& getEnemyRespawn_2() const  {	return m_enemyRespawn_2;	}
+	const glm::ivec2& getEnemyRespawn_3() const  {	return m_enemyRespawn_3;	}
 
-	const glm::ivec2& getPlayerRespawn_2() const {
-		return m_playerRespawn_2
-			;
-	}
-
-	const glm::ivec2& getEnemyRespawn_1() const {
-		return m_enemyRespawn_1
-			;
-	}
-
-	const glm::ivec2& getEnemyRespawn_2() const {
-		return m_enemyRespawn_2
-			;
-	}
-
-	const glm::ivec2& getEnemyRespawn_3() const {
-		return m_enemyRespawn_3
-			;
-	}
+	std::vector<std::shared_ptr<IGameObject>> getObjectsInArea(const glm::vec2& bottomLeft, const glm::vec2& topRight);
 
 private:
-	size_t m_iWidth;
-	size_t m_iHeight;
+	size_t m_iWidthBlocks = 0;
+	size_t m_iHeightBlocks = 0;
+
+	unsigned int m_iWidthPixels = 0;
+	unsigned int m_iHeightPixels = 0;
 
 	glm::ivec2 m_playerRespawn_1;
 	glm::ivec2 m_playerRespawn_2;

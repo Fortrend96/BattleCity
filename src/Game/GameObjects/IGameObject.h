@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/vec2.hpp>
+#include "../../Physics/PhysicsEngine.h"
 
 class IGameObject 
 {
@@ -8,13 +9,13 @@ public:
 	virtual void render() const = 0;
 	virtual void update(const double delta) {}
 	virtual ~IGameObject();
-
 	virtual glm::vec2& getCurrentPosition() {return m_position;}
 	virtual glm::vec2& getCurrentDirection() {return m_direction;}
 	virtual double getCurrentVelocity() {return m_dVelocity;}
-
 	virtual void setVelocity(const double dVelocity);
 
+	const glm::vec2& getSize() const { return m_size; }
+	const std::vector<Physics::CAxisAlignedBoundingBox>& getColliders() const { return m_colliders; }
 
 protected:
 	glm::vec2 m_position;
@@ -24,4 +25,5 @@ protected:
 
 	glm::vec2 m_direction;
 	double m_dVelocity;
+	std::vector<Physics::CAxisAlignedBoundingBox> m_colliders;
 };
