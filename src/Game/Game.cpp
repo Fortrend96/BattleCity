@@ -93,7 +93,7 @@ bool CGame::init()
         return false;
     }
 
-    m_pLevel = std::make_shared<CLevel>(CResourceManager::getLevels()[1]);
+    m_pLevel = std::make_shared<CLevel>(CResourceManager::getLevels()[0]);
     m_windowSize.x = static_cast<int>(m_pLevel->getLevelWidth());
     m_windowSize.y = static_cast<int>(m_pLevel->getLevelHeight());
     Physics::CPhysicsEngine::setCurrentLevel(m_pLevel);
