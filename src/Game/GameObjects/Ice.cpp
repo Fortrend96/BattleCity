@@ -4,7 +4,7 @@
 #include "../../Renderer/Sprite.h"
 
 CIce::CIce(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer)
-    : IGameObject(position, size, rotation, fLayer)
+    : IGameObject(IGameObject::EObjectType::Ice, position, size, rotation, fLayer)
     , m_sprite(CResourceManager::getSprite("ice"))
     , m_blockOffsets { glm::vec2(0, m_size.y / 2.f),
                        glm::vec2(m_size.x / 2.f, m_size.y / 2.f),

@@ -6,7 +6,7 @@ CBetonWall::CBetonWall(const EBetonWallType eBetonWallType,
 						const glm::vec2& position, 
 						const glm::vec2& size, 
 						const float fRotation, const float fLayer)
-						: IGameObject(position, size, fRotation, fLayer)
+						: IGameObject(IGameObject::EObjectType::BetonWall, position, size, fRotation, fLayer)
 						, m_eCurrentBlockState{ EBlockState::Destroyed,
 												EBlockState::Destroyed, 
 												EBlockState::Destroyed, 

@@ -4,7 +4,7 @@
 #include "../../Renderer/Sprite.h"
 
 CEagle::CEagle(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer)
-    : IGameObject(position, size, rotation, fLayer)
+    : IGameObject(IGameObject::EObjectType::Eagle, position, size, rotation, fLayer)
     , m_sprite{ CResourceManager::getSprite("eagle"),
                 CResourceManager::getSprite("eagle_dead") }
     , m_eCurrentState(EEagleState::Alive)

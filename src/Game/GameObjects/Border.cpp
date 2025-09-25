@@ -4,7 +4,7 @@
 #include "../../Renderer/Sprite.h"
 
 CBorder::CBorder(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer)
-    : IGameObject(position, size, rotation, fLayer)
+    : IGameObject(IGameObject::EObjectType::Border, position, size, rotation, fLayer)
     , m_sprite(CResourceManager::getSprite("border"))
 {
     m_colliders.emplace_back(glm::vec2(0), m_size);

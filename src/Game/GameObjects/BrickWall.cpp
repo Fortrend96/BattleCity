@@ -6,7 +6,7 @@ CBrickWall::CBrickWall(const EBrickWallType eBrickWallType,
 						const glm::vec2& position, 
 						const glm::vec2& size, 
 						const float fRotation, const float fLayer)
-						: IGameObject(position, size, fRotation, fLayer)
+						: IGameObject(IGameObject::EObjectType::BrickWall, position, size, fRotation, fLayer)
 						, m_eCurrentBrickState{EBrickState::Destroyed,
 												EBrickState::Destroyed, 
 												EBrickState::Destroyed, 
