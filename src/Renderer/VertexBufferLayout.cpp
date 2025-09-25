@@ -17,7 +17,7 @@ namespace RenderEngine
 													const bool bNormalized)
 	{
 		
-		m_layoutElements.push_back({ static_cast<GLint>(iCount), GL_FLOAT, bNormalized,  static_cast<unsigned int>(iCount * sizeof(GLfloat)) });
+		m_layoutElements.push_back({ static_cast<GLint>(iCount), GL_FLOAT, bNormalized, iCount * static_cast<unsigned int>(sizeof(GLfloat)) });
 		m_iStride += m_layoutElements.back().iSize;
 	}
 }

@@ -2,12 +2,15 @@
 
 #include "../../Resources/ResourceManager.h"
 #include "../../Renderer/Sprite.h"
+#include "Bullet.h"
+#include "../../Physics/PhysicsEngine.h"
 
 CTank::CTank(const double dMaxVelocity,
 	const glm::vec2& position,
 	const glm::vec2& size, const float fLayer)
 	: IGameObject(position, size, 0.f, fLayer)
 	, m_eOrientation(EOrientation::Top)
+	, m_pCurrentBullet(std::make_shared<CBullet>(0.1, m_position + m_size / 4.f, m_size / 2.f, fLayer))
 	, m_pSprite_top(CResourceManager::getSprite("tankSprite_top"))
 	, m_pSprite_bottom(CResourceManager::getSprite("tankSprite_bottom"))
 	, m_pSprite_left(CResourceManager::getSprite("tankSprite_left"))
@@ -74,6 +77,11 @@ void CTank::render() const
 			m_pSprite_shield->render(m_position, m_size, m_fRotation, m_fLayer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
 		}
 
+		if (m_pCurrentBullet->isActive())
+		{
+			m_pCurrentBullet->render();
+		}
+
 	}
 }
 
@@ -103,8 +111,6 @@ void CTank::setOrientaion(const EOrientation eOrientation)
 	case CTank::EOrientation::Right:
 		m_direction.x = 1.f;
 		m_direction.y = 0.f;
-		break;
-	default:
 		break;
 	}
 }
@@ -151,6 +157,15 @@ void CTank::update(const double delta)
 			}
 
 		}
+	}
+}
+
+void CTank::fire()
+{
+	//if (!m_pCurrentBullet->isActive())
+	{
+		m_pCurrentBullet->fire(m_position + m_size / 4.f, m_direction);
+		Physics::CPhysicsEngine::addDynamicGameObject(m_pCurrentBullet);
 	}
 }
 

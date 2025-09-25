@@ -5,6 +5,7 @@
 #include "../Renderer/Sprite.h"
 
 #include "GameObjects/Tank.h"
+#include "GameObjects/Bullet.h"
 #include "Level.h"
 #include "../Physics/PhysicsEngine.h"
 
@@ -73,6 +74,12 @@ void CGame::update(const double delta)
         {
             m_pTank->setVelocity(0);
         }
+
+        if (m_pTank && m_keys[GLFW_KEY_SPACE])
+        {
+            m_pTank->fire();
+        }
+
         m_pTank->update(delta);
     }
 }

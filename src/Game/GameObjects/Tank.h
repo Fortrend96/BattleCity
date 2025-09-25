@@ -11,6 +11,8 @@ namespace RenderEngine
 	class CSprite;
 }
 
+class CBullet;
+
 class CTank : public IGameObject
 {
 public:
@@ -34,8 +36,12 @@ public:
 
 	void setVelocity(const double dVelocity) override;
 
+	void fire();
+
 private:
 	EOrientation m_eOrientation;
+
+	std::shared_ptr<CBullet> m_pCurrentBullet;
 
 	std::shared_ptr<RenderEngine::CSprite> m_pSprite_top;
 	std::shared_ptr<RenderEngine::CSprite> m_pSprite_bottom;
