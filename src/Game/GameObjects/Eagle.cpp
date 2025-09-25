@@ -9,6 +9,7 @@ CEagle::CEagle(const glm::vec2& position, const glm::vec2& size, const float rot
                 CResourceManager::getSprite("eagle_dead") }
     , m_eCurrentState(EEagleState::Alive)
 {
+    m_colliders.emplace_back(glm::vec2(0), m_size);
 }
 
 void CEagle::render() const
