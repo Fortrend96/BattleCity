@@ -40,12 +40,12 @@ namespace RenderEngine
 		glViewport(iLeftOffset, iBottomOffset, iWidth, iHeight);
 	}
 
-	std::string Renderer::getRendererString()
+	std::string Renderer::getRendererStr()
 	{
 		return (char*)glGetString(GL_RENDERER);
 	}
 
-	std::string Renderer::getVersionString()
+	std::string Renderer::getVersionStr()
 	{
 		return (char*)glGetString(GL_VERSION);
 	}

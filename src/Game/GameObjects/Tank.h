@@ -28,7 +28,7 @@ public:
 		const glm::vec2& size, const float fLayer);
 
 	void render() const override;
-	void setOrientaion(const EOrientation eOrientation);
+	void setOrientation(const EOrientation eOrientation);
 
 	void update(const double delta) override;
 

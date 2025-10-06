@@ -1,9 +1,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/vec2.hpp>
+
 #include <iostream>
 #include <chrono>
-#include <vector>
-#include <string>
 
 #include "Game/Game.h"
 #include "Resources/ResourceManager.h"
@@ -19,27 +19,24 @@ void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
     g_windowSize.x = width;
     g_windowSize.y = height;
 
-    const float fMapAspectRatio = static_cast<float>(g_game->getCurrentLevelWidth() / g_game->getCurrentLevelHeight());
+    const float level_aspect_ratio = static_cast<float>(g_game->getCurrentWidth()) / g_game->getCurrentHeight();
+    unsigned int viewPortWidth = g_windowSize.x;
+    unsigned int viewPortHeight = g_windowSize.y;
+    unsigned int viewPortLeftOffset = 0;
+    unsigned int viewPortBottomOffset = 0;
 
-    unsigned int iViewPortWidth = g_windowSize.x;
-    unsigned int iViewPortHeight = g_windowSize.y;
-
-    unsigned int iViewPortLeftOffset = 0;
-    unsigned int iViewPortBottomOffset = 0;
-
-    if (static_cast<float>(g_windowSize.x) / g_windowSize.y > fMapAspectRatio)
+    if (static_cast<float>(g_windowSize.x) / g_windowSize.y > level_aspect_ratio)
     {
-        iViewPortWidth = static_cast<unsigned int>(g_windowSize.y * fMapAspectRatio);
-        iViewPortLeftOffset = (g_windowSize.x - iViewPortWidth) / 2;
+        viewPortWidth = static_cast<unsigned int>(g_windowSize.y * level_aspect_ratio);
+        viewPortLeftOffset = (g_windowSize.x - viewPortWidth) / 2;
     }
     else
     {
-        iViewPortHeight = static_cast<unsigned int>(g_windowSize.x / fMapAspectRatio);
-        iViewPortBottomOffset = (g_windowSize.y - iViewPortHeight) / 2;
+        viewPortHeight = static_cast<unsigned int>(g_windowSize.x / level_aspect_ratio);
+        viewPortBottomOffset = (g_windowSize.y - viewPortHeight) / 2;
     }
 
-    RenderEngine::Renderer::setViewport(iViewPortWidth, iViewPortHeight, 
-        iViewPortLeftOffset, iViewPortBottomOffset);
+    RenderEngine::Renderer::setViewport(viewPortWidth, viewPortHeight, viewPortLeftOffset, viewPortBottomOffset);
 }
 
 void glfwKeyCallback(GLFWwindow* pWindow, int key, int scancode, int action, int mode)
@@ -59,12 +56,12 @@ int main(int argc, char** argv)
         std::cout << "glfwInit failed!" << std::endl;
         return -1;
     }
-    // устанавливаем версию OpenGL
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // Создаем окно OpenGL
+    /* Create a windowed mode window and its OpenGL context */
     GLFWwindow* pWindow = glfwCreateWindow(g_windowSize.x, g_windowSize.y, "Battle City", nullptr, nullptr);
     if (!pWindow)
     {
@@ -73,21 +70,19 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    // регистрация коллбэков
     glfwSetWindowSizeCallback(pWindow, glfwWindowSizeCallback);
     glfwSetKeyCallback(pWindow, glfwKeyCallback);
 
-    // Делаем контекст окна OpenGL текущим
+    /* Make the window's context current */
     glfwMakeContextCurrent(pWindow);
 
     if (!gladLoadGL())
     {
         std::cout << "Can't load GLAD!" << std::endl;
-        return -1;
     }
 
-    std::cout << "Renderer: " << RenderEngine::Renderer::getRendererString() << std::endl;
-    std::cout << "OpenGL version: " << RenderEngine::Renderer::getVersionString() << std::endl;
+    std::cout << "Renderer: " << RenderEngine::Renderer::getRendererStr() << std::endl;
+    std::cout << "OpenGL version: " << RenderEngine::Renderer::getVersionStr() << std::endl;
 
     RenderEngine::Renderer::setClearColor(0, 0, 0, 1);
     RenderEngine::Renderer::setDepthTest(true);
@@ -96,19 +91,19 @@ int main(int argc, char** argv)
         ResourceManager::setExecutablePath(argv[0]);
         Physics::PhysicsEngine::init();
         g_game->init();
-        glfwSetWindowSize(pWindow, static_cast<int>(3 * g_game->getCurrentLevelWidth()), static_cast<int>(3 * g_game->getCurrentLevelHeight()));
 
-        auto lastTime = std::chrono::high_resolution_clock::now();        
+        glfwSetWindowSize(pWindow, static_cast<int>(3 * g_game->getCurrentWidth()), static_cast<int>(3 * g_game->getCurrentHeight()));
+        auto lastTime = std::chrono::high_resolution_clock::now();
 
         /* Loop until the user closes the window */
         while (!glfwWindowShouldClose(pWindow))
-        {    
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        {
+            /* Poll for and process events */
+            glfwPollEvents();
 
             auto currentTime = std::chrono::high_resolution_clock::now();
-            double  duration = std::chrono::duration<double, std::milli>(currentTime - lastTime).count();
+            double duration = std::chrono::duration<double, std::milli>(currentTime - lastTime).count();
             lastTime = currentTime;
-           
             g_game->update(duration);
             Physics::PhysicsEngine::update(duration);
 
@@ -116,12 +111,11 @@ int main(int argc, char** argv)
             RenderEngine::Renderer::clear();
 
             g_game->render();
+
             /* Swap front and back buffers */
             glfwSwapBuffers(pWindow);
-
-            /* Poll for and process events */
-            glfwPollEvents();
         }
+        Physics::PhysicsEngine::terminate();
         g_game = nullptr;
         ResourceManager::unloadAllResources();
     }

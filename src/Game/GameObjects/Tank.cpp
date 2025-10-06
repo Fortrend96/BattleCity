@@ -87,7 +87,7 @@ void Tank::render() const
 	}
 }
 
-void Tank::setOrientaion(const EOrientation eOrientation)
+void Tank::setOrientation(const EOrientation eOrientation)
 {
 	if (m_eOrientation == eOrientation)
 	{

@@ -21,8 +21,8 @@ namespace RenderEngine
 		static void setViewport(unsigned int iWidth, unsigned int iHeight, 
 								unsigned int iLeftOffset = 0, unsigned int iBottomOffset = 0);
 
-		static std::string getRendererString();
-		static std::string getVersionString();
+		static std::string getRendererStr();
+		static std::string getVersionStr();
 
 	};
 }
