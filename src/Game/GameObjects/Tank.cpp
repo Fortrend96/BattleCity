@@ -10,7 +10,7 @@ CTank::CTank(const double dMaxVelocity,
 	const glm::vec2& size, const float fLayer)
 	: IGameObject(IGameObject::EObjectType::Tank, position, size, 0.f, fLayer)
 	, m_eOrientation(EOrientation::Top)
-	, m_pCurrentBullet(std::make_shared<CBullet>(0.1, m_position + m_size / 4.f, m_size / 2.f, fLayer))
+	, m_pCurrentBullet(std::make_shared<CBullet>(0.1, m_position + m_size / 4.f, m_size / 2.f, m_size, fLayer))
 	, m_pSprite_top(CResourceManager::getSprite("tankSprite_top"))
 	, m_pSprite_bottom(CResourceManager::getSprite("tankSprite_bottom"))
 	, m_pSprite_left(CResourceManager::getSprite("tankSprite_left"))
@@ -127,6 +127,11 @@ void CTank::setVelocity(const double dVelocity)
 
 void CTank::update(const double delta)
 {
+	if (m_pCurrentBullet->isActive())
+	{
+		m_pCurrentBullet->update(delta);
+	}
+
 	if (m_bIsSpawning)
 	{
 		m_spriteAnimator_respawn.update(delta);
@@ -164,7 +169,7 @@ void CTank::update(const double delta)
 
 void CTank::fire()
 {
-	if (!m_pCurrentBullet->isActive())
+	if (!m_bIsSpawning && !m_pCurrentBullet->isActive())
 	{
 		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
 	}
