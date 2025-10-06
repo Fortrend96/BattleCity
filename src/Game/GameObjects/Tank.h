@@ -13,6 +13,7 @@ namespace RenderEngine {
 }
 
 class Bullet;
+class AIComponent;
 
 class Tank : public IGameObject {
 public:
@@ -45,7 +46,32 @@ public:
         EnemyRed_type4
     };
 
-    static const std::array<std::string, 20> TankTypeToSpriteString;
+    inline static std::string TankTypeToSpriteString[] = {
+        "player1_yellow_tank_type1_sprite",
+        "player1_yellow_tank_type2_sprite",
+        "player1_yellow_tank_type3_sprite",
+        "player1_yellow_tank_type4_sprite",
+
+        "player2_green_tank_type1_sprite",
+        "player2_green_tank_type2_sprite",
+        "player2_green_tank_type3_sprite",
+        "player2_green_tank_type4_sprite",
+
+        "enemy_white_tank_type1_sprite",
+        "enemy_white_tank_type2_sprite",
+        "enemy_white_tank_type3_sprite",
+        "enemy_white_tank_type4_sprite",
+
+        "enemy_green_tank_type1_sprite",
+        "enemy_green_tank_type2_sprite",
+        "enemy_green_tank_type3_sprite",
+        "enemy_green_tank_type4_sprite",
+
+        "enemy_red_tank_type1_sprite",
+        "enemy_red_tank_type2_sprite",
+        "enemy_red_tank_type3_sprite",
+        "enemy_red_tank_type4_sprite"
+    };
 
     enum class EOrientation : uint8_t {
         Top,
@@ -55,6 +81,9 @@ public:
     };
 
     Tank(const Tank::ETankType eType,
+        const bool bHasAI,
+        const bool bShieldOnSpawn,
+        const EOrientation eOrientation,
         const double maxVelocity,
         const glm::vec2& position,
         const glm::vec2& size,
@@ -91,6 +120,9 @@ private:
     double m_maxVelocity;
     bool m_isSpawning;
     bool m_hasShield;
+    bool m_bShieldOnSpawn;
+
+    std::unique_ptr<AIComponent> m_pAIComponent;
 
     static const std::string& getTankSpriteFromType(const ETankType eType);
 };
