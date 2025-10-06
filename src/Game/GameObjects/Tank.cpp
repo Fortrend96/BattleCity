@@ -5,174 +5,202 @@
 #include "Bullet.h"
 #include "../../Physics/PhysicsEngine.h"
 
-Tank::Tank(const double dMaxVelocity,
-	const glm::vec2& position,
-	const glm::vec2& size, const float fLayer)
-	: IGameObject(IGameObject::EObjectType::Tank, position, size, 0.f, fLayer)
-	, m_eOrientation(EOrientation::Top)
-	, m_pCurrentBullet(std::make_shared<Bullet>(0.1, m_position + m_size / 4.f, m_size / 2.f, m_size, fLayer))
-	, m_pSprite_top(ResourceManager::getSprite("tankSprite_top"))
-	, m_pSprite_bottom(ResourceManager::getSprite("tankSprite_bottom"))
-	, m_pSprite_left(ResourceManager::getSprite("tankSprite_left"))
-	, m_pSprite_right(ResourceManager::getSprite("tankSprite_right"))
-	, m_spriteAnimator_top(m_pSprite_top)
-	, m_spriteAnimator_bottom(m_pSprite_bottom)
-	, m_spriteAnimator_left(m_pSprite_left)
-	, m_spriteAnimator_right(m_pSprite_right)
-	, m_pSprite_respawn(ResourceManager::getSprite("respawn"))
-	, m_spriteAnimator_respawn(m_pSprite_respawn)
-	, m_pSprite_shield(ResourceManager::getSprite("shield"))
-	, m_spriteAnimator_shield(m_pSprite_shield)
-	, m_dMaxVelocity(dMaxVelocity)
-	, m_bIsSpawning(true)
-	, m_bHasShield(false)
+
+const std::array<std::string, 20> Tank::TankTypeToSpriteString =
+{ {
+    "player1_yellow_tank_type1_sprite",
+    "player1_yellow_tank_type2_sprite",
+    "player1_yellow_tank_type3_sprite",
+    "player1_yellow_tank_type4_sprite",
+
+    "player2_green_tank_type1_sprite",
+    "player2_green_tank_type2_sprite",
+    "player2_green_tank_type3_sprite",
+    "player2_green_tank_type4_sprite",
+
+    "enemy_white_tank_type1_sprite",
+    "enemy_white_tank_type2_sprite",
+    "enemy_white_tank_type3_sprite",
+    "enemy_white_tank_type4_sprite",
+
+    "enemy_green_tank_type1_sprite",
+    "enemy_green_tank_type2_sprite",
+    "enemy_green_tank_type3_sprite",
+    "enemy_green_tank_type4_sprite",
+
+    "enemy_red_tank_type1_sprite",
+    "enemy_red_tank_type2_sprite",
+    "enemy_red_tank_type3_sprite",
+    "enemy_red_tank_type4_sprite"
+}};
+
+const std::string& Tank::getTankSpriteFromType(const ETankType eType)
 {
-	m_respawnTimer.setCallback(
-		[&]()
-		{
-			m_bIsSpawning = false;
-			m_bHasShield = true;
-			m_shieldTimer.start(2000);
-		}
-	);
+    return TankTypeToSpriteString[static_cast<size_t>(eType)];
+}
 
-	m_respawnTimer.start(1500);
+Tank::Tank(const Tank::ETankType eType,
+    const double maxVelocity,
+    const glm::vec2& position,
+    const glm::vec2& size,
+    const float layer)
+    : IGameObject(IGameObject::EObjectType::Tank, position, size, 0.f, layer)
+    , m_eOrientation(EOrientation::Top)
+    , m_pCurrentBullet(std::make_shared<Bullet>(0.1, m_position + m_size / 4.f, m_size / 2.f, m_size, layer))
+    , m_pSprite_top(ResourceManager::getSprite(getTankSpriteFromType(eType) + "_top"))
+    , m_pSprite_bottom(ResourceManager::getSprite(getTankSpriteFromType(eType) + "_bottom"))
+    , m_pSprite_left(ResourceManager::getSprite(getTankSpriteFromType(eType) + "_left"))
+    , m_pSprite_right(ResourceManager::getSprite(getTankSpriteFromType(eType) + "_right"))
+    , m_spriteAnimator_top(m_pSprite_top)
+    , m_spriteAnimator_bottom(m_pSprite_bottom)
+    , m_spriteAnimator_left(m_pSprite_left)
+    , m_spriteAnimator_right(m_pSprite_right)
+    , m_pSprite_respawn(ResourceManager::getSprite("respawn"))
+    , m_spriteAnimator_respawn(m_pSprite_respawn)
+    , m_pSprite_shield(ResourceManager::getSprite("shield"))
+    , m_spriteAnimator_shield(m_pSprite_shield)
+    , m_maxVelocity(maxVelocity)
+    , m_isSpawning(true)
+    , m_hasShield(false)
+{
+    m_respawnTimer.setCallback([&]()
+        {
+            m_isSpawning = false;
+            m_hasShield = true;
+            m_shieldTimer.start(2000);
+        }
+    );
+    m_respawnTimer.start(1500);
 
-	m_shieldTimer.setCallback(
-		[&]()
-		{
-			m_bHasShield = false;
-		}
-	);
+    m_shieldTimer.setCallback([&]()
+        {
+            m_hasShield = false;
+        }
+    );
 
-	m_colliders.emplace_back(glm::vec2(0), m_size);
+    m_colliders.emplace_back(glm::vec2(0), m_size);
 
-	Physics::PhysicsEngine::addDynamicGameObject(m_pCurrentBullet);
+    Physics::PhysicsEngine::addDynamicGameObject(m_pCurrentBullet);
+}
+
+void Tank::setVelocity(const double velocity)
+{
+    if (!m_isSpawning)
+    {
+        m_velocity = velocity;
+    }
 }
 
 void Tank::render() const
 {
-	if (m_bIsSpawning)
-	{
-		m_pSprite_respawn->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_respawn.getCurrentFrame());
-	}
-	else
-	{
-		switch (m_eOrientation)
-		{
-		case Tank::EOrientation::Top:
-			m_pSprite_top->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_top.getCurrentFrame());
-			break;
-		case Tank::EOrientation::Bottom:
-			m_pSprite_bottom->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_bottom.getCurrentFrame());
-			break;
-		case Tank::EOrientation::Left:
-			m_pSprite_left->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_left.getCurrentFrame());
-			break;
-		case Tank::EOrientation::Right:
-			m_pSprite_right->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_right.getCurrentFrame());
-			break;
-		}
+    if (m_isSpawning)
+    {
+        m_pSprite_respawn->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_respawn.getCurrentFrame());
+    }
+    else
+    {
+        switch (m_eOrientation)
+        {
+        case Tank::EOrientation::Top:
+            m_pSprite_top->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_top.getCurrentFrame());
+            break;
+        case Tank::EOrientation::Bottom:
+            m_pSprite_bottom->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_bottom.getCurrentFrame());
+            break;
+        case Tank::EOrientation::Left:
+            m_pSprite_left->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_left.getCurrentFrame());
+            break;
+        case Tank::EOrientation::Right:
+            m_pSprite_right->render(m_position, m_size, m_rotation, m_layer, m_spriteAnimator_right.getCurrentFrame());
+            break;
+        }
 
-		if (m_bHasShield)
-		{
-			m_pSprite_shield->render(m_position, m_size, m_rotation, m_layer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
-		}
+        if (m_hasShield)
+        {
+            m_pSprite_shield->render(m_position, m_size, m_rotation, m_layer + 0.1f, m_spriteAnimator_shield.getCurrentFrame());
+        }
+    }
 
-		if (m_pCurrentBullet->isActive())
-		{
-			m_pCurrentBullet->render();
-		}
-
-	}
+    if (m_pCurrentBullet->isActive())
+    {
+        m_pCurrentBullet->render();
+    }
 }
 
 void Tank::setOrientation(const EOrientation eOrientation)
 {
-	if (m_eOrientation == eOrientation)
-	{
-		return;
-	}
+    if (m_eOrientation == eOrientation)
+    {
+        return;
+    }
 
-	m_eOrientation = eOrientation;
-
-	switch (m_eOrientation)
-	{
-	case Tank::EOrientation::Top:
-		m_direction.x = 0.f;
-		m_direction.y = 1.f;
-		break;
-	case Tank::EOrientation::Bottom:
-		m_direction.x = 0.f;
-		m_direction.y = -1.f;
-		break;
-	case Tank::EOrientation::Left:
-		m_direction.x = -1.f;
-		m_direction.y = 0.f;
-		break;
-	case Tank::EOrientation::Right:
-		m_direction.x = 1.f;
-		m_direction.y = 0.f;
-		break;
-	}
-}
-
-void Tank::setVelocity(const double dVelocity)
-{
-	if (!m_bIsSpawning)
-	{
-		m_velocity = dVelocity;
-	}
+    m_eOrientation = eOrientation;
+    switch (m_eOrientation)
+    {
+    case Tank::EOrientation::Top:
+        m_direction.x = 0.f;
+        m_direction.y = 1.f;
+        break;
+    case Tank::EOrientation::Bottom:
+        m_direction.x = 0.f;
+        m_direction.y = -1.f;
+        break;
+    case Tank::EOrientation::Left:
+        m_direction.x = -1.f;
+        m_direction.y = 0.f;
+        break;
+    case Tank::EOrientation::Right:
+        m_direction.x = 1.f;
+        m_direction.y = 0.f;
+        break;
+    }
 }
 
 void Tank::update(const double delta)
 {
-	if (m_pCurrentBullet->isActive())
-	{
-		m_pCurrentBullet->update(delta);
-	}
+    if (m_pCurrentBullet->isActive())
+    {
+        m_pCurrentBullet->update(delta);
+    }
 
-	if (m_bIsSpawning)
-	{
-		m_spriteAnimator_respawn.update(delta);
-		m_respawnTimer.update(delta);
-	}
-	else
-	{
-		if (m_bHasShield)
-		{
-			m_spriteAnimator_shield.update(delta);
-			m_shieldTimer.update(delta);
-		}
+    if (m_isSpawning)
+    {
+        m_spriteAnimator_respawn.update(delta);
+        m_respawnTimer.update(delta);
+    }
+    else
+    {
+        if (m_hasShield)
+        {
+            m_spriteAnimator_shield.update(delta);
+            m_shieldTimer.update(delta);
+        }
 
-		if (m_velocity > 0)
-		{
-			switch (m_eOrientation)
-			{
-			case Tank::EOrientation::Top:
-				m_spriteAnimator_top.update(delta);
-				break;
-			case Tank::EOrientation::Bottom:
-				m_spriteAnimator_bottom.update(delta);
-				break;
-			case Tank::EOrientation::Left:
-				m_spriteAnimator_left.update(delta);
-				break;
-			case Tank::EOrientation::Right:
-				m_spriteAnimator_right.update(delta);
-				break;
-			}
-
-		}
-	}
+        if (m_velocity > 0)
+        {
+            switch (m_eOrientation)
+            {
+            case Tank::EOrientation::Top:
+                m_spriteAnimator_top.update(delta);
+                break;
+            case Tank::EOrientation::Bottom:
+                m_spriteAnimator_bottom.update(delta);
+                break;
+            case Tank::EOrientation::Left:
+                m_spriteAnimator_left.update(delta);
+                break;
+            case Tank::EOrientation::Right:
+                m_spriteAnimator_right.update(delta);
+                break;
+            }
+        }
+    }
 }
 
 void Tank::fire()
 {
-	if (!m_bIsSpawning && !m_pCurrentBullet->isActive())
-	{
-		m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
-	}
+    if (!m_isSpawning && !m_pCurrentBullet->isActive())
+    {
+        m_pCurrentBullet->fire(m_position + m_size / 4.f + m_size * m_direction / 4.f, m_direction);
+    }
 }
-
-
