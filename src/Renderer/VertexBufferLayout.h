@@ -4,17 +4,17 @@
 
 namespace RenderEngine
 {
-	struct CVertexBufferLayoutElement {
+	struct VertexBufferLayoutElement {
 		GLint iCount;
 		GLenum eType;
 		GLboolean bNormalized;
 		unsigned int iSize;
 	};
 
-	class CVertexBufferLayout
+	class VertexBufferLayout
 	{
 	public:
-		CVertexBufferLayout();
+		VertexBufferLayout();
 
 		void reserveElements(const size_t iCount);
 		void addElementLayoutFloat(const unsigned int iCount, const bool bNormalized);
@@ -22,11 +22,11 @@ namespace RenderEngine
 		unsigned int getStride() const {return m_iStride;}
 		
 
-		const std::vector<CVertexBufferLayoutElement>& getLayoutElements() const {
+		const std::vector<VertexBufferLayoutElement>& getLayoutElements() const {
 			return m_layoutElements;				
 		}
 	private:
-		std::vector<CVertexBufferLayoutElement> m_layoutElements;
+		std::vector<VertexBufferLayoutElement> m_layoutElements;
 		unsigned int m_iStride;
 	};
 }

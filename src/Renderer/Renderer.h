@@ -8,11 +8,11 @@
 
 namespace RenderEngine
 {
-	class CRenderer
+	class Renderer
 	{
 	public:
-		static void draw(const CVertexArray& vertexArray, const CIndexBuffer& indexBuffer,
-			const CShaderProgram& shaderProgram);
+		static void draw(const VertexArray& vertexArray, const IndexBuffer& indexBuffer,
+			const ShaderProgram& shaderProgram);
 
 		static void setClearColor(float fRed, float fGreen, float fBlue, float fAlpha);
 		static void setDepthTest(const bool bEnable);

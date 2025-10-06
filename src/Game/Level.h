@@ -8,12 +8,12 @@
 
 class IGameObject;
 
-class CLevel 
+class Level 
 {
 public:
 	static constexpr unsigned int BLOCK_SIZE = 16;
 
-	CLevel(const std::vector<std::string>& levelDescription);
+	Level(const std::vector<std::string>& levelDescription);
 	void render() const;
 	void update(const double delta);
 

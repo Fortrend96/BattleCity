@@ -1,7 +1,7 @@
 #include "Texture2D.h"
 
 namespace RenderEngine {
-	CTexture2D::CTexture2D(const GLuint iWidth, const GLuint iHeight, const unsigned char* pData,
+	Texture2D::Texture2D(const GLuint iWidth, const GLuint iHeight, const unsigned char* pData,
 		const unsigned int nChannels,
 		const GLenum eFilter,
 		const GLenum eWrapMode) :
@@ -35,12 +35,12 @@ namespace RenderEngine {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	CTexture2D::~CTexture2D()
+	Texture2D::~Texture2D()
 	{
 		glDeleteTextures(1, &m_iID);
 	}
 
-	CTexture2D::CTexture2D(CTexture2D&& texture2D) noexcept
+	Texture2D::Texture2D(Texture2D&& texture2D) noexcept
 	{
 		this->m_iID = texture2D.m_iID;
 		texture2D.m_iID = 0;
@@ -50,7 +50,7 @@ namespace RenderEngine {
 		this->m_iHeight = texture2D.m_iHeight;
 
 	}
-	CTexture2D& CTexture2D::operator=(CTexture2D&& texture2D) noexcept
+	Texture2D& Texture2D::operator=(Texture2D&& texture2D) noexcept
 	{
 		glDeleteTextures(1, &m_iID);
 
@@ -64,25 +64,25 @@ namespace RenderEngine {
 		return *this;
 	}
 
-	void CTexture2D::bind() const
+	void Texture2D::bind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, m_iID);
 	}
 	
-	void CTexture2D::addSubTexture(std::string strName, const glm::vec2& leftBottomUV,
+	void Texture2D::addSubTexture(std::string strName, const glm::vec2& leftBottomUV,
 		const glm::vec2& rightTopUV)
 	{
-		m_subTextures.emplace(std::move(strName), CSubTexture2D(leftBottomUV, rightTopUV));
+		m_subTextures.emplace(std::move(strName), SubTexture2D(leftBottomUV, rightTopUV));
 	}
 
-	const CTexture2D::CSubTexture2D& CTexture2D::getSubTexture(const std::string& name) const
+	const Texture2D::SubTexture2D& Texture2D::getSubTexture(const std::string& name) const
 	{
 		auto it = m_subTextures.find(name);
 		if (it != m_subTextures.end())
 		{
 			return it->second;
 		}
-		const static CSubTexture2D defaultSubTexture;
+		const static SubTexture2D defaultSubTexture;
 		return defaultSubTexture;
 	}
 

@@ -8,12 +8,12 @@
 
 namespace RenderEngine 
 {
-	class CSprite;
+	class Sprite;
 }
 
-class CBullet;
+class Bullet;
 
-class CTank : public IGameObject
+class Tank : public IGameObject
 {
 public:
 	enum class EOrientation : uint8_t {
@@ -23,7 +23,7 @@ public:
 		Right
 	};
 
-	CTank(const double dMaxVelocity,
+	Tank(const double dMaxVelocity,
 		const glm::vec2& position,
 		const glm::vec2& size, const float fLayer);
 
@@ -41,31 +41,29 @@ public:
 private:
 	EOrientation m_eOrientation;
 
-	std::shared_ptr<CBullet> m_pCurrentBullet;
+	std::shared_ptr<Bullet> m_pCurrentBullet;
 
-	std::shared_ptr<RenderEngine::CSprite> m_pSprite_top;
-	std::shared_ptr<RenderEngine::CSprite> m_pSprite_bottom;
-	std::shared_ptr<RenderEngine::CSprite> m_pSprite_left;
-	std::shared_ptr<RenderEngine::CSprite> m_pSprite_right;
+	std::shared_ptr<RenderEngine::Sprite> m_pSprite_top;
+	std::shared_ptr<RenderEngine::Sprite> m_pSprite_bottom;
+	std::shared_ptr<RenderEngine::Sprite> m_pSprite_left;
+	std::shared_ptr<RenderEngine::Sprite> m_pSprite_right;
 
-	RenderEngine::CSpriteAnimator m_spriteAnimator_top;
-	RenderEngine::CSpriteAnimator m_spriteAnimator_bottom;
-	RenderEngine::CSpriteAnimator m_spriteAnimator_left;
-	RenderEngine::CSpriteAnimator m_spriteAnimator_right;
+	RenderEngine::SpriteAnimator m_spriteAnimator_top;
+	RenderEngine::SpriteAnimator m_spriteAnimator_bottom;
+	RenderEngine::SpriteAnimator m_spriteAnimator_left;
+	RenderEngine::SpriteAnimator m_spriteAnimator_right;
 
 
-	std::shared_ptr<RenderEngine::CSprite> m_pSprite_respawn;
-	RenderEngine::CSpriteAnimator m_spriteAnimator_respawn;
+	std::shared_ptr<RenderEngine::Sprite> m_pSprite_respawn;
+	RenderEngine::SpriteAnimator m_spriteAnimator_respawn;
 
-	std::shared_ptr<RenderEngine::CSprite> m_pSprite_shield;
-	RenderEngine::CSpriteAnimator m_spriteAnimator_shield;
+	std::shared_ptr<RenderEngine::Sprite> m_pSprite_shield;
+	RenderEngine::SpriteAnimator m_spriteAnimator_shield;
 
-	CTimer m_respawnTimer;
-	CTimer m_shieldTimer;
+	Timer m_respawnTimer;
+	Timer m_shieldTimer;
 
 	double m_dMaxVelocity;
 	bool m_bIsSpawning;
 	bool m_bHasShield;
-
-
 };

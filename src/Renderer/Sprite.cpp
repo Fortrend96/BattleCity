@@ -9,9 +9,9 @@
 
 
 namespace RenderEngine {
-    CSprite::CSprite( std::shared_ptr<CTexture2D> pTexture,
+    Sprite::Sprite( std::shared_ptr<Texture2D> pTexture,
         std::string strInitialSubTexture,
-         std::shared_ptr<CShaderProgram> pShaderProgram)
+         std::shared_ptr<ShaderProgram> pShaderProgram)
         : m_pTexture(std::move(pTexture))
         , m_pShaderProgram(std::move(pShaderProgram)),
         m_lastFrameId(0)
@@ -45,12 +45,12 @@ namespace RenderEngine {
         };
 
         m_vertexCoordsBuffer.init(vertexCoords, 2 * 4 * sizeof(GLfloat));
-        CVertexBufferLayout vertexCoordsLayout;
+        VertexBufferLayout vertexCoordsLayout;
         vertexCoordsLayout.addElementLayoutFloat(2, false);
         m_vertexArray.addBuffer(m_vertexCoordsBuffer, vertexCoordsLayout);
 
         m_textureCoordsBuffer.init(textureCoords, 2 * 4 * sizeof(GLfloat));
-        CVertexBufferLayout textureCoordsLayout;
+        VertexBufferLayout textureCoordsLayout;
         textureCoordsLayout.addElementLayoutFloat(2, false);
         m_vertexArray.addBuffer(m_textureCoordsBuffer, textureCoordsLayout);
 
@@ -60,19 +60,19 @@ namespace RenderEngine {
         m_indexBuffer.unbind();
     }
 
-	CSprite::~CSprite() 
+	Sprite::~Sprite() 
 	{
 	}
 
 
-	void CSprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation, const float fLayer,
+	void Sprite::render(const glm::vec2& position, const glm::vec2& size, const float fRotation, const float fLayer,
         const size_t frameId) const
 	{
         if (m_lastFrameId != frameId)
         {
             m_lastFrameId = frameId;
 
-            const CFrameDescription& curFrameDescription = m_framesDescriptions[frameId];
+            const FrameDescription& curFrameDescription = m_framesDescriptions[frameId];
 
             const GLfloat textureCoords[] = {
                 // U  V
@@ -100,20 +100,20 @@ namespace RenderEngine {
         glActiveTexture(GL_TEXTURE0);
         m_pTexture->bind();
 
-        CRenderer::draw(m_vertexArray, m_indexBuffer, *m_pShaderProgram);
+        Renderer::draw(m_vertexArray, m_indexBuffer, *m_pShaderProgram);
 	}
 
-    void CSprite::insertFrames(std::vector<CFrameDescription> frameDescriptions)
+    void Sprite::insertFrames(std::vector<FrameDescription> frameDescriptions)
     {
         m_framesDescriptions = std::move(frameDescriptions);
     }
 
-    double CSprite::getFrameDuration(const size_t frameId) const
+    double Sprite::getFrameDuration(const size_t frameId) const
     {
         return m_framesDescriptions[frameId].duration;
     }
 
-    size_t CSprite::getFramesCount() const
+    size_t Sprite::getFramesCount() const
     {
         return m_framesDescriptions.size();
     }

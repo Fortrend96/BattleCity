@@ -4,12 +4,12 @@
 
 namespace RenderEngine
 {
-	class CSprite;
+	class Sprite;
 
-	class CSpriteAnimator 
+	class SpriteAnimator 
 	{
 	public:
-		CSpriteAnimator(std::shared_ptr<CSprite> pSprite);
+		SpriteAnimator(std::shared_ptr<Sprite> pSprite);
 		
 		size_t getCurrentFrame() const { return m_currentFrame;	}
 
@@ -20,7 +20,7 @@ namespace RenderEngine
 
 
 	private:
-		std::shared_ptr<CSprite> m_pSprite;
+		std::shared_ptr<Sprite> m_pSprite;
 		size_t m_currentFrame;
 		double m_currentFrameDuration;
 		double m_currentAnimationTime;

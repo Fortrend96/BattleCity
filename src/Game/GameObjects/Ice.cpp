@@ -3,9 +3,9 @@
 #include "../../Resources/ResourceManager.h"
 #include "../../Renderer/Sprite.h"
 
-CIce::CIce(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer)
+Ice::Ice(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer)
     : IGameObject(IGameObject::EObjectType::Ice, position, size, rotation, fLayer)
-    , m_sprite(CResourceManager::getSprite("ice"))
+    , m_sprite(ResourceManager::getSprite("ice"))
     , m_blockOffsets { glm::vec2(0, m_size.y / 2.f),
                        glm::vec2(m_size.x / 2.f, m_size.y / 2.f),
                        glm::vec2(0, 0),
@@ -13,12 +13,12 @@ CIce::CIce(const glm::vec2& position, const glm::vec2& size, const float rotatio
 {
 }
 
-void CIce::renderBlock(const EBlockLocation eBlockLocation) const
+void Ice::renderBlock(const EBlockLocation eBlockLocation) const
 {
-    m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_fRotation, m_fLayer);
+    m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_rotation, m_layer);
 }
 
-void CIce::render() const
+void Ice::render() const
 {
     renderBlock(EBlockLocation::TopLeft);
     renderBlock(EBlockLocation::TopRight);

@@ -5,11 +5,11 @@
 
 namespace RenderEngine
 {
-	class CShaderProgram
+	class ShaderProgram
 	{
 	public:
-		CShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader);
-		~CShaderProgram();
+		ShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader);
+		~ShaderProgram();
 
 		bool isCompiled() const {	return m_bIsCompiled;	}
 		void use() const;
@@ -17,12 +17,12 @@ namespace RenderEngine
 		void setFloat(const std::string& strName, const GLfloat fValue);
 		void setMatrix4(const std::string& strName, const glm::mat4& matrix);
 
-		CShaderProgram() = delete; // удаляем конструктор по умолчанию
-		CShaderProgram(CShaderProgram&) = delete; // удаляем конструктор копирования
-		CShaderProgram& operator=(const CShaderProgram&) = delete; // удаляем оператор присваивания через копирования
+		ShaderProgram() = delete; // удаляем конструктор по умолчанию
+		ShaderProgram(ShaderProgram&) = delete; // удаляем конструктор копирования
+		ShaderProgram& operator=(const ShaderProgram&) = delete; // удаляем оператор присваивания через копирования
 
-		CShaderProgram(CShaderProgram&& shaderProgram) noexcept; // конструктор перемещения
-		CShaderProgram& operator=(CShaderProgram&& shaderProgram) noexcept; // оператор присваивания через перемещение
+		ShaderProgram(ShaderProgram&& shaderProgram) noexcept; // конструктор перемещения
+		ShaderProgram& operator=(ShaderProgram&& shaderProgram) noexcept; // оператор присваивания через перемещение
 		
 
 

@@ -4,7 +4,7 @@
 
 namespace RenderEngine 
 {
-	CShaderProgram::CShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader)
+	ShaderProgram::ShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader)
 	{
 		GLuint iVertexShaderID;
 		if (!createShader(strVertexShader, GL_VERTEX_SHADER, iVertexShaderID))
@@ -48,12 +48,12 @@ namespace RenderEngine
 		glDeleteShader(iFragmentShaderID);
 	}
 
-	CShaderProgram::~CShaderProgram()
+	ShaderProgram::~ShaderProgram()
 	{
 		glDeleteProgram(m_iID); // удаление шейдерной программы
 	}
 
-	bool CShaderProgram::createShader(const std::string& strSource, const GLenum eShaderType,
+	bool ShaderProgram::createShader(const std::string& strSource, const GLenum eShaderType,
 		GLuint& iShaderID)
 	{
 		iShaderID = glCreateShader(eShaderType);// id шейдера
@@ -78,14 +78,14 @@ namespace RenderEngine
 	}
 
 
-	void CShaderProgram::use() const
+	void ShaderProgram::use() const
 	{
 		glUseProgram(m_iID);
 	}
 
 
 
-	CShaderProgram& CShaderProgram::operator=(CShaderProgram&& shaderProgram) noexcept
+	ShaderProgram& ShaderProgram::operator=(ShaderProgram&& shaderProgram) noexcept
 	{
 		glDeleteProgram(m_iID);
 
@@ -98,7 +98,7 @@ namespace RenderEngine
 		return *this;
 	}
 
-	CShaderProgram::CShaderProgram(CShaderProgram&& shaderProgram) noexcept
+	ShaderProgram::ShaderProgram(ShaderProgram&& shaderProgram) noexcept
 	{
 		this->m_iID = shaderProgram.m_iID;
 		this->m_bIsCompiled = shaderProgram.m_bIsCompiled;
@@ -107,17 +107,17 @@ namespace RenderEngine
 		shaderProgram.m_bIsCompiled = false;
 	}
 
-	void CShaderProgram::setInt(const std::string& strName, const GLint iValue)
+	void ShaderProgram::setInt(const std::string& strName, const GLint iValue)
 	{
 		glUniform1i(glGetUniformLocation(m_iID, strName.c_str()), iValue);
 	}
 
-	void CShaderProgram::setFloat(const std::string& name, const GLfloat fValue)
+	void ShaderProgram::setFloat(const std::string& name, const GLfloat fValue)
 	{
 		glUniform1f(glGetUniformLocation(m_iID, name.c_str()), fValue);
 	}
 
-	void CShaderProgram::setMatrix4(const std::string& strName, const glm::mat4& matrix)
+	void ShaderProgram::setMatrix4(const std::string& strName, const glm::mat4& matrix)
 	{		
 		glUniformMatrix4fv(glGetUniformLocation(m_iID, strName.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 	}

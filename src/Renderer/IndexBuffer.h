@@ -3,17 +3,17 @@
 
 namespace RenderEngine
 {
-	class CIndexBuffer 
+	class IndexBuffer 
 	{
 	public:
-		CIndexBuffer();
-		~CIndexBuffer();
+		IndexBuffer();
+		~IndexBuffer();
 
-		CIndexBuffer(const CIndexBuffer&) = delete;
-		CIndexBuffer& operator=(const CIndexBuffer&) = delete;
+		IndexBuffer(const IndexBuffer&) = delete;
+		IndexBuffer& operator=(const IndexBuffer&) = delete;
 
-		CIndexBuffer(CIndexBuffer&& indexBuffer) noexcept;
-		CIndexBuffer& operator=(CIndexBuffer&& indexBuffer) noexcept;
+		IndexBuffer(IndexBuffer&& indexBuffer) noexcept;
+		IndexBuffer& operator=(IndexBuffer&& indexBuffer) noexcept;
 
 		void init(const void* pData, const unsigned int iCount);
 		void bind() const;

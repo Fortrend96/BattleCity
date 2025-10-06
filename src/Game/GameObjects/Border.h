@@ -6,15 +6,15 @@
 #include <memory>
 
 namespace RenderEngine {
-    class CSprite;
+    class Sprite;
 }
 
-class CBorder : public IGameObject {
+class Border : public IGameObject {
 public:
 
-    CBorder(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
+    Border(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
     virtual void render() const override;
 
 private:
-    std::shared_ptr<RenderEngine::CSprite> m_sprite;
+    std::shared_ptr<RenderEngine::Sprite> m_sprite;
 };

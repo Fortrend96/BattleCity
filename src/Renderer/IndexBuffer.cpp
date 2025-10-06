@@ -2,17 +2,17 @@
 
 namespace RenderEngine
 {
-	CIndexBuffer::CIndexBuffer():
+	IndexBuffer::IndexBuffer():
 		m_id(0), m_iCount(0)
 	{
 	}
 
-	CIndexBuffer::~CIndexBuffer()
+	IndexBuffer::~IndexBuffer()
 	{
 		glDeleteBuffers(1, &m_id);
 	}
 
-	CIndexBuffer::CIndexBuffer(CIndexBuffer&& indexBuffer) noexcept
+	IndexBuffer::IndexBuffer(IndexBuffer&& indexBuffer) noexcept
 	{
 		m_id = indexBuffer.m_id;
 		indexBuffer.m_id = 0;
@@ -21,7 +21,7 @@ namespace RenderEngine
 		indexBuffer.m_iCount = 0;
 	}
 
-	CIndexBuffer& CIndexBuffer::operator=(CIndexBuffer&& indexBuffer) noexcept
+	IndexBuffer& IndexBuffer::operator=(IndexBuffer&& indexBuffer) noexcept
 	{
 		m_id = indexBuffer.m_id;
 		indexBuffer.m_id = 0;
@@ -32,7 +32,7 @@ namespace RenderEngine
 		return *this;
 	}
 
-	void CIndexBuffer::init(const void* pData, const unsigned int iCount)
+	void IndexBuffer::init(const void* pData, const unsigned int iCount)
 	{
 		m_iCount = iCount;
 		glGenBuffers(1, &m_id);
@@ -40,12 +40,12 @@ namespace RenderEngine
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_iCount * sizeof(GLuint), pData, GL_STATIC_DRAW);
 	}
 
-	void CIndexBuffer::bind() const
+	void IndexBuffer::bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_id);
 	}
 
-	void CIndexBuffer::unbind() const
+	void IndexBuffer::unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}

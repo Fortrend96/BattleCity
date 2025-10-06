@@ -1,4 +1,5 @@
 #include "Game.h"
+
 #include "../Resources/ResourceManager.h"
 #include "../Renderer/ShaderProgram.h"
 #include "../Renderer/Texture2D.h"
@@ -6,28 +7,28 @@
 
 #include "GameObjects/Tank.h"
 #include "GameObjects/Bullet.h"
+
 #include "Level.h"
 #include "../Physics/PhysicsEngine.h"
 
 #include <GLFW/glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/mat4x4.hpp>
-
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-CGame::CGame(const glm::ivec2& windowSize) :
-    m_windowSize(windowSize)
+Game::Game(const glm::ivec2& windowSize)
+    : m_windowSize(windowSize)
     , m_eCurrentGameState(EGameState::Active)
 {
-	m_keys.fill(false);
+    m_keys.fill(false);
 }
 
-CGame::~CGame()
+Game::~Game()
 {
 
 }
 
-void CGame::render()
+void Game::render()
 {
     if (m_pTank)
     {
@@ -38,10 +39,9 @@ void CGame::render()
     {
         m_pLevel->render();
     }
-
 }
 
-void CGame::update(const double delta)
+void Game::update(const double delta)
 {
     if (m_pLevel)
     {
@@ -52,22 +52,22 @@ void CGame::update(const double delta)
     {
         if (m_keys[GLFW_KEY_W])
         {
-            m_pTank->setOrientaion(CTank::EOrientation::Top);
+            m_pTank->setOrientaion(Tank::EOrientation::Top);
             m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else if (m_keys[GLFW_KEY_A])
         {
-            m_pTank->setOrientaion(CTank::EOrientation::Left);
+            m_pTank->setOrientaion(Tank::EOrientation::Left);
             m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else if (m_keys[GLFW_KEY_D])
         {
-            m_pTank->setOrientaion(CTank::EOrientation::Right);
+            m_pTank->setOrientaion(Tank::EOrientation::Right);
             m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else if (m_keys[GLFW_KEY_S])
         {
-            m_pTank->setOrientaion(CTank::EOrientation::Bottom);
+            m_pTank->setOrientaion(Tank::EOrientation::Bottom);
             m_pTank->setVelocity(m_pTank->getMaxVelocity());
         }
         else
@@ -84,26 +84,26 @@ void CGame::update(const double delta)
     }
 }
 
-void CGame::setKey(const int key, const int action)
+void Game::setKey(const int key, const int action)
 {
-	m_keys[key] = action;
+    m_keys[key] = action;
 }
 
-bool CGame::init()
+bool Game::init()
 {
-    CResourceManager::loadJSONResources("res/resources.json");
+    ResourceManager::loadJSONResources("res/resources.json");
 
-    auto pSpriteShaderProgram = CResourceManager::getShaderProgram("spriteShader");
+    auto pSpriteShaderProgram = ResourceManager::getShaderProgram("spriteShader");
     if (!pSpriteShaderProgram)
     {
-        std::cerr << "Cant find shader program: " << "spriteShader" << std::endl;
+        std::cerr << "Can't find shader program: " << "spriteShader" << std::endl;
         return false;
     }
 
-    m_pLevel = std::make_shared<CLevel>(CResourceManager::getLevels()[1]);
+    m_pLevel = std::make_shared<Level>(ResourceManager::getLevels()[0]);
     m_windowSize.x = static_cast<int>(m_pLevel->getLevelWidth());
     m_windowSize.y = static_cast<int>(m_pLevel->getLevelHeight());
-    Physics::CPhysicsEngine::setCurrentLevel(m_pLevel);
+    Physics::PhysicsEngine::setCurrentLevel(m_pLevel);
 
     glm::mat4 projectionMatrix = glm::ortho(0.f, static_cast<float>(m_windowSize.x), 0.f, static_cast<float>(m_windowSize.y), -100.f, 100.f);
 
@@ -111,17 +111,17 @@ bool CGame::init()
     pSpriteShaderProgram->setInt("tex", 0);
     pSpriteShaderProgram->setMatrix4("projectionMat", projectionMatrix);
 
-    m_pTank = std::make_shared<CTank>(0.05, m_pLevel->getPlayerRespawn_1(), glm::vec2(CLevel::BLOCK_SIZE,CLevel::BLOCK_SIZE), 0.f);
-    Physics::CPhysicsEngine::addDynamicGameObject(m_pTank);
+    m_pTank = std::make_shared<Tank>(0.05, m_pLevel->getPlayerRespawn_1(), glm::vec2(Level::BLOCK_SIZE, Level::BLOCK_SIZE), 0.f);
+    Physics::PhysicsEngine::addDynamicGameObject(m_pTank);
     return true;
 }
 
-size_t CGame::getCurrentLevelWidth() const
+size_t Game::getCurrentLevelWidth() const
 {
     return m_pLevel->getLevelWidth();
 }
 
-size_t CGame::getCurrentLevelHeight() const
+size_t Game::getCurrentLevelHeight() const
 {
     return m_pLevel->getLevelHeight();
 }

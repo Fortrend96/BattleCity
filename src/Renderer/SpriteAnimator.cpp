@@ -3,7 +3,7 @@
 
 namespace RenderEngine
 {
-	CSpriteAnimator::CSpriteAnimator(std::shared_ptr<CSprite> pSprite)
+	SpriteAnimator::SpriteAnimator(std::shared_ptr<Sprite> pSprite)
 		: m_pSprite(pSprite)
 		, m_currentFrame(0)
 		, m_currentFrameDuration(pSprite->getFrameDuration(m_currentFrame))
@@ -16,7 +16,7 @@ namespace RenderEngine
 		}
 	}
 
-	void CSpriteAnimator::update(const double delta)
+	void SpriteAnimator::update(const double delta)
 	{
 		m_currentAnimationTime += delta;
 
@@ -33,7 +33,7 @@ namespace RenderEngine
 		}
 	}
 
-	void CSpriteAnimator::reset()
+	void SpriteAnimator::reset()
 	{
 		m_currentFrame = 0;
 		m_currentFrameDuration = m_pSprite->getFrameDuration(0);

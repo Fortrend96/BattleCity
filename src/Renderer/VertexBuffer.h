@@ -3,17 +3,17 @@
 
 namespace RenderEngine
 {
-	class CVertexBuffer 
+	class VertexBuffer 
 	{
 	public:
-		CVertexBuffer();
-		~CVertexBuffer();
+		VertexBuffer();
+		~VertexBuffer();
 
-		CVertexBuffer(const CVertexBuffer&) = delete;
-		CVertexBuffer& operator=(const CVertexBuffer&) = delete;
+		VertexBuffer(const VertexBuffer&) = delete;
+		VertexBuffer& operator=(const VertexBuffer&) = delete;
 
-		CVertexBuffer(CVertexBuffer&& vertexBuffer) noexcept;
-		CVertexBuffer& operator=(CVertexBuffer&& vertexBuffer) noexcept;
+		VertexBuffer(VertexBuffer&& vertexBuffer) noexcept;
+		VertexBuffer& operator=(VertexBuffer&& vertexBuffer) noexcept;
 
 		void init(const void* pData, const unsigned int size);
 		void update(const void* pData, const unsigned int size) const;

@@ -7,10 +7,10 @@
 #include <memory>
 
 namespace RenderEngine {
-    class CSprite;
+    class Sprite;
 }
 
-class CWater : public IGameObject {
+class Water : public IGameObject {
 public:
 
     enum class EBlockLocation : uint8_t {
@@ -20,7 +20,7 @@ public:
         BottomRight
     };
 
-    CWater(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
+    Water(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
     virtual void render() const override;
     void update(const double delta) override;
     virtual bool collides(const EObjectType objectType) override;
@@ -28,7 +28,7 @@ public:
 private:
     void renderBlock(const EBlockLocation eBlockLocation) const;
 
-    std::shared_ptr<RenderEngine::CSprite> m_sprite;
-    RenderEngine::CSpriteAnimator m_spriteAnimator;
+    std::shared_ptr<RenderEngine::Sprite> m_sprite;
+    RenderEngine::SpriteAnimator m_spriteAnimator;
     std::array<glm::vec2, 4> m_blockOffsets;
 };

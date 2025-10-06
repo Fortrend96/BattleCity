@@ -2,18 +2,18 @@
 
 namespace RenderEngine
 {
-	CVertexBufferLayout::CVertexBufferLayout():
+	VertexBufferLayout::VertexBufferLayout():
 		m_iStride(0)
 	{
 
 	}
 
-	void CVertexBufferLayout::reserveElements(const size_t iCount)
+	void VertexBufferLayout::reserveElements(const size_t iCount)
 	{
 		m_layoutElements.reserve(iCount);
 	}
 
-	void CVertexBufferLayout::addElementLayoutFloat(const unsigned int iCount, 
+	void VertexBufferLayout::addElementLayoutFloat(const unsigned int iCount, 
 													const bool bNormalized)
 	{
 		

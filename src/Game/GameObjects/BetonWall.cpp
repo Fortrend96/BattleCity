@@ -2,7 +2,7 @@
 #include "../../Renderer/Sprite.h"
 #include "../../Resources/ResourceManager.h"
 
-CBetonWall::CBetonWall(const EBetonWallType eBetonWallType,
+BetonWall::BetonWall(const EBetonWallType eBetonWallType,
 						const glm::vec2& position, 
 						const glm::vec2& size, 
 						const float fRotation, const float fLayer)
@@ -11,7 +11,7 @@ CBetonWall::CBetonWall(const EBetonWallType eBetonWallType,
 												EBlockState::Destroyed, 
 												EBlockState::Destroyed, 
 												EBlockState::Destroyed }
-                        , m_sprite(CResourceManager::getSprite("betonWall"))
+                        , m_sprite(ResourceManager::getSprite("betonWall"))
                         , m_blockOffsets{ glm::vec2(0, m_size.y / 2.f),
                                                 glm::vec2(m_size.x / 2.f, m_size.y / 2.f),
                                                 glm::vec2(0, 0),
@@ -62,16 +62,16 @@ CBetonWall::CBetonWall(const EBetonWallType eBetonWallType,
     }
 }
 
-void CBetonWall::renderBlock(const EBlockLocation eBlockLocation) const
+void BetonWall::renderBlock(const EBlockLocation eBlockLocation) const
 {
     const EBlockState state = m_eCurrentBlockState[static_cast<size_t>(eBlockLocation)];
     if (state != EBlockState::Destroyed)
     {
-        m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_fRotation, m_fLayer);
+        m_sprite->render(m_position + m_blockOffsets[static_cast<size_t>(eBlockLocation)], m_size / 2.f, m_rotation, m_layer);
     }
 }
 
-void CBetonWall::render() const
+void BetonWall::render() const
 {
     renderBlock(EBlockLocation::TopLeft);
     renderBlock(EBlockLocation::TopRight);
@@ -79,7 +79,7 @@ void CBetonWall::render() const
     renderBlock(EBlockLocation::BottomRight);
 }
 
-void CBetonWall::update(const double delta)
+void BetonWall::update(const double delta)
 {
 }
 

@@ -2,40 +2,40 @@
 
 namespace RenderEngine
 {
-	CVertexArray::CVertexArray()
+	VertexArray::VertexArray()
 	{
 		glGenVertexArrays(1, &m_id);
 	}
 
-	CVertexArray::~CVertexArray()
+	VertexArray::~VertexArray()
 	{
 		glDeleteVertexArrays(1, &m_id);
 	}
 
-	CVertexArray::CVertexArray(CVertexArray&& vertexArray) noexcept
+	VertexArray::VertexArray(VertexArray&& vertexArray) noexcept
 	{
 		m_id = vertexArray.m_id;
 		vertexArray.m_id = 0;
 	}
 
-	CVertexArray& CVertexArray::operator=(CVertexArray&& vertexArray) noexcept
+	VertexArray& VertexArray::operator=(VertexArray&& vertexArray) noexcept
 	{
 		m_id = vertexArray.m_id;
 		vertexArray.m_id = 0;
 		return *this;
 	}
 
-	void CVertexArray::bind() const
+	void VertexArray::bind() const
 	{
 		glBindVertexArray(m_id);
 	}
 
-	void CVertexArray::unbind() const
+	void VertexArray::unbind() const
 	{
 		glBindVertexArray(0);
 	}
 
-	void CVertexArray::addBuffer(const CVertexBuffer& vertexBuffer, const CVertexBufferLayout& layout)
+	void VertexArray::addBuffer(const VertexBuffer& vertexBuffer, const VertexBufferLayout& layout)
 	{
 		bind();
 		vertexBuffer.bind();

@@ -4,14 +4,14 @@
 
 #include <glm/vec2.hpp>
 
-class CTank;
-class CLevel;
+class Tank;
+class Level;
 
-class CGame 
+class Game 
 {
 public:
-	CGame(const glm::ivec2& windowSize);
-	~CGame();
+	Game(const glm::ivec2& windowSize);
+	~Game();
 
 	void render();
 	void update(const double delta);
@@ -31,8 +31,8 @@ private:
 	std::array<bool, 349> m_keys;
 	glm::ivec2 m_windowSize;
 
-	std::shared_ptr<CTank> m_pTank;
+	std::shared_ptr<Tank> m_pTank;
 
-	std::shared_ptr<CLevel> m_pLevel;
+	std::shared_ptr<Level> m_pLevel;
 
 };

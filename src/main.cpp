@@ -11,7 +11,7 @@
 #include "Physics/PhysicsEngine.h"
 
 glm::ivec2 g_windowSize(13 * 16, 14 * 16);
-std::unique_ptr<CGame> g_game = std::make_unique<CGame>(g_windowSize);
+std::unique_ptr<Game> g_game = std::make_unique<Game>(g_windowSize);
 
 
 void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
@@ -38,7 +38,7 @@ void glfwWindowSizeCallback(GLFWwindow* pWindow, int width, int height)
         iViewPortBottomOffset = (g_windowSize.y - iViewPortHeight) / 2;
     }
 
-    RenderEngine::CRenderer::setViewport(iViewPortWidth, iViewPortHeight, 
+    RenderEngine::Renderer::setViewport(iViewPortWidth, iViewPortHeight, 
         iViewPortLeftOffset, iViewPortBottomOffset);
 }
 
@@ -86,15 +86,15 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    std::cout << "Renderer: " << RenderEngine::CRenderer::getRendererString() << std::endl;
-    std::cout << "OpenGL version: " << RenderEngine::CRenderer::getVersionString() << std::endl;
+    std::cout << "Renderer: " << RenderEngine::Renderer::getRendererString() << std::endl;
+    std::cout << "OpenGL version: " << RenderEngine::Renderer::getVersionString() << std::endl;
 
-    RenderEngine::CRenderer::setClearColor(0, 0, 0, 1);
-    RenderEngine::CRenderer::setDepthTest(true);
+    RenderEngine::Renderer::setClearColor(0, 0, 0, 1);
+    RenderEngine::Renderer::setDepthTest(true);
 
     {
-        CResourceManager::setExecutablePath(argv[0]);
-        Physics::CPhysicsEngine::init();
+        ResourceManager::setExecutablePath(argv[0]);
+        Physics::PhysicsEngine::init();
         g_game->init();
         glfwSetWindowSize(pWindow, static_cast<int>(3 * g_game->getCurrentLevelWidth()), static_cast<int>(3 * g_game->getCurrentLevelHeight()));
 
@@ -110,10 +110,10 @@ int main(int argc, char** argv)
             lastTime = currentTime;
            
             g_game->update(duration);
-            Physics::CPhysicsEngine::update(duration);
+            Physics::PhysicsEngine::update(duration);
 
             /* Render here */
-            RenderEngine::CRenderer::clear();
+            RenderEngine::Renderer::clear();
 
             g_game->render();
             /* Swap front and back buffers */
@@ -123,7 +123,7 @@ int main(int argc, char** argv)
             glfwPollEvents();
         }
         g_game = nullptr;
-        CResourceManager::unloadAllResources();
+        ResourceManager::unloadAllResources();
     }
 
     glfwTerminate();

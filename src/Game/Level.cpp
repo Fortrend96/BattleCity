@@ -18,41 +18,41 @@ std::unique_ptr<IGameObject> createGameObjectFromDescription(const char descript
 	switch (description)
 	{
 	case '0':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::Right, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::Right, position, size, fRotation, 0.f);
 	case '1':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::Bottom, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::Bottom, position, size, fRotation, 0.f);
 	case '2':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::Left, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::Left, position, size, fRotation, 0.f);
 	case '3':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::Top, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::Top, position, size, fRotation, 0.f);
 	case '4':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::All, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::All, position, size, fRotation, 0.f);
 	case 'G':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::BottomLeft, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::BottomLeft, position, size, fRotation, 0.f);
 	case 'H':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::BottomRight, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::BottomRight, position, size, fRotation, 0.f);
 	case 'I':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::TopLeft, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::TopLeft, position, size, fRotation, 0.f);
 	case 'J':
-		return std::make_unique<CBrickWall>(CBrickWall::EBrickWallType::TopRight, position, size, fRotation, 0.f);
+		return std::make_unique<BrickWall>(BrickWall::EBrickWallType::TopRight, position, size, fRotation, 0.f);
 	case '5':
-		return std::make_unique<CBetonWall>(CBetonWall::EBetonWallType::Right, position, size, fRotation, 0.f);
+		return std::make_unique<BetonWall>(BetonWall::EBetonWallType::Right, position, size, fRotation, 0.f);
 	case '6':
-		return std::make_unique<CBetonWall>(CBetonWall::EBetonWallType::Bottom, position, size, fRotation, 0.f);
+		return std::make_unique<BetonWall>(BetonWall::EBetonWallType::Bottom, position, size, fRotation, 0.f);
 	case '7':
-		return std::make_unique<CBetonWall>(CBetonWall::EBetonWallType::Left, position, size, fRotation, 0.f);
+		return std::make_unique<BetonWall>(BetonWall::EBetonWallType::Left, position, size, fRotation, 0.f);
 	case '8':
-		return std::make_unique<CBetonWall>(CBetonWall::EBetonWallType::Top, position, size, fRotation, 0.f);
+		return std::make_unique<BetonWall>(BetonWall::EBetonWallType::Top, position, size, fRotation, 0.f);
 	case '9':
-		return std::make_unique<CBetonWall>(CBetonWall::EBetonWallType::All, position, size, fRotation, 0.f);
+		return std::make_unique<BetonWall>(BetonWall::EBetonWallType::All, position, size, fRotation, 0.f);
 	case 'A':
-		return std::make_unique<CWater>(position, size, fRotation, 0.f);
+		return std::make_unique<Water>(position, size, fRotation, 0.f);
 	case 'B':
-		return std::make_unique<CTrees>(position, size, fRotation, 1.f);
+		return std::make_unique<Trees>(position, size, fRotation, 1.f);
 	case 'C':
-		return std::make_unique<CIce>(position, size, fRotation, -1.f);
+		return std::make_unique<Ice>(position, size, fRotation, -1.f);
 	case 'E':
-		return std::make_unique<CEagle>(position, size, fRotation, 0.f);
+		return std::make_unique<Eagle>(position, size, fRotation, 0.f);
 	case 'D':
 		return nullptr;
 	default:
@@ -61,7 +61,7 @@ std::unique_ptr<IGameObject> createGameObjectFromDescription(const char descript
 	return nullptr;
 }
 
-CLevel::CLevel(const std::vector<std::string>& levelDescription)
+Level::Level(const std::vector<std::string>& levelDescription)
 {
 	if (levelDescription.empty())
 	{
@@ -121,24 +121,24 @@ CLevel::CLevel(const std::vector<std::string>& levelDescription)
 	}
 
 	// bottom border
-	m_levelObjects.emplace_back(std::make_unique<CBorder>(glm::vec2(BLOCK_SIZE, 0.f), 
+	m_levelObjects.emplace_back(std::make_unique<Border>(glm::vec2(BLOCK_SIZE, 0.f), 
 		glm::vec2(m_iWidthBlocks * BLOCK_SIZE, BLOCK_SIZE / 2.f), 0.f, 0.f));
 
 	// top border
-	m_levelObjects.emplace_back(std::make_unique<CBorder>(glm::vec2(BLOCK_SIZE, 
+	m_levelObjects.emplace_back(std::make_unique<Border>(glm::vec2(BLOCK_SIZE, 
 		m_iHeightBlocks * BLOCK_SIZE + BLOCK_SIZE / 2.f), glm::vec2(m_iWidthBlocks * BLOCK_SIZE, BLOCK_SIZE / 2.f), 0.f, 0.f));
 
 	// left border
-	m_levelObjects.emplace_back(std::make_unique<CBorder>(glm::vec2(0.f, 0.f), 
+	m_levelObjects.emplace_back(std::make_unique<Border>(glm::vec2(0.f, 0.f), 
 		glm::vec2(BLOCK_SIZE, (m_iHeightBlocks + 1) * BLOCK_SIZE), 0.f, 0.f));
 
 	// right border
-	m_levelObjects.emplace_back(std::make_unique<CBorder>(glm::vec2((m_iWidthBlocks + 1) * BLOCK_SIZE, 0.f), 
+	m_levelObjects.emplace_back(std::make_unique<Border>(glm::vec2((m_iWidthBlocks + 1) * BLOCK_SIZE, 0.f), 
 		glm::vec2(BLOCK_SIZE * 2.f, (m_iHeightBlocks + 1) * BLOCK_SIZE), 0.f, 0.f));
 
 }
 
-void CLevel::render() const
+void Level::render() const
 {
 	for (const auto& curLevelObject : m_levelObjects)
 	{
@@ -149,7 +149,7 @@ void CLevel::render() const
 	}
 }
 
-void CLevel::update(const double delta)
+void Level::update(const double delta)
 {
 	for (const auto& curLevelObject : m_levelObjects)
 	{
@@ -160,17 +160,17 @@ void CLevel::update(const double delta)
 	}
 }
 
-size_t CLevel::getLevelWidth() const
+size_t Level::getLevelWidth() const
 {
 	return (m_iWidthBlocks + 3) * BLOCK_SIZE;
 }
 
-size_t CLevel::getLevelHeight() const
+size_t Level::getLevelHeight() const
 {
 	return (m_iHeightBlocks + 1) * BLOCK_SIZE;
 }
 
-std::vector<std::shared_ptr<IGameObject>> CLevel::getObjectsInArea(const glm::vec2& bottomLeft, const glm::vec2& topRight)
+std::vector<std::shared_ptr<IGameObject>> Level::getObjectsInArea(const glm::vec2& bottomLeft, const glm::vec2& topRight)
 {
 	std::vector<std::shared_ptr<IGameObject>> output;
 	output.reserve(9);

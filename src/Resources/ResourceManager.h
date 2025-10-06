@@ -6,44 +6,44 @@
 
 namespace RenderEngine 
 {
-	class CShaderProgram;
-	class CTexture2D;
-	class CSprite;
+	class ShaderProgram;
+	class Texture2D;
+	class Sprite;
 }
 
 // менеджер ресурсов
-class CResourceManager {
+class ResourceManager {
 public:
 	static void setExecutablePath(const std::string& strExecutablePath);
 	static void unloadAllResources();
 
-	CResourceManager() = delete;
-	~CResourceManager() = delete;
+	ResourceManager() = delete;
+	~ResourceManager() = delete;
 	
 
-	CResourceManager(const CResourceManager&) = delete;
-	CResourceManager& operator=(const CResourceManager&) = delete;
+	ResourceManager(const ResourceManager&) = delete;
+	ResourceManager& operator=(const ResourceManager&) = delete;
 
-	CResourceManager(CResourceManager&&) = delete;
-	CResourceManager& operator=(CResourceManager&&) = delete;
+	ResourceManager(ResourceManager&&) = delete;
+	ResourceManager& operator=(ResourceManager&&) = delete;
 
-	static std::shared_ptr<RenderEngine::CShaderProgram> loadShaders(const std::string& strShaderName, 
+	static std::shared_ptr<RenderEngine::ShaderProgram> loadShaders(const std::string& strShaderName, 
 		const std::string& strVertexShaderPath, const std::string& strFragmentShaderPath); // загрузка шейдерной программы
 
-	static std::shared_ptr<RenderEngine::CShaderProgram> getShaderProgram(const std::string& strShaderName); // получение шейдерной программы
+	static std::shared_ptr<RenderEngine::ShaderProgram> getShaderProgram(const std::string& strShaderName); // получение шейдерной программы
 
-	static std::shared_ptr<RenderEngine::CTexture2D> loadTexture(const std::string& strTextureName, const std::string& strTexturePath); // загрузка текстуры
-	static std::shared_ptr<RenderEngine::CTexture2D> getTexture(const std::string& strTextureName); // получение текстуры
+	static std::shared_ptr<RenderEngine::Texture2D> loadTexture(const std::string& strTextureName, const std::string& strTexturePath); // загрузка текстуры
+	static std::shared_ptr<RenderEngine::Texture2D> getTexture(const std::string& strTextureName); // получение текстуры
 
-	static std::shared_ptr<RenderEngine::CSprite> loadSprite(const std::string& strSpriteName,
+	static std::shared_ptr<RenderEngine::Sprite> loadSprite(const std::string& strSpriteName,
 													const std::string& strTextureName,
 													const std::string& strShaderName,
 													const std::string& strSubTextureName = "default"); // загрузка спрайта
 	
-	static std::shared_ptr<RenderEngine::CSprite> getSprite(const std::string& strSpriteName); // получение спрайта
+	static std::shared_ptr<RenderEngine::Sprite> getSprite(const std::string& strSpriteName); // получение спрайта
 
 
-	static std::shared_ptr<RenderEngine::CTexture2D> loadTextureAtlas( std::string strTextureName,
+	static std::shared_ptr<RenderEngine::Texture2D> loadTextureAtlas( std::string strTextureName,
 															std::string strTexturePath,
 															std::vector<std::string> subTextures,
 															const unsigned int iSubTextureWidth,
@@ -59,9 +59,9 @@ public:
 private:
 	static std::string getFileString(const std::string& strRelativeFilePath);  // получение пути к файлу с шейдером
 
-	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<RenderEngine::CShaderProgram>>;
-	using TTexturesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CTexture2D>>;
-	using TSpritesMap = std::map<const std::string, std::shared_ptr<RenderEngine::CSprite>>;
+	using TShaderProgramsMap = std::map<const std::string, std::shared_ptr<RenderEngine::ShaderProgram>>;
+	using TTexturesMap = std::map<const std::string, std::shared_ptr<RenderEngine::Texture2D>>;
+	using TSpritesMap = std::map<const std::string, std::shared_ptr<RenderEngine::Sprite>>;
 
 	static TShaderProgramsMap m_shaderPrograms;
 	static TTexturesMap m_textures;

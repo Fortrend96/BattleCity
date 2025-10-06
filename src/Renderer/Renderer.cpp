@@ -2,9 +2,9 @@
 
 namespace RenderEngine 
 {
-	void CRenderer::draw(const CVertexArray& vertexArray, 
-						const CIndexBuffer& indexBuffer,
-						const CShaderProgram& shaderProgram)
+	void Renderer::draw(const VertexArray& vertexArray, 
+						const IndexBuffer& indexBuffer,
+						const ShaderProgram& shaderProgram)
 	{
 		shaderProgram.use();
 		vertexArray.bind();
@@ -13,12 +13,12 @@ namespace RenderEngine
 		glDrawElements(GL_TRIANGLES, indexBuffer.getCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
-	void CRenderer::setClearColor(float fRed, float fGreen, float fBlue, float fAlpha)
+	void Renderer::setClearColor(float fRed, float fGreen, float fBlue, float fAlpha)
 	{
 		glClearColor(fRed, fGreen, fBlue, fAlpha);
 	}
 
-	void CRenderer::setDepthTest(const bool bEnable)
+	void Renderer::setDepthTest(const bool bEnable)
 	{
 		if (bEnable)
 		{
@@ -30,22 +30,22 @@ namespace RenderEngine
 		}
 	}
 
-	void CRenderer::clear()
+	void Renderer::clear()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
-	void CRenderer::setViewport(unsigned int iWidth, unsigned int iHeight, unsigned int iLeftOffset, unsigned int iBottomOffset)
+	void Renderer::setViewport(unsigned int iWidth, unsigned int iHeight, unsigned int iLeftOffset, unsigned int iBottomOffset)
 	{
 		glViewport(iLeftOffset, iBottomOffset, iWidth, iHeight);
 	}
 
-	std::string CRenderer::getRendererString() 
+	std::string Renderer::getRendererString()
 	{
 		return (char*)glGetString(GL_RENDERER);
 	}
 
-	std::string CRenderer::getVersionString() 
+	std::string Renderer::getVersionString()
 	{
 		return (char*)glGetString(GL_VERSION);
 	}

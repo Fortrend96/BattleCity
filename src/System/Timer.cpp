@@ -1,13 +1,13 @@
 #include "Timer.h"
 
-CTimer::CTimer() :
+Timer::Timer() :
 	m_bIsRunning(false)
 	, m_dTimeLeft(0)
 {
 
 }
 
-void CTimer::update(const double delta)
+void Timer::update(const double delta)
 {
 	if (m_bIsRunning)
 	{
@@ -20,13 +20,13 @@ void CTimer::update(const double delta)
 	}
 }
 
-void CTimer::start(const double duration)
+void Timer::start(const double duration)
 {
 	m_dTimeLeft = duration;
 	m_bIsRunning = true;
 }
 
-void CTimer::setCallback(std::function<void()> callback)
+void Timer::setCallback(std::function<void()> callback)
 {
 	m_callback = callback;
 }

@@ -2,10 +2,10 @@
 
 #include <functional>
 
-class CTimer
+class Timer
 {
 public:
-	CTimer();
+	Timer();
 
 	void update(const double delta);
 	void start(const double duration);

@@ -6,10 +6,10 @@
 
 namespace RenderEngine 
 {
-	class CSprite;
+	class Sprite;
 }
 
-class CBetonWall : public IGameObject
+class BetonWall : public IGameObject
 {
 public:
 
@@ -39,7 +39,7 @@ public:
 		BottomRight
 	};
 
-	CBetonWall(const EBetonWallType eBetonWallType, const glm::vec2& position, const glm::vec2& size, 
+	BetonWall(const EBetonWallType eBetonWallType, const glm::vec2& position, const glm::vec2& size,
 			const float fRotation, const float fLayer);
 	virtual void render() const override;
 	virtual void update(const double delta) override;
@@ -50,7 +50,7 @@ private:
 	void renderBlock(const EBlockLocation eBlockLocation) const;
 
 	std::array<EBlockState, 4> m_eCurrentBlockState;
-	std::shared_ptr<RenderEngine::CSprite> m_sprite;
+	std::shared_ptr<RenderEngine::Sprite> m_sprite;
 	std::array<glm::vec2, 4> m_blockOffsets;
 
 };

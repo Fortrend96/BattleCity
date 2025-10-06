@@ -9,19 +9,19 @@
 namespace RenderEngine
 {
 
-	class CVertexArray 
+	class VertexArray 
 	{
 	public:
-		CVertexArray();
-		~CVertexArray();
+		VertexArray();
+		~VertexArray();
 
-		CVertexArray(const CVertexArray&) = delete;
-		CVertexArray& operator=(const CVertexArray&) = delete;
+		VertexArray(const VertexArray&) = delete;
+		VertexArray& operator=(const VertexArray&) = delete;
 
-		CVertexArray(CVertexArray&& vertexArray) noexcept;
-		CVertexArray& operator=(CVertexArray&& vertexArray) noexcept;
+		VertexArray(VertexArray&& vertexArray) noexcept;
+		VertexArray& operator=(VertexArray&& vertexArray) noexcept;
 		
-		void addBuffer(const CVertexBuffer& vertexBuffer, const CVertexBufferLayout& layout);
+		void addBuffer(const VertexBuffer& vertexBuffer, const VertexBufferLayout& layout);
 		void bind() const;
 		void unbind() const;
 
