@@ -21,10 +21,10 @@ public:
     };
 
     Bullet(const double velocity,
-        const glm::vec2& position,
-        const glm::vec2& size,
-        const glm::vec2& explosionSize,
-        const float layer);
+           const glm::vec2& position,
+           const glm::vec2& size,
+           const glm::vec2& explosionSize,
+           const float layer);
     virtual void render() const override;
     void update(const double delta) override;
     bool isActive() const { return m_isActive; }

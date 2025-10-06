@@ -31,16 +31,16 @@ public:
     static std::shared_ptr<RenderEngine::Texture2D> getTexture(const std::string& textureName);
 
     static std::shared_ptr<RenderEngine::Sprite> loadSprite(const std::string& spriteName,
-        const std::string& textureName,
-        const std::string& shaderName,
-        const std::string& subTextureName = "default");
+                                                        const std::string& textureName,
+                                                        const std::string& shaderName,
+                                                        const std::string& subTextureName = "default");
     static std::shared_ptr<RenderEngine::Sprite> getSprite(const std::string& spriteName);
 
     static std::shared_ptr<RenderEngine::Texture2D> loatTextureAtlas(std::string textureName,
-        std::string texturePath,
-        std::vector<std::string> subTextures,
-        const unsigned int subTextureWidth,
-        const unsigned int subTextureHeight);
+                                                                 std::string texturePath,
+                                                                 std::vector<std::string> subTextures,
+                                                                 const unsigned int subTextureWidth,
+                                                                 const unsigned int subTextureHeight);
 
     static bool loadJSONResources(const std::string& JSONPath);
 

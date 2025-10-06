@@ -6,23 +6,16 @@
 
 #include <string>
 
-namespace RenderEngine
-{
-	class Renderer
-	{
-	public:
-		static void draw(const VertexArray& vertexArray, const IndexBuffer& indexBuffer,
-			const ShaderProgram& shaderProgram);
+namespace RenderEngine {
+    class Renderer {
+    public:
+        static void draw(const VertexArray& vertexArray, const IndexBuffer& indexBuffer, const ShaderProgram& shader);
+        static void setClearColor(const float r, const float g, const float b, const float a);
+        static void setDepthTest(const bool enable);
+        static void clear();
+        static void setViewport(const unsigned int width, const unsigned int height, const unsigned int leftOffset = 0, const unsigned int bottomOffset = 0);
 
-		static void setClearColor(float fRed, float fGreen, float fBlue, float fAlpha);
-		static void setDepthTest(const bool bEnable);
-		static void clear();
-
-		static void setViewport(unsigned int iWidth, unsigned int iHeight, 
-								unsigned int iLeftOffset = 0, unsigned int iBottomOffset = 0);
-
-		static std::string getRendererStr();
-		static std::string getVersionStr();
-
-	};
+        static std::string getRendererStr();
+        static std::string getVersionStr();
+    };
 }

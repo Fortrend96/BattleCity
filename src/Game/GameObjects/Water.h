@@ -20,7 +20,7 @@ public:
         BottomRight
     };
 
-    Water(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
+    Water(const glm::vec2& position, const glm::vec2& size, const float rotation, const float layer);
     virtual void render() const override;
     void update(const double delta) override;
     virtual bool collides(const EObjectType objectType) override;

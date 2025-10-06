@@ -4,10 +4,10 @@
 #include "../../Renderer/Sprite.h"
 
 Bullet::Bullet(const double velocity,
-    const glm::vec2& position,
-    const glm::vec2& size,
-    const glm::vec2& explosionSize,
-    const float layer)
+               const glm::vec2& position,
+               const glm::vec2& size,
+               const glm::vec2& explosionSize,
+               const float layer)
     : IGameObject(IGameObject::EObjectType::Bullet, position, size, 0.f, layer)
     , m_explosionSize(explosionSize)
     , m_explosionOffset((m_explosionSize - m_size) / 2.f)
@@ -23,11 +23,11 @@ Bullet::Bullet(const double velocity,
     , m_isExplosion(false)
 {
     auto onCollisionCallback = [&](const IGameObject& object, const Physics::ECollisionDirection)
-        {
-            setVelocity(0);
-            m_isExplosion = true;
-            m_explosionTimer.start(m_spriteAnimator_explosion.getTotalDuration());
-        };
+    {
+        setVelocity(0);
+        m_isExplosion = true;
+        m_explosionTimer.start(m_spriteAnimator_explosion.getTotalDuration());
+    };
     m_colliders.emplace_back(glm::vec2(0), m_size, onCollisionCallback);
 
     m_explosionTimer.setCallback([&]()

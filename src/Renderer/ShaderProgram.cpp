@@ -1,126 +1,111 @@
 #include "ShaderProgram.h"
-#include <iostream>
+
 #include <glm/gtc/type_ptr.hpp>
 
-namespace RenderEngine 
-{
-	ShaderProgram::ShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader)
-	{
-		GLuint iVertexShaderID;
-		if (!createShader(strVertexShader, GL_VERTEX_SHADER, iVertexShaderID))
-		{
-			std::cerr << "VERTEX SHADER complie time error" << std::endl;
-			glDeleteShader(iVertexShaderID);
-			return;
-		}
+#include <iostream>
 
-		GLuint iFragmentShaderID;
-		if (!createShader(strFragmentShader, GL_FRAGMENT_SHADER, iFragmentShaderID))
-		{
-			std::cerr << "FRAGMENT SHADER complie time error" << std::endl;
-			glDeleteShader(iFragmentShaderID);
-			return;
-		}
+namespace RenderEngine {
+    ShaderProgram::ShaderProgram(const std::string& vertexShader, const std::string& fragmentShader)
+    {
+        GLuint vertexShaderID;
+        if (!createShader(vertexShader, GL_VERTEX_SHADER, vertexShaderID))
+        {
+            std::cerr << "VERTEX SHADER compile-time error" << std::endl;
+            return;
+        }
 
-		m_iID = glCreateProgram(); // Создаёт новую пустую шейдерную программу и возвращает её идентификатор
-		glAttachShader(m_iID, iVertexShaderID); // Прикрепляет вертексный шейдер к программе
-		glAttachShader(m_iID, iFragmentShaderID); // Прикрепляет фрагментный шейдер к программе
-		glLinkProgram(m_iID); // линковка шейдерной программы
+        GLuint fragmentShaderID;
+        if (!createShader(fragmentShader, GL_FRAGMENT_SHADER, fragmentShaderID))
+        {
+            std::cerr << "FRAGMENT SHADER compile-time error" << std::endl;
+            glDeleteShader(vertexShaderID);
+            return;
+        }
 
-		// проверка линковки шейдерной программы
-		GLint iSuccess;
-		glGetProgramiv(m_iID, GL_LINK_STATUS, &iSuccess);
+        m_ID = glCreateProgram();
+        glAttachShader(m_ID, vertexShaderID);
+        glAttachShader(m_ID, fragmentShaderID);
+        glLinkProgram(m_ID);
 
-		if (!iSuccess)
-		{
-			const int iBuffSize = 1024;
-			GLchar strInfoLog[iBuffSize];
-			glGetShaderInfoLog(m_iID, iBuffSize, nullptr, strInfoLog);
-			std::cerr << "ERROR::SHADER: Link time error:\n" << strInfoLog << std::endl;
-			m_bIsCompiled = false;
-		}
-		else
-		{
-			m_bIsCompiled = true;
-		}
+        GLint success;
+        glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
+        if (!success)
+        {
+            GLchar infoLog[1024];
+            glGetShaderInfoLog(m_ID, 1024, nullptr, infoLog);
+            std::cerr << "ERROR::SHADER: Link-time error:\n" << infoLog << std::endl;
+        }
+        else
+        {
+            m_isCompiled = true;
+        }
 
-		glDeleteShader(iVertexShaderID);
-		glDeleteShader(iFragmentShaderID);
-	}
-
-	ShaderProgram::~ShaderProgram()
-	{
-		glDeleteProgram(m_iID); // удаление шейдерной программы
-	}
-
-	bool ShaderProgram::createShader(const std::string& strSource, const GLenum eShaderType,
-		GLuint& iShaderID)
-	{
-		iShaderID = glCreateShader(eShaderType);// id шейдера
-		const char* strCode = strSource.c_str(); // переводим код шейдера в c-style строку
-		glShaderSource(iShaderID, 1, &strCode, nullptr); // передаем исходный код шейдера
-		glCompileShader(iShaderID);// компиляция шейдера
-
-		// проверка компиляции шейдерной программы
-		GLint iSuccess;
-		glGetShaderiv(iShaderID, GL_COMPILE_STATUS, &iSuccess);
-
-		if (!iSuccess)
-		{
-			const int iBuffSize = 1024;
-			GLchar strInfoLog[iBuffSize];
-			glGetShaderInfoLog(iShaderID, iBuffSize, nullptr, strInfoLog);
-			std::cerr << "ERROR::SHADER: Compile time error:\n" << strInfoLog << std::endl;
-			return false;
-		}
-
-		return true;
-	}
+        glDeleteShader(vertexShaderID);
+        glDeleteShader(fragmentShaderID);
+    }
 
 
-	void ShaderProgram::use() const
-	{
-		glUseProgram(m_iID);
-	}
+    bool ShaderProgram::createShader(const std::string& source, const GLenum shaderType, GLuint& shaderID)
+    {
+        shaderID = glCreateShader(shaderType);
+        const char* code = source.c_str();
+        glShaderSource(shaderID, 1, &code, nullptr);
+        glCompileShader(shaderID);
 
+        GLint success;
+        glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+        if (!success)
+        {
+            GLchar infoLog[1024];
+            glGetProgramInfoLog(shaderID, 1024, nullptr, infoLog);
+            std::cerr << "ERROR::SHADER: Compile-time error:\n" << infoLog << std::endl;
+            return false;
+        }
+        return true;
+    }
 
+    ShaderProgram::~ShaderProgram()
+    {
+        glDeleteProgram(m_ID);
+    }
 
-	ShaderProgram& ShaderProgram::operator=(ShaderProgram&& shaderProgram) noexcept
-	{
-		glDeleteProgram(m_iID);
+    void ShaderProgram::use() const
+    {
+        glUseProgram(m_ID);
+    }
 
-		this->m_iID = shaderProgram.m_iID;
-		this->m_bIsCompiled = shaderProgram.m_bIsCompiled;
+    ShaderProgram& ShaderProgram::operator=(ShaderProgram&& shaderProgram) noexcept
+    {
+        glDeleteProgram(m_ID);
+        m_ID = shaderProgram.m_ID;
+        m_isCompiled = shaderProgram.m_isCompiled;
 
-		shaderProgram.m_iID = 0;
-		shaderProgram.m_bIsCompiled = false;
+        shaderProgram.m_ID = 0;
+        shaderProgram.m_isCompiled = false;
+        return *this;
+    }
 
-		return *this;
-	}
+    ShaderProgram::ShaderProgram(ShaderProgram&& shaderProgram) noexcept
+    {
+        m_ID = shaderProgram.m_ID;
+        m_isCompiled = shaderProgram.m_isCompiled;
 
-	ShaderProgram::ShaderProgram(ShaderProgram&& shaderProgram) noexcept
-	{
-		this->m_iID = shaderProgram.m_iID;
-		this->m_bIsCompiled = shaderProgram.m_bIsCompiled;
+        shaderProgram.m_ID = 0;
+        shaderProgram.m_isCompiled = false;
+    }
 
-		shaderProgram.m_iID = 0;
-		shaderProgram.m_bIsCompiled = false;
-	}
+    void ShaderProgram::setInt(const std::string& name, const GLint value)
+    {
+        glUniform1i(glGetUniformLocation(m_ID, name.c_str()), value);
+    }
 
-	void ShaderProgram::setInt(const std::string& strName, const GLint iValue)
-	{
-		glUniform1i(glGetUniformLocation(m_iID, strName.c_str()), iValue);
-	}
+    void ShaderProgram::setFloat(const std::string& name, const GLfloat value)
+    {
+        glUniform1f(glGetUniformLocation(m_ID, name.c_str()), value);
+    }
 
-	void ShaderProgram::setFloat(const std::string& name, const GLfloat fValue)
-	{
-		glUniform1f(glGetUniformLocation(m_iID, name.c_str()), fValue);
-	}
-
-	void ShaderProgram::setMatrix4(const std::string& strName, const glm::mat4& matrix)
-	{		
-		glUniformMatrix4fv(glGetUniformLocation(m_iID, strName.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
-	}
-
-
+    void ShaderProgram::setMatrix4(const std::string& name, const glm::mat4& matrix)
+    {
+        glUniformMatrix4fv(glGetUniformLocation(m_ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+    }
 }

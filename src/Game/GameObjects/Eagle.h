@@ -16,7 +16,7 @@ public:
         Dead
     };
 
-    Eagle(const glm::vec2& position, const glm::vec2& size, const float rotation, const float fLayer);
+    Eagle(const glm::vec2& position, const glm::vec2& size, const float rotation, const float layer);
     virtual void render() const override;
     void update(const double delta) override;
 

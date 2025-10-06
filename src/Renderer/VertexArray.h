@@ -2,31 +2,28 @@
 
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
+
 #include <glad/glad.h>
 
+namespace RenderEngine {
 
+    class VertexArray {
+    public:
+        VertexArray();
+        ~VertexArray();
 
-namespace RenderEngine
-{
+        VertexArray(const VertexArray&) = delete;
+        VertexArray& operator=(const VertexArray&) = delete;
+        VertexArray& operator=(VertexArray&& vertexArray) noexcept;
+        VertexArray(VertexArray&& vertexArray) noexcept;
 
-	class VertexArray 
-	{
-	public:
-		VertexArray();
-		~VertexArray();
+        void addBuffer(const VertexBuffer& vertexBuffer, const VertexBufferLayout& layout);
+        void bind() const;
+        void unbind() const;
 
-		VertexArray(const VertexArray&) = delete;
-		VertexArray& operator=(const VertexArray&) = delete;
+    private:
+        GLuint m_id = 0;
+        unsigned int m_elementsCount = 0;
+    };
 
-		VertexArray(VertexArray&& vertexArray) noexcept;
-		VertexArray& operator=(VertexArray&& vertexArray) noexcept;
-		
-		void addBuffer(const VertexBuffer& vertexBuffer, const VertexBufferLayout& layout);
-		void bind() const;
-		void unbind() const;
-
-	private:
-		GLuint m_id = 0;
-		unsigned int m_iElementsCount = 0;
-	};
 }

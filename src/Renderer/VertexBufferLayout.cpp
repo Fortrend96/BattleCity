@@ -1,23 +1,18 @@
 #include "VertexBufferLayout.h"
 
-namespace RenderEngine
-{
-	VertexBufferLayout::VertexBufferLayout():
-		m_iStride(0)
-	{
+namespace RenderEngine {
+    VertexBufferLayout::VertexBufferLayout()
+        : m_stride(0)
+    {}
 
-	}
+    void VertexBufferLayout::reserveElements(const size_t count)
+    {
+        m_layoutElments.reserve(count);
+    }
 
-	void VertexBufferLayout::reserveElements(const size_t iCount)
-	{
-		m_layoutElements.reserve(iCount);
-	}
-
-	void VertexBufferLayout::addElementLayoutFloat(const unsigned int iCount, 
-													const bool bNormalized)
-	{
-		
-		m_layoutElements.push_back({ static_cast<GLint>(iCount), GL_FLOAT, bNormalized, iCount * static_cast<unsigned int>(sizeof(GLfloat)) });
-		m_iStride += m_layoutElements.back().iSize;
-	}
+    void VertexBufferLayout::addElementLayoutFloat(const unsigned int count, const bool normalized)
+    {
+        m_layoutElments.push_back({ static_cast<GLint>(count), GL_FLOAT, normalized, count * static_cast<unsigned int>(sizeof(GLfloat)) });
+        m_stride += m_layoutElments.back().size;
+    }
 }

@@ -84,78 +84,78 @@ Physics::AABB BrickWall::getAABBForBrickState(const EBrickLocation location, con
     glm::vec2 blockOffset(0);
     switch (location)
     {
-    case EBrickLocation::BottomLeft:
-        break;
-    case EBrickLocation::BottomRight:
-        blockOffset.x += size.x / 2;
-        break;
-    case EBrickLocation::TopLeft:
-        blockOffset.y += size.y / 2;
-        break;
-    case EBrickLocation::TopRight:
-        blockOffset += size / 2.f;
-        break;
+        case EBrickLocation::BottomLeft:
+            break;
+        case EBrickLocation::BottomRight:
+            blockOffset.x += size.x / 2;
+            break;
+        case EBrickLocation::TopLeft:
+            blockOffset.y += size.y / 2;
+            break;
+        case EBrickLocation::TopRight:
+            blockOffset += size / 2.f;
+            break;
     }
 
     glm::vec2 bottomLeft(0);
     glm::vec2 topRight(0);
     switch (eBrickState)
     {
-    case EBrickState::All:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::TopLeft:
-        bottomLeft = glm::vec2(0, size.y / 4);
-        topRight = glm::vec2(size.x / 4, size.y / 2);
-        break;
-    case EBrickState::TopRight:
-        bottomLeft = glm::vec2(size.x / 4, size.y / 4);
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::Top:
-        bottomLeft = glm::vec2(0, size.y / 4);
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::BottomLeft:
-        topRight = glm::vec2(size.x / 4, size.y / 4);
-        break;
-    case EBrickState::Left:
-        topRight = glm::vec2(size.x / 4, size.y / 2);
-        break;
-    case EBrickState::TopRight_BottomLeft:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::Top_BottomLeft:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::BottomRight:
-        bottomLeft = glm::vec2(size.x / 4, 0);
-        topRight = glm::vec2(size.x / 2, size.y / 4);
-        break;
-    case EBrickState::TopLeft_BottomRight:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::Right:
-        bottomLeft = glm::vec2(size.x / 4, 0);
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::Top_BottomRight:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::Bottom:
-        topRight = glm::vec2(size.x / 2, size.y / 4);
-        break;
-    case EBrickState::TopLeft_Bottom:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::TopRight_Bottom:
-        topRight = glm::vec2(size.x / 2, size.y / 2);
-        break;
-    case EBrickState::Destroyed:
-        break;
+        case EBrickState::All:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::TopLeft:
+            bottomLeft = glm::vec2(0, size.y / 4) ;
+            topRight   = glm::vec2(size.x / 4, size.y / 2);
+            break;
+        case EBrickState::TopRight:
+            bottomLeft = glm::vec2(size.x / 4, size.y / 4);
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::Top:
+            bottomLeft = glm::vec2(0, size.y / 4);
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::BottomLeft:
+            topRight   = glm::vec2(size.x / 4, size.y / 4);
+            break;
+        case EBrickState::Left:
+            topRight   = glm::vec2(size.x / 4, size.y / 2);
+            break;
+        case EBrickState::TopRight_BottomLeft:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::Top_BottomLeft:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::BottomRight:
+            bottomLeft = glm::vec2(size.x / 4, 0);
+            topRight   = glm::vec2(size.x / 2, size.y / 4);
+            break;
+        case EBrickState::TopLeft_BottomRight:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::Right:
+            bottomLeft = glm::vec2(size.x / 4, 0) ;
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::Top_BottomRight:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::Bottom:
+            topRight   = glm::vec2(size.x / 2, size.y / 4);
+            break;
+        case EBrickState::TopLeft_Bottom:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::TopRight_Bottom:
+            topRight   = glm::vec2(size.x / 2, size.y / 2);
+            break;
+        case EBrickState::Destroyed:
+            break;
     }
 
-    return { bottomLeft + blockOffset, topRight + blockOffset };
+    return {bottomLeft + blockOffset, topRight + blockOffset};
 }
 
 void BrickWall::onCollisionCallback(const EBrickLocation location, const IGameObject& object, const Physics::ECollisionDirection direction)
@@ -179,44 +179,44 @@ BrickWall::BrickWall(const EBrickWallType eBrickWallType, const glm::vec2& posit
                             EBrickState::Destroyed,
                             EBrickState::Destroyed,
                             EBrickState::Destroyed }
-    , m_blockOffsets{ glm::vec2(0, m_size.y / 2.f),
+    , m_blockOffsets { glm::vec2(0, m_size.y / 2.f),
                        glm::vec2(m_size.x / 2.f, m_size.y / 2.f),
                        glm::vec2(0, 0),
                        glm::vec2(m_size.x / 2.f, 0) }
 {
-    m_sprites[static_cast<size_t>(EBrickState::All)] = ResourceManager::getSprite("brickWall_All");
-    m_sprites[static_cast<size_t>(EBrickState::TopLeft)] = ResourceManager::getSprite("brickWall_TopLeft");
-    m_sprites[static_cast<size_t>(EBrickState::TopRight)] = ResourceManager::getSprite("brickWall_TopRight");
-    m_sprites[static_cast<size_t>(EBrickState::Top)] = ResourceManager::getSprite("brickWall_Top");
-    m_sprites[static_cast<size_t>(EBrickState::BottomLeft)] = ResourceManager::getSprite("brickWall_BottomLeft");
-    m_sprites[static_cast<size_t>(EBrickState::Left)] = ResourceManager::getSprite("brickWall_Left");
+    m_sprites[static_cast<size_t>(EBrickState::All)]                 = ResourceManager::getSprite("brickWall_All");
+    m_sprites[static_cast<size_t>(EBrickState::TopLeft)]             = ResourceManager::getSprite("brickWall_TopLeft");
+    m_sprites[static_cast<size_t>(EBrickState::TopRight)]            = ResourceManager::getSprite("brickWall_TopRight");
+    m_sprites[static_cast<size_t>(EBrickState::Top)]                 = ResourceManager::getSprite("brickWall_Top");
+    m_sprites[static_cast<size_t>(EBrickState::BottomLeft)]          = ResourceManager::getSprite("brickWall_BottomLeft");
+    m_sprites[static_cast<size_t>(EBrickState::Left)]                = ResourceManager::getSprite("brickWall_Left");
     m_sprites[static_cast<size_t>(EBrickState::TopRight_BottomLeft)] = ResourceManager::getSprite("brickWall_TopRight_BottomLeft");
-    m_sprites[static_cast<size_t>(EBrickState::Top_BottomLeft)] = ResourceManager::getSprite("brickWall_Top_BottomLeft");
-    m_sprites[static_cast<size_t>(EBrickState::BottomRight)] = ResourceManager::getSprite("brickWall_BottomRight");
+    m_sprites[static_cast<size_t>(EBrickState::Top_BottomLeft)]      = ResourceManager::getSprite("brickWall_Top_BottomLeft");
+    m_sprites[static_cast<size_t>(EBrickState::BottomRight)]         = ResourceManager::getSprite("brickWall_BottomRight");
     m_sprites[static_cast<size_t>(EBrickState::TopLeft_BottomRight)] = ResourceManager::getSprite("brickWall_TopLeft_BottomRight");
-    m_sprites[static_cast<size_t>(EBrickState::Right)] = ResourceManager::getSprite("brickWall_Right");
-    m_sprites[static_cast<size_t>(EBrickState::Top_BottomRight)] = ResourceManager::getSprite("brickWall_Top_BottomRight");
-    m_sprites[static_cast<size_t>(EBrickState::Bottom)] = ResourceManager::getSprite("brickWall_Bottom");
-    m_sprites[static_cast<size_t>(EBrickState::TopLeft_Bottom)] = ResourceManager::getSprite("brickWall_TopLeft_Bottom");
-    m_sprites[static_cast<size_t>(EBrickState::TopRight_Bottom)] = ResourceManager::getSprite("brickWall_TopRight_Bottom");
+    m_sprites[static_cast<size_t>(EBrickState::Right)]               = ResourceManager::getSprite("brickWall_Right");
+    m_sprites[static_cast<size_t>(EBrickState::Top_BottomRight)]     = ResourceManager::getSprite("brickWall_Top_BottomRight");
+    m_sprites[static_cast<size_t>(EBrickState::Bottom)]              = ResourceManager::getSprite("brickWall_Bottom");
+    m_sprites[static_cast<size_t>(EBrickState::TopLeft_Bottom)]      = ResourceManager::getSprite("brickWall_TopLeft_Bottom");
+    m_sprites[static_cast<size_t>(EBrickState::TopRight_Bottom)]     = ResourceManager::getSprite("brickWall_TopRight_Bottom");
 
 
     auto onCollisionCallbackTopLeft = [&](const IGameObject& object, const Physics::ECollisionDirection direction)
-        {
-            onCollisionCallback(EBrickLocation::TopLeft, object, direction);
-        };
+    {
+        onCollisionCallback(EBrickLocation::TopLeft, object, direction);
+    };
     auto onCollisionCallbackTopRight = [&](const IGameObject& object, const Physics::ECollisionDirection direction)
-        {
-            onCollisionCallback(EBrickLocation::TopRight, object, direction);
-        };
+    {
+        onCollisionCallback(EBrickLocation::TopRight, object, direction);
+    };
     auto onCollisionCallbackBottomLeft = [&](const IGameObject& object, const Physics::ECollisionDirection direction)
-        {
-            onCollisionCallback(EBrickLocation::BottomLeft, object, direction);
-        };
+    {
+        onCollisionCallback(EBrickLocation::BottomLeft, object, direction);
+    };
     auto onCollisionCallbackBottomRight = [&](const IGameObject& object, const Physics::ECollisionDirection direction)
-        {
-            onCollisionCallback(EBrickLocation::BottomRight, object, direction);
-        };
+    {
+        onCollisionCallback(EBrickLocation::BottomRight, object, direction);
+    };
 
     m_brickLocationToColliderMap.fill(nullptr);
     m_colliders.reserve(4);
@@ -224,46 +224,46 @@ BrickWall::BrickWall(const EBrickWallType eBrickWallType, const glm::vec2& posit
     {
     case EBrickWallType::All:
         m_eCurrentBrickState.fill(EBrickState::All);
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft, EBrickState::All, m_size), onCollisionCallbackTopLeft));
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight, EBrickState::All, m_size), onCollisionCallbackTopRight));
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft, EBrickState::All, m_size), onCollisionCallbackBottomLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)]     = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft,     EBrickState::All, m_size), onCollisionCallbackTopLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)]    = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight,    EBrickState::All, m_size), onCollisionCallbackTopRight));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)]  = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft,  EBrickState::All, m_size), onCollisionCallbackBottomLeft));
         m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomRight, EBrickState::All, m_size), onCollisionCallbackBottomRight));
         break;
     case EBrickWallType::Top:
-        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopLeft)] = EBrickState::All;
+        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopLeft)]  = EBrickState::All;
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopRight)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft, EBrickState::All, m_size), onCollisionCallbackTopLeft));
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight, EBrickState::All, m_size), onCollisionCallbackTopRight));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)]     = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft,     EBrickState::All, m_size), onCollisionCallbackTopLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)]    = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight,    EBrickState::All, m_size), onCollisionCallbackTopRight));
         break;
     case EBrickWallType::Bottom:
-        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomLeft)] = EBrickState::All;
+        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomLeft)]  = EBrickState::All;
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomRight)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft, EBrickState::All, m_size), onCollisionCallbackBottomLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)]  = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft,  EBrickState::All, m_size), onCollisionCallbackBottomLeft));
         m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomRight, EBrickState::All, m_size), onCollisionCallbackBottomRight));
         break;
     case EBrickWallType::Left:
-        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopLeft)] = EBrickState::All;
+        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopLeft)]    = EBrickState::All;
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomLeft)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft, EBrickState::All, m_size), onCollisionCallbackTopLeft));
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft, EBrickState::All, m_size), onCollisionCallbackBottomLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)]     = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft,     EBrickState::All, m_size), onCollisionCallbackTopLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)]  = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft,  EBrickState::All, m_size), onCollisionCallbackBottomLeft));
         break;
     case EBrickWallType::Right:
-        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopRight)] = EBrickState::All;
+        m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopRight)]    = EBrickState::All;
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomRight)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight, EBrickState::All, m_size), onCollisionCallbackTopRight));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)]    = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight,    EBrickState::All, m_size), onCollisionCallbackTopRight));
         m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomRight, EBrickState::All, m_size), onCollisionCallbackBottomRight));
         break;
     case EBrickWallType::TopLeft:
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopLeft)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft, EBrickState::All, m_size), onCollisionCallbackTopLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopLeft)]     = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopLeft,     EBrickState::All, m_size), onCollisionCallbackTopLeft));
         break;
     case EBrickWallType::TopRight:
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::TopRight)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight, EBrickState::All, m_size), onCollisionCallbackTopRight));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::TopRight)]    = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::TopRight,    EBrickState::All, m_size), onCollisionCallbackTopRight));
         break;
     case EBrickWallType::BottomLeft:
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomLeft)] = EBrickState::All;
-        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)] = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft, EBrickState::All, m_size), onCollisionCallbackBottomLeft));
+        m_brickLocationToColliderMap[static_cast<size_t>(EBrickLocation::BottomLeft)]  = &(m_colliders.emplace_back(getAABBForBrickState(EBrickLocation::BottomLeft,  EBrickState::All, m_size), onCollisionCallbackBottomLeft));
         break;
     case EBrickWallType::BottomRight:
         m_eCurrentBrickState[static_cast<size_t>(EBrickLocation::BottomRight)] = EBrickState::All;

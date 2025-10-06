@@ -2,18 +2,18 @@
 
 #include <glm/vec2.hpp>
 #include <memory>
+#include <string>
 
 #include "IGameObject.h"
 #include "../../Renderer/SpriteAnimator.h"
 #include "../../System/Timer.h"
-#include <string>
+#include "../AIComponent.h"
 
 namespace RenderEngine {
     class Sprite;
 }
 
 class Bullet;
-class AIComponent;
 
 class Tank : public IGameObject {
 public:
@@ -81,13 +81,13 @@ public:
     };
 
     Tank(const Tank::ETankType eType,
-        const bool bHasAI,
-        const bool bShieldOnSpawn,
-        const EOrientation eOrientation,
-        const double maxVelocity,
-        const glm::vec2& position,
-        const glm::vec2& size,
-        const float layer);
+         const bool bHasAI,
+         const bool bShieldOnSpawn,
+         const EOrientation eOrientation,
+         const double maxVelocity,
+         const glm::vec2& position,
+         const glm::vec2& size,
+         const float layer);
 
     void render() const override;
     void setOrientation(const EOrientation eOrientation);

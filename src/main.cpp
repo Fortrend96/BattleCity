@@ -93,7 +93,7 @@ int main(int argc, char** argv)
 
             /* Render here */
             RenderEngine::Renderer::clear();
-
+            
             g_game->render();
 
             /* Swap front and back buffers */

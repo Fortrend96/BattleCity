@@ -1,38 +1,30 @@
 #pragma once
-#include <string>
+
 #include <glad/glad.h>
+#include <string>
 #include <glm/mat4x4.hpp>
 
-namespace RenderEngine
-{
-	class ShaderProgram
-	{
-	public:
-		ShaderProgram(const std::string& strVertexShader, const std::string& strFragmentShader);
-		~ShaderProgram();
+namespace RenderEngine {
+    class ShaderProgram {
+    public:
+        ShaderProgram(const std::string& vertexShader, const std::string& fragmentShader);
+        ~ShaderProgram();
+        bool isCompiled() const { return m_isCompiled; }
+        void use() const;
+        void setInt(const std::string& name, const GLint value);
+        void setFloat(const std::string& name, const GLfloat value);
+        void setMatrix4(const std::string& name, const glm::mat4& matrix);
 
-		bool isCompiled() const {	return m_bIsCompiled;	}
-		void use() const;
-		void setInt(const std::string& strName, const GLint iValue);
-		void setFloat(const std::string& strName, const GLfloat fValue);
-		void setMatrix4(const std::string& strName, const glm::mat4& matrix);
+        ShaderProgram() = delete;
+        ShaderProgram(const ShaderProgram&) = delete;
+        ShaderProgram& operator=(const ShaderProgram&) = delete;
+        ShaderProgram& operator=(ShaderProgram&& shaderProgram) noexcept;
+        ShaderProgram(ShaderProgram&& shaderProgram) noexcept;
 
-		ShaderProgram() = delete; // удаляем конструктор по умолчанию
-		ShaderProgram(ShaderProgram&) = delete; // удаляем конструктор копирования
-		ShaderProgram& operator=(const ShaderProgram&) = delete; // удаляем оператор присваивания через копирования
+    private:
+        bool createShader(const std::string& source, const GLenum shaderType, GLuint& shaderID);
 
-		ShaderProgram(ShaderProgram&& shaderProgram) noexcept; // конструктор перемещения
-		ShaderProgram& operator=(ShaderProgram&& shaderProgram) noexcept; // оператор присваивания через перемещение
-		
-
-
-	private:
-		bool createShader(const std::string& strSource, const GLenum eShaderType,
-			GLuint& iShaderID);
-
-
-		bool m_bIsCompiled = false; // флаг успеха компиляции шейдерной программы
-		GLuint m_iID = 0; // id шейдерной программы
-	};
-};
-
+        bool m_isCompiled = false;
+        GLuint m_ID = 0;
+    };
+}

@@ -65,7 +65,7 @@ StartScreen::StartScreen(const std::vector<std::string>& startScreenDescription,
     }
 
     auto leftOffsetPixels = 4 * BLOCK_SIZE;
-    auto bottomOffset = STARTSCREEN_HEIGHT - 4 * BLOCK_SIZE;
+    auto bottomOffset  = STARTSCREEN_HEIGHT - 4 * BLOCK_SIZE;
 
     unsigned int currentBottomOffset = bottomOffset;
     for (const std::string& currentRow : startScreenDescription)
@@ -142,7 +142,11 @@ void StartScreen::processInput(const std::array<bool, 349>& keys)
         switch (m_currentMenuSelection)
         {
         case 0:
-            m_pGame->startNewLevel(0);
+            m_pGame->startNewLevel(0, Game::EGameMode::OnePlayer);
+            break;
+        case 1:
+            m_pGame->startNewLevel(0, Game::EGameMode::TwoPlayers);
+            break;
         default:
             break;
         }
